@@ -5,5 +5,5 @@ func _ready():
 	SyncManager.start()
 
 func _on_sync_started():
-	SyncManager.spawn("fighter", self, preload("res://player/Player.tscn"));
+	SyncManager.spawn("fighter", self, preload("res://player/Player.tscn"), {'x': 100, 'y': 200, 'c': Player.Characters.SPEED});
 	# spawn another fighter

@@ -81,8 +81,7 @@ func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: i
 
 func _network_process(input: Dictionary):
 	if input["l"]:
-		print_debug("moving left")
-		pass 
+		print_debug("inputs received %s" % input)
 	# need to execute game logic here.
 	# p1 and p2 apply inputs to state machine
 	# once both are complete, adjudicator resolves interactions
@@ -91,12 +90,15 @@ func _network_process(input: Dictionary):
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
 	# check required parameters are provided
-	const essential_spawn_params = ['x', 'y', 'c', 'hp']
+	const essential_spawn_params = ['x', 'y', 'c']
 	var keys = data.keys()
 	for essential_param in essential_spawn_params:
 		if essential_param not in keys:
 			push_error("ERROR: spawn method not called with essential input '%s'. 
 				Input data: %s" % [essential_param, data])
+
+	# look up hp value for character:
+	data['hp'] = 100 # placeholder logic for now
 
 	# overwrite other params with default values
 	const spawn_num_ticks_in_state = 0
@@ -111,7 +113,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
 func _network_spawn(data: Dictionary) -> void:
 	# need to do first time setup (based on character selection, etc.)
 	character = data['c']
-	health = 100
+	health = data['hp']
 	# remaining setup is identical to any ordinary load state
 	_load_state(data)
 
