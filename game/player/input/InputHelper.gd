@@ -16,7 +16,7 @@ static func to_dict(input_int: int) -> Dictionary:
 	var inverted_keys = Player.input_dict_keys.duplicate()
 	inverted_keys.reverse()
 	for key in inverted_keys:
-		result[key] = input_int | 1
+		result[key] = input_int & 0b00000001
 		input_int = input_int >> 1
 	
 	return result

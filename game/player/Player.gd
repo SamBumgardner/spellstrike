@@ -76,18 +76,23 @@ func _get_local_input() -> Dictionary:
 
 func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
 	if ticks_since_real_input >= 5:
-		return {}
+		return InputRetriever.EMPTY
 	return previous_input
 
 func _network_process(input: Dictionary):
-	var movement_direction: int = 0
-	if input["l"]:
-		movement_direction -= 1
-	if input["r"]:
-		movement_direction += 1
-	
-	const MOVE_SPEED = 10
-	position.x += MOVE_SPEED * movement_direction
+	#print_debug("peer %s try to apply input: %s to node %s" % [multiplayer.get_unique_id(), input, get_path()])
+	if not input.is_empty():
+		var movement_direction: int = 0
+		if input["l"]:
+			movement_direction -= 1
+		if input["r"]:
+			movement_direction += 1
+		if input["a"]:
+			print_debug("peer %s says node %s had 'a' pressed" % [multiplayer.get_unique_id(), get_path()])
+			print_debug("is multiplayer authority? %s" % (get_multiplayer_authority() == multiplayer.get_unique_id()))
+		
+		const MOVE_SPEED = 10
+		position.x += MOVE_SPEED * movement_direction
 	# need to execute game logic here.
 	# p1 and p2 apply inputs to state machine
 	# once both are complete, adjudicator resolves interactions
