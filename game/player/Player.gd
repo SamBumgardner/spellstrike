@@ -80,8 +80,14 @@ func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: i
 	return previous_input
 
 func _network_process(input: Dictionary):
+	var movement_direction: int = 0
 	if input["l"]:
-		print_debug("inputs received %s" % input)
+		movement_direction -= 1
+	if input["r"]:
+		movement_direction += 1
+	
+	const MOVE_SPEED = 10
+	position.x += MOVE_SPEED * movement_direction
 	# need to execute game logic here.
 	# p1 and p2 apply inputs to state machine
 	# once both are complete, adjudicator resolves interactions
