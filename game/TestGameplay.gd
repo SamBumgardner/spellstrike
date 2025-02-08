@@ -6,3 +6,4 @@ func _ready():
 
 func _on_sync_started():
 	SyncManager.spawn("fighter", self, preload("res://player/Player.tscn"));
+	# spawn another fighter
