@@ -74,10 +74,10 @@ func _load_state(state: Dictionary) -> void:
 func _get_local_input() -> Dictionary:
 	return input_retriever.retrieve_input()
 
-func _predict_remote_input(previous_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
+func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
 	if ticks_since_real_input >= 5:
 		return InputRetriever.EMPTY
-	return previous_input
+	return old_input
 
 func _network_process(input: Dictionary):
 	#print_debug("peer %s try to apply input: %s to node %s" % [multiplayer.get_unique_id(), input, get_path()])
