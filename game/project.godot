@@ -10,7 +10,8 @@ config_version=5
 
 [application]
 
-config/name="New Game Project"
+config/name="Spellstrike"
+run/main_scene="res://network/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
 
@@ -32,7 +33,9 @@ sync_debug={
 
 [network]
 
-rollback/classes/network_adaptor="res://addons/godot-rollback-netcode/DummyNetworkAdaptor.gd"
+rollback/classes/network_adaptor="res://addons/godot-rollback-netcode/RPCNetworkAdaptor.gd"
+rollback/classes/message_serializer="res://network/VsMessageSerializer.gd"
+rollback/classes/hash_serializer="res://addons/godot-rollback-netcode/HashSerializer.gd"
 
 [rendering]
 
