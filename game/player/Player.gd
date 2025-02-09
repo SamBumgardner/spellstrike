@@ -48,8 +48,8 @@ func _ready():
 ##########################
 func _save_state() -> Dictionary:
     return {
-        'x': global_position.x,
-        'y': global_position.y,
+        'x': position.x,
+        'y': position.y,
         'pi': previous_input,
         'c': character,
         'hp': health,
@@ -62,8 +62,8 @@ func _save_state() -> Dictionary:
     }
 
 func _load_state(state: Dictionary) -> void:
-    global_position.x = state['x']
-    global_position.y = state['y']
+    position.x = state['x']
+    position.y = state['y']
     previous_input = state['pi']
     health = state['hp']
     status = state['s']
@@ -138,6 +138,10 @@ func _network_spawn(data: Dictionary) -> void:
 func _network_despawn() -> void:
     pass
 
+
+###############
+# PLAYER ENUM #
+###############
 
 enum Characters {
     SPEED = 0,
