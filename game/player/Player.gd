@@ -89,15 +89,12 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 
 func _network_process(input: Dictionary):
     assert(not input.is_empty())
-
-    if input["a"]:
-        print_debug("peer %s says node %s had 'a' pressed" % [multiplayer.get_unique_id(), get_path()])
-        print_debug("is multiplayer authority? %s" % (get_multiplayer_authority() == multiplayer.get_unique_id()))
     
-    position.x += velocity
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     fsm.process(input)
+    position.x += velocity
+
     # once both are complete, adjudicator resolves interactions
     #  calls methods on p1 and p2 as needed to apply results.
 

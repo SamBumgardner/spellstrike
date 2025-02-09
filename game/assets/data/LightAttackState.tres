@@ -1,0 +1,64 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=11 format=3 uid="uid://b1ogno7xi50fe"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_xn6r8"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_rahlf"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="3_i4cgm"]
+
+[sub_resource type="Resource" id="Resource_suogv"]
+script = ExtResource("2_rahlf")
+typeId = 4
+once_at_start = true
+params = ["Began A attack startup"]
+
+[sub_resource type="Resource" id="Resource_84otp"]
+script = ExtResource("1_xn6r8")
+duration = 12
+endless = false
+player_status = 1
+hitboxes = []
+hurtboxes = []
+effects = Array[ExtResource("2_rahlf")]([SubResource("Resource_suogv")])
+
+[sub_resource type="Resource" id="Resource_h82bm"]
+script = ExtResource("2_rahlf")
+typeId = 4
+once_at_start = true
+params = ["Began A attack active frames"]
+
+[sub_resource type="Resource" id="Resource_jpwca"]
+script = ExtResource("1_xn6r8")
+duration = 5
+endless = false
+player_status = 2
+hitboxes = []
+hurtboxes = []
+effects = Array[ExtResource("2_rahlf")]([SubResource("Resource_h82bm")])
+
+[sub_resource type="Resource" id="Resource_sjnp1"]
+script = ExtResource("2_rahlf")
+typeId = 4
+once_at_start = true
+params = ["Began A attack recovery"]
+
+[sub_resource type="Resource" id="Resource_a7mce"]
+script = ExtResource("1_xn6r8")
+duration = 6
+endless = false
+player_status = 3
+hitboxes = []
+hurtboxes = []
+effects = Array[ExtResource("2_rahlf")]([SubResource("Resource_sjnp1")])
+
+[sub_resource type="Resource" id="Resource_jam7s"]
+script = ExtResource("2_rahlf")
+typeId = 5
+once_at_start = true
+params = [0]
+
+[resource]
+script = ExtResource("3_i4cgm")
+stateId = 2
+expirationStateId = 0
+phases = Array[ExtResource("1_xn6r8")]([SubResource("Resource_84otp"), SubResource("Resource_jpwca"), SubResource("Resource_a7mce")])
+transition_in_effects = Array[ExtResource("2_rahlf")]([SubResource("Resource_jam7s")])
+transition_out_effects = Array[ExtResource("2_rahlf")]([])
