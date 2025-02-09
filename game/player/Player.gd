@@ -79,21 +79,22 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 	return old_input
 
 func _network_process(input: Dictionary):
-	#print_debug("peer %s try to apply input: %s to node %s" % [multiplayer.get_unique_id(), input, get_path()])
-	if not input.is_empty():
-		var movement_direction: int = 0
-		if input["l"]:
-			movement_direction -= 1
-		if input["r"]:
-			movement_direction += 1
-		if input["a"]:
-			print_debug("peer %s says node %s had 'a' pressed" % [multiplayer.get_unique_id(), get_path()])
-			print_debug("is multiplayer authority? %s" % (get_multiplayer_authority() == multiplayer.get_unique_id()))
-		
-		const MOVE_SPEED = 10
-		position.x += MOVE_SPEED * movement_direction
+	assert(not input.is_empty())
+
+	var movement_direction: int = 0
+	if input["l"]:
+		movement_direction -= 1
+	if input["r"]:
+		movement_direction += 1
+	if input["a"]:
+		print_debug("peer %s says node %s had 'a' pressed" % [multiplayer.get_unique_id(), get_path()])
+		print_debug("is multiplayer authority? %s" % (get_multiplayer_authority() == multiplayer.get_unique_id()))
+	
+	const MOVE_SPEED = 10
+	position.x += MOVE_SPEED * movement_direction
 	# need to execute game logic here.
 	# p1 and p2 apply inputs to state machine
+	fsm.process(input)
 	# once both are complete, adjudicator resolves interactions
 	#  calls methods on p1 and p2 as needed to apply results.
 
@@ -125,6 +126,7 @@ func _network_spawn(data: Dictionary) -> void:
 	# need to do first time setup (based on character selection, etc.)
 	character = data['c']
 	health = data['hp']
+	fsm.prepare_states()
 	# remaining setup is identical to any ordinary load state
 	_load_state(data)
 
@@ -146,6 +148,7 @@ enum Status {
 }
 
 enum State {
+	NONE = -1,
     IDLE = 0,
     WALK = 1,
     A = 2,

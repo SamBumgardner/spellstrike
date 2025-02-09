@@ -1,8 +1,8 @@
 extends Node
 
-@export var map : PackedScene
+@export var map: PackedScene
 
-var player_2_id : int
+var player_2_id: int
 
 # Port mapping for online multiplayer
 func _ready():
