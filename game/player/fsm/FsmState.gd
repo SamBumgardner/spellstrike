@@ -16,7 +16,24 @@ func transition_out() -> void:
 # Override this in child classes. Should consider input to decide how states
 #  may transition into each other. Returns the next state to transition to, or NONE to keep this 
 #  active
-func process(input: Dictionary, ticks_in_state: int) -> Player.State:
+func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.State:
     if ticks_in_state % 60 == 0:
         print_debug("state %s is processing input %s on tick %d" % [stateId, input, ticks_in_state])
+    
+    var current_phase: Phase
+    for phase in phases:
+        if phase.starting_tick <= ticks_in_state:
+            current_phase = phase
+        else:
+            break
+    
+    var default_params = [owner, input, ticks_in_state]
+    for effect in current_phase.effects:
+        var params = default_params
+        params.append_array(effect.params)
+        var next_state = (EffectLib.methods[effect.typeId] as Callable).callv(params)
+
+        if next_state != Player.State.NONE:
+            return next_state
+    
     return Player.State.NONE

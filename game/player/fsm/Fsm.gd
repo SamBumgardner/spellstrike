@@ -10,7 +10,8 @@ var ticks_in_state := 0
 func prepare_states() -> void:
     # need to take character spec as an input, then populate the `states` dict with their state objects
     states = {
-        Player.State.IDLE: FsmState.new()
+        Player.State.IDLE: preload("res://assets/data/IdleState.tres"),
+        Player.State.WALK: preload("res://assets/data/WalkState.tres"),
     }
 
 func load(
@@ -22,7 +23,7 @@ func load(
 
 func process(input: Dictionary) -> void:
     # Feed input into current state's process, loop through state transitions to get to ending state.
-    var next_state = states[state].process(input, ticks_in_state)
+    var next_state = states[state].process(owner, input, ticks_in_state)
 
     var total_transitions := 0
     const too_many_transitions = 50
@@ -31,6 +32,7 @@ func process(input: Dictionary) -> void:
         total_transitions += 1
         if total_transitions >= too_many_transitions:
             push_error("ERROR: Too many state transitions in one tick. Check for loops!")
+            break
             
         # Prepare to transition
         states[state].transition_out()
@@ -39,6 +41,6 @@ func process(input: Dictionary) -> void:
 
         # Transition to next state
         states[state].transition_in()
-        states[state].process(input, ticks_in_state)
+        next_state = states[state].process(owner, input, ticks_in_state)
     
     ticks_in_state += 1
