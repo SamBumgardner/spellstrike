@@ -268,28 +268,28 @@ var _ran_physics_process := false
 var _ticks_since_last_interpolation_frame := 0
 var _debug_check_local_state_consistency_buffer := []
 
-signal sync_started ()
-signal sync_stopped ()
-signal sync_lost ()
-signal sync_regained ()
-signal sync_error (msg)
+signal sync_started()
+signal sync_stopped()
+signal sync_lost()
+signal sync_regained()
+signal sync_error(msg)
 
-signal skip_ticks_flagged (count)
-signal rollback_flagged (tick)
-signal prediction_missed (tick, peer_id, local_input, remote_input)
-signal remote_state_mismatch (tick, peer_id, local_hash, remote_hash)
+signal skip_ticks_flagged(count)
+signal rollback_flagged(tick)
+signal prediction_missed(tick, peer_id, local_input, remote_input)
+signal remote_state_mismatch(tick, peer_id, local_hash, remote_hash)
 
-signal peer_added (peer_id)
-signal peer_removed (peer_id)
-signal peer_pinged_back (peer)
+signal peer_added(peer_id)
+signal peer_removed(peer_id)
+signal peer_pinged_back(peer)
 
-signal state_loaded (_rollback_ticks)
-signal tick_finished (is_rollback)
-signal tick_retired (tick)
-signal tick_input_complete (tick)
-signal scene_spawned (name, spawned_node, scene, data)
-signal scene_despawned (name, node)
-signal interpolation_frame ()
+signal state_loaded(_rollback_ticks)
+signal tick_finished(is_rollback)
+signal tick_retired(tick)
+signal tick_input_complete(tick)
+signal scene_spawned(name, spawned_node, scene, data)
+signal scene_despawned(name, node)
+signal interpolation_frame()
 
 func _enter_tree() -> void:
     var project_settings_node = load("res://addons/godot-rollback-netcode/ProjectSettings.gd").new()
@@ -543,7 +543,7 @@ func start() -> void:
 
         # Wait for half the highest RTT to start locally.
         if not _mechanized:
-            print ("Delaying host start by %sms" % (highest_rtt / 2))
+            print("Delaying host start by %sms" % (highest_rtt / 2))
             await get_tree().create_timer(highest_rtt / 2000.0).timeout
 
         _on_received_remote_start()
@@ -1442,7 +1442,7 @@ func _on_received_input_tick(peer_id: int, serialized_msg: PackedByteArray) -> v
         # round that hadn't yet arrived. Just discard the message and hope for
         # the best, but if we can't keep up, another one of the fail safes will
         # detect that we are out of sync.
-        print ("Discarding message from the future")
+        print("Discarding message from the future")
         # We return because we don't even want to do the accounting that happens
         # after integrating input, since the data in this message could be
         # totally bunk (ie. if it's from a previous match).
