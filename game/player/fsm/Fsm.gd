@@ -10,9 +10,9 @@ var ticks_in_state := 0
 func prepare_states() -> void:
     # need to take character spec as an input, then populate the `states` dict with their state objects
     states = {
-        Player.State.IDLE: preload("res://assets/data/IdleState.tres"),
-        Player.State.WALK: preload("res://assets/data/WalkState.tres"),
-        Player.State.A: preload("res://assets/data/LightAttackState.tres"),
+        Player.State.IDLE: preload("res://assets/data/states/IdleState.tres"),
+        Player.State.WALK: preload("res://assets/data/states/WalkState.tres"),
+        Player.State.A: preload("res://assets/data/states/LightAttackState.tres"),
     }
 
 func load(

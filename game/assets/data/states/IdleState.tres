@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=8 format=3 uid="uid://co8nnxi0rj0m5"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_1arnh"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_oa2m1"]
+[ext_resource type="Script" path="res://player/collision/RectangleSpec.gd" id="3_xphux"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_oog4e"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="5_m3ydh"]
+
+[sub_resource type="Resource" id="Resource_ngv5r"]
+script = ExtResource("2_oa2m1")
+typeId = 2
+once_at_start = false
+params = []
+
+[sub_resource type="Resource" id="Resource_0dkm6"]
+script = ExtResource("1_1arnh")
+duration = 0
+endless = true
+player_status = 0
+hitboxes = Array[ExtResource("3_xphux")]([])
+hurtboxes = Array[ExtResource("3_xphux")]([ExtResource("4_oog4e")])
+effects = Array[ExtResource("2_oa2m1")]([SubResource("Resource_ngv5r")])
+
+[resource]
+script = ExtResource("5_m3ydh")
+stateId = 0
+expirationStateId = -1
+phases = Array[ExtResource("1_1arnh")]([SubResource("Resource_0dkm6")])
+transition_in_effects = Array[ExtResource("2_oa2m1")]([])
+transition_out_effects = Array[ExtResource("2_oa2m1")]([])

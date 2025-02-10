@@ -55,4 +55,7 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
                 return next_state
     
     # If we got here, no change to player's state.
+    # Set collision according to current phase
+    owner.set_hitboxes(current_phase.hitboxes)
+    owner.set_hurtboxes(current_phase.hurtboxes)
     return Player.State.NONE

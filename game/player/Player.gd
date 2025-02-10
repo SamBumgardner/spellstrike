@@ -15,6 +15,9 @@ class_name Player extends Node2D
 
 const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
 
+@onready var hurtboxes := $HurtboxPool.get_children()
+@onready var hitboxes := $HitboxPool.get_children()
+
 # composed utils
 var input_retriever: InputRetriever
 var fsm: Fsm
@@ -42,6 +45,33 @@ func _init():
 
 func _ready():
     add_to_group("network_sync")
+    _initialize_collision_shapes(hurtboxes)
+    _initialize_collision_shapes(hitboxes)
+
+func _initialize_collision_shapes(collision_shapes: Array) -> void:
+    for collision_shape in collision_shapes:
+        collision_shape.shape = RectangleShape2D.new()
+
+func set_hurtboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
+    _set_collision_boxes(hurtboxes, rectangleSpecs)
+
+func set_hitboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
+    _set_collision_boxes(hitboxes, rectangleSpecs)
+
+func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[RectangleSpec]) -> void:
+    assert(collisionBoxes.size() >= rectangleSpecs.size(), "cannot specify more than %d rectangles" % collisionBoxes.size())
+    for i in collisionBoxes.size():
+        if i < rectangleSpecs.size():
+            collisionBoxes[i].disabled = false
+            collisionBoxes[i].visible = true
+            collisionBoxes[i].shape.size.x = rectangleSpecs[i].width
+            collisionBoxes[i].shape.size.y = rectangleSpecs[i].height
+            collisionBoxes[i].position.x = rectangleSpecs[i].x_offset
+            collisionBoxes[i].position.y = rectangleSpecs[i].y_offset
+        else:
+            collisionBoxes[i].disabled = true
+            collisionBoxes[i].visible = false
+    
  
 ##########################
 # ROLLBACK IMPLEMNTATION #
