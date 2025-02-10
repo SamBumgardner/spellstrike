@@ -1,5 +1,7 @@
 class_name Player extends Node2D
 
+signal player_processing_finished
+
 # State Dictionary:
     # x
     # y
@@ -15,8 +17,10 @@ class_name Player extends Node2D
 
 const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
 
-@onready var hurtboxes := $HurtboxPool.get_children()
-@onready var hitboxes := $HitboxPool.get_children()
+@onready var hurtbox_pool: Area2D = $HurtboxPool
+@onready var hurtboxes := hurtbox_pool.get_children()
+@onready var hitbox_pool: Area2D = $HitboxPool
+@onready var hitboxes := hitbox_pool.get_children()
 
 # composed utils
 var input_retriever: InputRetriever
@@ -38,6 +42,10 @@ var status: Status
 var hitstop_duration: int
 var current_hitstop_tick: int
 
+#########
+# SETUP #
+#########
+
 func _init():
     input_retriever = InputRetriever.new()
     fsm = Fsm.new()
@@ -47,6 +55,11 @@ func _ready():
     add_to_group("network_sync")
     _initialize_collision_shapes(hurtboxes)
     _initialize_collision_shapes(hitboxes)
+
+func setup_player_side(side: Side):
+    if side == Side.P2:
+        hurtbox_pool.collision_layer = 2
+        hitbox_pool.collision_mask = 1
 
 func _initialize_collision_shapes(collision_shapes: Array) -> void:
     for collision_shape in collision_shapes:
@@ -72,7 +85,18 @@ func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[Rectangle
             collisionBoxes[i].disabled = true
             collisionBoxes[i].visible = false
     
- 
+    
+########################
+# RESOLVE INTERACTIONS #
+########################
+
+func active_hitbox_hit() -> bool:
+    return hitbox_pool.has_overlapping_areas()
+
+func active_hurtbox_hit() -> bool:
+    return hurtbox_pool.has_overlapping_areas()
+
+
 ##########################
 # ROLLBACK IMPLEMNTATION #
 ##########################
@@ -127,6 +151,7 @@ func _network_process(input: Dictionary):
 
     # once both are complete, adjudicator resolves interactions
     #  calls methods on p1 and p2 as needed to apply results.
+    player_processing_finished.emit()
 
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
@@ -169,6 +194,10 @@ func _network_despawn() -> void:
 ###############
 # PLAYER ENUM #
 ###############
+enum Side {
+    P1 = 0,
+    P2 = 1
+}
 
 enum Characters {
     SPEED = 0,
