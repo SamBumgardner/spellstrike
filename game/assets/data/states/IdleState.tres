@@ -18,6 +18,7 @@ duration = 0
 endless = true
 player_status = 0
 hitboxes = Array[ExtResource("3_a42uo")]([])
+new_attack = false
 hurtboxes = Array[ExtResource("3_a42uo")]([ExtResource("4_oog4e")])
 effects = Array[ExtResource("2_oa2m1")]([SubResource("Resource_ngv5r")])
 

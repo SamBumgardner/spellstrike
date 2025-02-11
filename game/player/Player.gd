@@ -48,6 +48,9 @@ var current_hitstop_tick: int
 var attack_id: int
 var hit_by: Dictionary
 
+# Stateless variables: refresh every frame
+var current_attack_data: AttackData
+
 #########
 # SETUP #
 #########
@@ -74,8 +77,11 @@ func _initialize_collision_shapes(collision_shapes: Array) -> void:
 func set_hurtboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
     _set_collision_boxes(hurtboxes, rectangleSpecs)
 
-func set_hitboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
+func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData, new_attack: bool) -> void:
     _set_collision_boxes(hitboxes, rectangleSpecs)
+    current_attack_data = attack_data
+    if new_attack:
+        attack_id += 1
 
 func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[RectangleSpec]) -> void:
     assert(collisionBoxes.size() >= rectangleSpecs.size(), "cannot specify more than %d rectangles" % collisionBoxes.size())
