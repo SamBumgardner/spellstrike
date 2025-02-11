@@ -39,6 +39,7 @@ func _adjudicate_interactions(player1: Player, player2: Player) -> void:
     # For each player, check if their hurtbox pool got hit.
     #  This will replace the "successful hit" status for them
     # for each successful collision, apply damage to the other player.
+    player1.active_hurtbox_hit(0, AttackData.new())
     pass
 
 func _has_successful_attack(attacker: Player) -> bool:

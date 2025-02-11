@@ -13,6 +13,9 @@ signal player_processing_finished
     # ft - number of ticks spent in current fsm state
     # hs - total hitstop duration (usually 0)
     # hst - current hitstop tick
+    # v - velocity
+    # a - attack id
+    # hb - hit by
     # 
 
 const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
@@ -41,6 +44,9 @@ var status: Status
 
 var hitstop_duration: int
 var current_hitstop_tick: int
+
+var attack_id: int
+var hit_by: Dictionary
 
 #########
 # SETUP #
@@ -91,11 +97,25 @@ func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[Rectangle
 ########################
 
 func active_hitbox_hit() -> bool:
+    # Did I hit something?
+    # if yes, tell caller that I did
+    # Caller will validate that it really did hit & will tell me 
     return hitbox_pool.has_overlapping_areas()
 
-func active_hurtbox_hit() -> bool:
-    return hurtbox_pool.has_overlapping_areas()
+func active_hurtbox_hit() -> Array[Area2D]:
+    # Did I overlap with groups of hitboxes?
+    # if yes, tell caller which ones.
+    # caller is responsible for figuring out which attack is supposed to actually damage me
+    return hurtbox_pool.get_overlapping_areas()
 
+func performed_hit(attack_data: AttackData) -> void:
+    # put self in hitstop for frames based on own attack data (which is fed in here)
+    pass
+
+func receive_hit(attack_data: AttackData, attacker_id) -> void:
+    # do whatever steps are neeed to apply attack data (damage received, add hitstop, change state)
+    # add attacker id to map of things you've been hit by, value is attack's numeric id.
+    pass
 
 ##########################
 # ROLLBACK IMPLEMNTATION #
@@ -112,7 +132,9 @@ func _save_state() -> Dictionary:
         'ft': fsm.ticks_in_state,
         'hs': hitstop_duration,
         'hst': current_hitstop_tick,
-        'v': velocity
+        'v': velocity,
+        'a': attack_id,
+        'hb': hit_by,
     }
 
 func _load_state(state: Dictionary) -> void:
@@ -124,6 +146,8 @@ func _load_state(state: Dictionary) -> void:
     hitstop_duration = state['hs']
     current_hitstop_tick = state['hst']
     velocity = state['v']
+    attack_id = state['a']
+    hit_by = state['hb']
 
     var fsm_state = state['fs']
     var fsm_ticks_in_state = state['ft']
@@ -170,6 +194,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     const spawn_num_ticks_in_state = 0
     const spawn_hitstop = 0
     const spawn_velocity = 0
+    const initial_attack_id = 0
     data['pi'] = InputHelper.EMPTY
     data['s'] = Status.NEUTRAL
     data['fs'] = State.IDLE
@@ -177,6 +202,8 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['hs'] = spawn_hitstop
     data['hst'] = spawn_hitstop
     data['v'] = spawn_velocity
+    data['a'] = initial_attack_id
+    data['hb'] = {}
     return data
 
 func _network_spawn(data: Dictionary) -> void:

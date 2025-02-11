@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="RectangleSpec" load_steps=2 format=3 uid="uid://djibdifs88cfy"]
 
-[ext_resource type="Script" path="res://player/collision/RectangleSpec.gd" id="1_w8mt3"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="1_w8mt3"]
 
 [resource]
 script = ExtResource("1_w8mt3")

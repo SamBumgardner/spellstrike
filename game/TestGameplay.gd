@@ -10,6 +10,8 @@ enum Side {
     P2 = 1,
 }
 
+var interaction_resolver := InteractionResolver.new()
+
 func _ready():
     SyncManager.sync_started.connect(_on_sync_started)
 
@@ -37,4 +39,6 @@ func _on_sync_started():
     var fighterP2 = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 400, 'y': 200, 'c': Player.Characters.REACH}, false);
     fighterP2.input_retriever.input_ids = InputRetriever.DEFAULT_P2
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
+    
+    interaction_resolver._setup_players(fighterP1, fighterP2)
     # spawn another fighter

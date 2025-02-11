@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_xjhl7"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_lmifq"]
-[ext_resource type="Script" path="res://player/collision/RectangleSpec.gd" id="3_cm8qt"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_s8t6f"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_fgowp"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="5_b2qgl"]
 
@@ -23,8 +23,8 @@ script = ExtResource("1_xjhl7")
 duration = 0
 endless = true
 player_status = 0
-hitboxes = Array[ExtResource("3_cm8qt")]([])
-hurtboxes = Array[ExtResource("3_cm8qt")]([ExtResource("4_fgowp")])
+hitboxes = Array[ExtResource("3_s8t6f")]([])
+hurtboxes = Array[ExtResource("3_s8t6f")]([ExtResource("4_fgowp")])
 effects = Array[ExtResource("2_lmifq")]([SubResource("Resource_gqyom"), SubResource("Resource_gq22q")])
 
 [resource]
