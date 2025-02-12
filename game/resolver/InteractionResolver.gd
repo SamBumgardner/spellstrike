@@ -41,28 +41,41 @@ func _adjudicate_interactions(actors: Array) -> void:
     # for each successful collision, apply damage to the other player.
 
     # store 'true' for each actor path if they had an attack that succeeded.
-    var attacker_hit_dict = {}
-    var actor_hit_by_dict = {}
-    for actor in actors: 
+    var attacker_hit := []
+    var defender_hit_by_dict := {}
+    for actor in actors:
         var overlapping_areas = actor.active_hurtbox_hit()
         var actually_hit_by: Array[AttackData] = []
         for area in overlapping_areas:
             # determine if they've already been hit by this attack
             var attacker = area.owner
             var attacker_path = area.owner.get_path()
-            if (actor.hit_by as Dictionary).has(attacker_path) && actor.hit_by[attacker_path] < attacker.attack_id:
+            if not (actor.hit_by as Dictionary).has(attacker_path) or actor.hit_by[attacker_path] < attacker.attack_id:
                 # this is a legitimate attack
 
                 actor.hit_by[attacker_path] = attacker.attack_id
-                actually_hit_by.append(attacker.attack_data)
-                attacker_hit_dict[attacker_path] = true
-    
+                actually_hit_by.append(attacker.current_attack_data)
+                attacker_hit.append(attacker)
+        
+        if not actually_hit_by.is_empty():
+            defender_hit_by_dict[actor] = actually_hit_by
     # Check if attacker_hit_dict has keys that aren't in some "hit by" dictionary. 
-    #  These characters should go into hitstop, get properties set for landing a hit, etc.
-
-    # Characters that were hit get hitstop applied by the highest of what hit them, and suffer damage based on sum of hits.
-            
-
+    
+    var hit_defenders = defender_hit_by_dict.keys()
+    for attacker in attacker_hit:
+        if attacker not in hit_defenders:
+            attacker.perform_hit(attacker.current_attack_data)
+    
+    for defender in hit_defenders:
+        var hit_attacks = defender_hit_by_dict[defender]
+        var total_hit: AttackData
+        if hit_attacks.size() > 1:
+            total_hit = hit_attacks.reduce(AttackData.combine_overlapping_attacks, AttackData.new())
+        else:
+            total_hit = hit_attacks[0]
+        defender.receive_hit(total_hit)
+        
+        pass # apply results to character
     pass
 
 func _has_successful_attack(attacker: Player) -> bool:

@@ -33,12 +33,14 @@ func _ready():
         SyncManager.start()
 
 func _on_sync_started():
-    var fighterP1 = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 100, 'y': 200, 'c': Player.Characters.SPEED}, false);
+    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 100, 'y': 200, 'c': Player.Characters.SPEED}, false);
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
 
-    var fighterP2 = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 400, 'y': 200, 'c': Player.Characters.REACH}, false);
+    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 400, 'y': 200, 'c': Player.Characters.REACH}, false);
     fighterP2.input_retriever.input_ids = InputRetriever.DEFAULT_P2
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
+    fighterP2.hurtbox_pool.collision_layer = 8
+    fighterP2.hurtbox_pool.collision_mask = 4
     
     interaction_resolver._setup_players(fighterP1, fighterP2)
     # spawn another fighter

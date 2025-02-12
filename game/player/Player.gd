@@ -114,11 +114,12 @@ func active_hurtbox_hit() -> Array[Area2D]:
     # caller is responsible for figuring out which attack is supposed to actually damage me
     return hurtbox_pool.get_overlapping_areas()
 
-func performed_hit(attack_data: AttackData) -> void:
+func perform_hit(attack_data: AttackData) -> void:
     # put self in hitstop for frames based on own attack data (which is fed in here)
-    pass
+    hitstop_duration = attack_data.hitstop
+    current_hitstop_tick = 0
 
-func receive_hit(attack_data: AttackData, attacker_id) -> void:
+func receive_hit(attack_data: AttackData) -> void:
     # do whatever steps are neeed to apply attack data (damage received, add hitstop, change state)
     # add attacker id to map of things you've been hit by, value is attack's numeric id.
     pass
@@ -176,8 +177,12 @@ func _network_process(input: Dictionary):
     
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
-    fsm.process(input)
-    position.x += velocity
+    if current_hitstop_tick < hitstop_duration:
+        print_debug("skipping state progression because I'm in hitstop! %d frames remain" % (hitstop_duration - current_hitstop_tick))
+        current_hitstop_tick += 1
+    else:
+        fsm.process(input)
+        position.x += velocity
 
     # once both are complete, adjudicator resolves interactions
     #  calls methods on p1 and p2 as needed to apply results.

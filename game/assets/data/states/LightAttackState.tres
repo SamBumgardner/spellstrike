@@ -32,8 +32,9 @@ effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_suogv")])
 
 [sub_resource type="Resource" id="Resource_qmmfu"]
 script = ExtResource("5_ksfka")
-damage = 0
-hitstun = 0
+damage = 50
+hitstun = 30
+hitstop = 15
 pushback = 0
 
 [sub_resource type="Resource" id="Resource_h82bm"]
