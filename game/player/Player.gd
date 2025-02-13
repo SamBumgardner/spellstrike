@@ -13,6 +13,8 @@ signal player_processing_finished
     # ft - number of ticks spent in current fsm state
     # hs - total hitstop duration (usually 0)
     # hst - current hitstop tick
+    # hsu - hitstun duration
+    # pb - pushback
     # v - velocity
     # a - attack id
     # hb - hit by
@@ -44,6 +46,9 @@ var status: Status
 
 var hitstop_duration: int
 var current_hitstop_tick: int
+
+var hitstun_duration: int
+var pushback: int
 
 var attack_id: int
 var hit_by: Dictionary
@@ -79,7 +84,8 @@ func set_hurtboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
 
 func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData, new_attack: bool) -> void:
     _set_collision_boxes(hitboxes, rectangleSpecs)
-    current_attack_data = attack_data
+    set_deferred("current_attack_data", attack_data)
+    #current_attack_data = attack_data
     if new_attack:
         attack_id += 1
 
@@ -122,7 +128,15 @@ func perform_hit(attack_data: AttackData) -> void:
 func receive_hit(attack_data: AttackData) -> void:
     # do whatever steps are neeed to apply attack data (damage received, add hitstop, change state)
     # add attacker id to map of things you've been hit by, value is attack's numeric id.
-    pass
+    hitstun_duration = attack_data.hitstun
+    hitstop_duration = attack_data.hitstop
+    current_hitstop_tick = 0
+    pushback = attack_data.pushback
+    health -= attack_data.damage
+
+    # force player to jump to hurt state.
+    fsm.force_change_state(State.HITSTUN)
+    
 
 ##########################
 # ROLLBACK IMPLEMNTATION #
@@ -139,6 +153,8 @@ func _save_state() -> Dictionary:
         'ft': fsm.ticks_in_state,
         'hs': hitstop_duration,
         'hst': current_hitstop_tick,
+        'hsu': hitstun_duration,
+        'pb': pushback,
         'v': velocity,
         'a': attack_id,
         'hb': hit_by,
@@ -152,6 +168,8 @@ func _load_state(state: Dictionary) -> void:
     status = state['s']
     hitstop_duration = state['hs']
     current_hitstop_tick = state['hst']
+    hitstun_duration = state['hsu']
+    pushback = state['pb']
     velocity = state['v']
     attack_id = state['a']
     hit_by = state['hb']
@@ -178,7 +196,6 @@ func _network_process(input: Dictionary):
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     if current_hitstop_tick < hitstop_duration:
-        print_debug("skipping state progression because I'm in hitstop! %d frames remain" % (hitstop_duration - current_hitstop_tick))
         current_hitstop_tick += 1
     else:
         fsm.process(input)
@@ -212,6 +229,8 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['ft'] = spawn_num_ticks_in_state
     data['hs'] = spawn_hitstop
     data['hst'] = spawn_hitstop
+    data['hsu'] = spawn_hitstop
+    data['pb'] = spawn_velocity
     data['v'] = spawn_velocity
     data['a'] = initial_attack_id
     data['hb'] = {}
@@ -247,7 +266,7 @@ enum Status {
     STARTUP = 1,
     ACTIVE = 2,
     RECOVERY = 3,
-    HITSTOP = 4,
+    HITSTUN = 4,
 }
 
 enum State {
@@ -260,4 +279,5 @@ enum State {
     SPECIAL_CANCEL = 5,
     SPECIAL_NEUTRAL = 6,
     BURST = 7,
+    HITSTUN = 8,
 }

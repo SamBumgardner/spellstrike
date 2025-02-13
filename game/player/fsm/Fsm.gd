@@ -13,6 +13,9 @@ func prepare_states() -> void:
         Player.State.IDLE: preload("res://assets/data/states/IdleState.tres"),
         Player.State.WALK: preload("res://assets/data/states/WalkState.tres"),
         Player.State.A: preload("res://assets/data/states/LightAttackState.tres"),
+        Player.State.B: preload("res://assets/data/states/MediumAttackState.tres"),
+        Player.State.C: preload("res://assets/data/states/HeavyAttackState.tres"),
+        Player.State.HITSTUN: preload("res://assets/data/states/HurtState.tres"),
     }
 
 func load(
@@ -45,3 +48,10 @@ func process(input: Dictionary) -> void:
         next_state = states[state].process(owner, input, ticks_in_state)
     
     ticks_in_state += 1
+
+func force_change_state(next_state: Player.State) -> void:
+    states[state].transition_out()
+    state = next_state
+    ticks_in_state = 0
+    # Transition to next state
+    states[state].transition_in(owner, InputRetriever.EMPTY)

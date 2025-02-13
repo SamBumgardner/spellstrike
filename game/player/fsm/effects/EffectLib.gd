@@ -11,6 +11,9 @@ enum Effect {
     START_ACTION = 3,
     DEBUG_LOG = 4,
     SET_VELOCITY = 5,
+    CHECK_HITSTUN_OVER = 6,
+    DECAYING_PUSHBACK = 7,
+    VELOCITY_DECAY_NATURAL = 8,
 }
 
 static var methods := {
@@ -20,14 +23,25 @@ static var methods := {
     Effect.START_ACTION: start_action,
     Effect.DEBUG_LOG: debug_log,
     Effect.SET_VELOCITY: set_velocity,
+    Effect.CHECK_HITSTUN_OVER: check_hitstun_over,
+    Effect.DECAYING_PUSHBACK: decaying_pushback,
+    Effect.VELOCITY_DECAY_NATURAL: velocity_decay_natural,
 }
 
-static func walk(owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
+
+# HELPER #
+static func _get_move_direction(input: Dictionary) -> int:
     var movement_direction: int = 0
     if input["l"]:
         movement_direction -= 1
     if input["r"]:
         movement_direction += 1
+    
+    return movement_direction
+
+# EFFECT #
+static func walk(owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
+    var movement_direction = _get_move_direction(input)
 
     owner.velocity = clamp(
         owner.velocity + owner.walk_accel * movement_direction,
@@ -37,11 +51,7 @@ static func walk(owner: Player, input: Dictionary, _ticks_in_state: int) -> Play
     return Player.State.NONE
 
 static func stopped_to_idle(owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    var movement_direction: int = 0
-    if input["l"]:
-        movement_direction -= 1
-    if input["r"]:
-        movement_direction += 1
+    var movement_direction = _get_move_direction(input) 
     
     if movement_direction == 0:
         if owner.velocity > 0:
@@ -52,11 +62,7 @@ static func stopped_to_idle(owner: Player, input: Dictionary, _ticks_in_state: i
     return Player.State.IDLE if owner.velocity == 0 else Player.State.NONE
 
 static func start_walk(_owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    var movement_direction: int = 0
-    if input["l"]:
-        movement_direction -= 1
-    if input["r"]:
-        movement_direction += 1
+    var movement_direction = _get_move_direction(input)
     
     return Player.State.WALK if movement_direction != 0 else Player.State.NONE
 
@@ -74,7 +80,33 @@ static func debug_log(_owner: Player, _input: Dictionary, _ticks_in_state: int, 
     print_debug(message)
     return Player.State.NONE
 
-static func set_velocity(owner: Player, _input: Dictionary, _ticks_in_state: int, new_velocity: int) -> Player.State:
-    #TODO: flip direction if side-swapped?
-    owner.velocity = new_velocity
+static func set_velocity(owner: Player, input: Dictionary, _ticks_in_state: int, new_velocity: int = 0, consider_input: bool = false) -> Player.State:
+    var movement_direction = 1 if not consider_input else _get_move_direction(input)
+    
+    owner.velocity = new_velocity * movement_direction
+    return Player.State.NONE
+
+static func check_hitstun_over(owner: Player, _input: Dictionary, ticks_in_state: int) -> Player.State:
+    if owner.hitstun_duration < ticks_in_state:
+        return Player.State.IDLE
+    else:
+        return Player.State.NONE
+
+static func decaying_pushback(owner: Player, _input: Dictionary, ticks_in_state: int) -> Player.State:
+    var base_decay = (owner.pushback / min(owner.hitstun_duration, 10) * ticks_in_state)
+    var remainder = owner.pushback % min(owner.hitstun_duration, 10)
+    base_decay += min(ticks_in_state, remainder)
+
+    owner.velocity = owner.scale.x * -1 * max(owner.pushback - base_decay, 0)
+    #if ticks_in_state % 3 != 0:
+        #owner.pushback = max(owner.pushback - 2, 0)
+        
+    return Player.State.NONE
+
+static func velocity_decay_natural(owner: Player, _input: Dictionary, _ticks_in_state: int, rate: int) -> Player.State:
+    if owner.velocity > 0:
+        owner.velocity = max(0, owner.velocity - rate)
+    elif owner.velocity < 0:
+        owner.velocity = min(0, owner.velocity + rate)
+
     return Player.State.NONE

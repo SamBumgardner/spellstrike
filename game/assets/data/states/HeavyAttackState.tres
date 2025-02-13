@@ -1,0 +1,74 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=14 format=3 uid="uid://y6085lvsh3c"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_0wi3i"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_s2k2m"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_iaxbt"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_agimc"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_dw1ck"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="6_jqef7"]
+
+[sub_resource type="Resource" id="Resource_qxkwy"]
+script = ExtResource("3_iaxbt")
+x_offset = -16
+y_offset = -76
+width = 96
+height = 24
+
+[sub_resource type="Resource" id="Resource_nu8le"]
+script = ExtResource("1_0wi3i")
+duration = 16
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("3_iaxbt")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_iaxbt")]([ExtResource("4_dw1ck"), SubResource("Resource_qxkwy")])
+effects = Array[ExtResource("2_s2k2m")]([])
+
+[sub_resource type="Resource" id="Resource_4eel3"]
+script = ExtResource("4_agimc")
+damage = 50
+hitstun = 20
+hitstop = 15
+pushback = 30
+
+[sub_resource type="Resource" id="Resource_xwuo8"]
+script = ExtResource("3_iaxbt")
+x_offset = 120
+y_offset = -20
+width = 64
+height = 168
+
+[sub_resource type="Resource" id="Resource_yl1ic"]
+script = ExtResource("1_0wi3i")
+duration = 8
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_iaxbt")]([SubResource("Resource_xwuo8")])
+new_attack = true
+attack_data = SubResource("Resource_4eel3")
+hurtboxes = Array[ExtResource("3_iaxbt")]([ExtResource("4_dw1ck")])
+effects = Array[ExtResource("2_s2k2m")]([])
+
+[sub_resource type="Resource" id="Resource_mutyd"]
+script = ExtResource("1_0wi3i")
+duration = 10
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("3_iaxbt")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_iaxbt")]([ExtResource("4_dw1ck"), SubResource("Resource_xwuo8")])
+effects = Array[ExtResource("2_s2k2m")]([])
+
+[sub_resource type="Resource" id="Resource_jam7s"]
+script = ExtResource("2_s2k2m")
+typeId = 5
+once_at_start = true
+params = [0]
+
+[resource]
+script = ExtResource("6_jqef7")
+stateId = 4
+expirationStateId = 0
+phases = Array[ExtResource("1_0wi3i")]([SubResource("Resource_nu8le"), SubResource("Resource_yl1ic"), SubResource("Resource_mutyd")])
+transition_in_effects = Array[ExtResource("2_s2k2m")]([SubResource("Resource_jam7s")])
+transition_out_effects = Array[ExtResource("2_s2k2m")]([])

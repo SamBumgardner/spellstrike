@@ -41,6 +41,9 @@ func _on_sync_started():
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
     fighterP2.hurtbox_pool.collision_layer = 8
     fighterP2.hurtbox_pool.collision_mask = 4
+    fighterP2.hitbox_pool.collision_layer = 2
+    fighterP2.hitbox_pool.collision_mask = 1
+    fighterP2.scale.x = -1
     
     interaction_resolver._setup_players(fighterP1, fighterP2)
     # spawn another fighter
