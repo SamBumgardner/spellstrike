@@ -39,6 +39,13 @@ func _adjudicate_interactions(actors: Array) -> void:
     # For each player, check if their hurtbox pool got hit.
     #  This will replace the "successful hit" status for them
     # for each successful collision, apply damage to the other player.
+    
+    if p1.position.x > p2.position.x:
+        p1.scale.x = -1
+        p2.scale.x = 1
+    elif p1.position.x < p2.position.x:
+        p1.scale.x = 1
+        p2.scale.x = -1
 
     # store 'true' for each actor path if they had an attack that succeeded.
     var attacker_hit := []
