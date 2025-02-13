@@ -1,5 +1,7 @@
 class_name InteractionResolver extends RefCounted
 
+signal frame_resolved
+
 var p1: Player
 var p2: Player
 
@@ -26,6 +28,7 @@ func _on_player_processing_complete() -> void:
         
         # Reset for next tick
         num_players_complete = 0
+        
 
 func _adjudicate_interactions(actors: Array) -> void:
     # goal:
@@ -83,7 +86,8 @@ func _adjudicate_interactions(actors: Array) -> void:
         defender.receive_hit(total_hit)
         
         pass # apply results to character
-    pass
+    
+    frame_resolved.emit()
 
 func _has_successful_attack(attacker: Player) -> bool:
     return attacker.active_hitbox_hit()

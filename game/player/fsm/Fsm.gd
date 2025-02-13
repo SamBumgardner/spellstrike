@@ -22,6 +22,9 @@ func load(
     new_state: Player.State,
     new_ticks_in_state: int
 ) -> void:
+    if state == Player.State.C:
+        print_debug(state, ticks_in_state)
+        pass
     state = new_state
     ticks_in_state = new_ticks_in_state
 

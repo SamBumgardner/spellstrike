@@ -57,7 +57,5 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
     # If we got here, no change to player's state.
     # Set collision according to current phase
     owner.set_hitboxes(current_phase.hitboxes, current_phase.attack_data, current_phase.new_attack and phase_just_started)
-    if not current_phase.hitboxes.is_empty():
-        pass
     owner.set_hurtboxes(current_phase.hurtboxes)
     return Player.State.NONE

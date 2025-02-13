@@ -80,12 +80,11 @@ func _initialize_collision_shapes(collision_shapes: Array) -> void:
         collision_shape.shape = RectangleShape2D.new()
 
 func set_hurtboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
-    _set_collision_boxes(hurtboxes, rectangleSpecs)
+    _set_collision_boxes.call_deferred(hurtboxes, rectangleSpecs)
 
 func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData, new_attack: bool) -> void:
-    _set_collision_boxes(hitboxes, rectangleSpecs)
+    _set_collision_boxes.call_deferred(hitboxes, rectangleSpecs)
     set_deferred("current_attack_data", attack_data)
-    #current_attack_data = attack_data
     if new_attack:
         attack_id += 1
 
@@ -157,7 +156,7 @@ func _save_state() -> Dictionary:
         'pb': pushback,
         'v': velocity,
         'a': attack_id,
-        'hb': hit_by,
+        'hb': var_to_bytes(hit_by),
     }
 
 func _load_state(state: Dictionary) -> void:
@@ -172,7 +171,7 @@ func _load_state(state: Dictionary) -> void:
     pushback = state['pb']
     velocity = state['v']
     attack_id = state['a']
-    hit_by = state['hb']
+    hit_by = bytes_to_var(state['hb'])
 
     var fsm_state = state['fs']
     var fsm_ticks_in_state = state['ft']
@@ -191,8 +190,9 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
     return old_input
 
 func _network_process(input: Dictionary):
-    assert(not input.is_empty())
-    
+    if input.is_empty():
+        input = InputRetriever.EMPTY
+        
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     if current_hitstop_tick < hitstop_duration:
@@ -200,6 +200,9 @@ func _network_process(input: Dictionary):
     else:
         fsm.process(input)
         position.x += velocity
+    
+    #fsm.process(input)
+    #position.x += velocity
 
     # once both are complete, adjudicator resolves interactions
     #  calls methods on p1 and p2 as needed to apply results.
@@ -233,7 +236,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['pb'] = spawn_velocity
     data['v'] = spawn_velocity
     data['a'] = initial_attack_id
-    data['hb'] = {}
+    data['hb'] = var_to_bytes({})
     return data
 
 func _network_spawn(data: Dictionary) -> void:
