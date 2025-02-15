@@ -80,10 +80,13 @@ func _initialize_collision_shapes(collision_shapes: Array) -> void:
         collision_shape.shape = RectangleShape2D.new()
 
 func set_hurtboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
-    _set_collision_boxes.call_deferred(hurtboxes, rectangleSpecs)
+    _set_collision_boxes(hurtboxes, rectangleSpecs)
+
+func get_hurtboxes() -> Array:
+    return hurtboxes.filter(func(x): return not x.disabled)
 
 func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData, new_attack: bool) -> void:
-    _set_collision_boxes.call_deferred(hitboxes, rectangleSpecs)
+    _set_collision_boxes(hitboxes, rectangleSpecs)
     set_deferred("current_attack_data", attack_data)
     if new_attack:
         attack_id += 1
@@ -107,17 +110,58 @@ func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[Rectangle
 # RESOLVE INTERACTIONS #
 ########################
 
-func active_hitbox_hit() -> bool:
-    # Did I hit something?
-    # if yes, tell caller that I did
-    # Caller will validate that it really did hit & will tell me 
-    return hitbox_pool.has_overlapping_areas()
+func active_hurtbox_hit(enemy_attack_areas: Array) -> Array[bool]:
+    # Expect nested type: Array[Array[CollisionShape2D]]
+    var hits: Array[bool] = []
+    var my_hurtboxes = get_hurtboxes()
 
-func active_hurtbox_hit() -> Array[Area2D]:
-    # Did I overlap with groups of hitboxes?
-    # if yes, tell caller which ones.
-    # caller is responsible for figuring out which attack is supposed to actually damage me
-    return hurtbox_pool.get_overlapping_areas()
+    for attack_area_shapes in enemy_attack_areas:
+        var collided: bool = false
+        # compare each hitbox / hurtbox combination until overlap is found
+        for hitbox in attack_area_shapes:
+            for hurtbox in my_hurtboxes:
+                collided = overlapped(hitbox, hurtbox) #TODO: replace with actual collision resolution method
+                if collided:
+                    break;
+            if collided:
+                break;
+        hits.append(collided)
+
+    # return bool values indicating what shapes hit me. Up to caller to act on that information.
+    return hits
+
+static func overlapped(a: CollisionShape2D, b: CollisionShape2D) -> bool:
+    var x_overlap = compare_dimension(
+        a.position.x + a.shape.x_offset,
+        b.position.x + b.shape.x_offset,
+        a.shape.width,
+        b.shape.width
+    )
+
+    if not x_overlap:
+        return false
+    
+    var y_overlap = compare_dimension(
+        a.position.y + a.shape.y_offset,
+        b.position.y + b.shape.y_offset,
+        a.shape.height,
+        b.shape.height
+    )
+
+    return y_overlap
+
+static func compare_dimension(start1: int, start2: int, length1: int, length2: int) -> bool:
+    var overlap := false
+    if start1 == start2:
+        overlap = true
+    elif start1 < start2:
+        if start1 + length1 > start2:
+            overlap = true
+    elif start2 < start1:
+        if start2 + length2 > start1:
+            overlap = true
+    
+    return overlap
 
 func perform_hit(attack_data: AttackData) -> void:
     # put self in hitstop for frames based on own attack data (which is fed in here)
