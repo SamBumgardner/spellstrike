@@ -50,16 +50,36 @@ func _adjudicate_interactions(actors: Array) -> void:
         p1.scale.x = 1
         p2.scale.x = -1
 
+    # get all hitboxes, sort by allegiance.
+    var p1_attack_shapes: Array = []
+    var p2_attack_shapes: Array = []
+    for actor in actors:
+        var allied_attack_shapes: Array
+        match actor.team: 
+            Player.Side.P1: 
+                allied_attack_shapes = p1_attack_shapes
+            Player.Side.P2:
+                allied_attack_shapes = p2_attack_shapes
+        var attack_shape: Array = actor.get_hitboxes()
+        if not attack_shape.is_empty():
+            allied_attack_shapes.append(attack_shape)
+
     # store 'true' for each actor path if they had an attack that succeeded.
     var attacker_hit := []
     var defender_hit_by_dict := {}
     for actor in actors:
-        var overlapping_areas = actor.active_hurtbox_hit()
+        var attack_shapes = p1_attack_shapes if actor.team == Player.Side.P2 else p2_attack_shapes
+        var attacks_hit: Array = actor.active_hurtbox_hit(attack_shapes)
+        var overlapping_areas: Array = []
+        for i in attacks_hit.size():
+            if attacks_hit[i]:
+                overlapping_areas.append(attack_shapes[i])
+        
         var actually_hit_by: Array[AttackData] = []
         for area in overlapping_areas:
             # determine if they've already been hit by this attack
-            var attacker = area.owner
-            var attacker_path = area.owner.get_path()
+            var attacker = area[0].owner
+            var attacker_path = attacker.get_path()
             if not (actor.hit_by as Dictionary).has(attacker_path) or actor.hit_by[attacker_path] < attacker.attack_id:
                 # this is a legitimate attack
 

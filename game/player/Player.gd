@@ -5,6 +5,7 @@ signal player_processing_finished
 # State Dictionary:
     # x
     # y
+    # t - team (Side enum)
     # pi - previous input (int, bitwise flags)
     # c - character (int, corresponds to enum)
     # hp - remaining health (int)
@@ -37,6 +38,7 @@ const walk_accel: int = 5
 const walk_drag: int = 2
 
 # Custom state variables
+var team: Side
 var character: Characters
 var health: int
 var velocity: int
@@ -70,11 +72,6 @@ func _ready():
     _initialize_collision_shapes(hurtboxes)
     _initialize_collision_shapes(hitboxes)
 
-func setup_player_side(side: Side):
-    if side == Side.P2:
-        hurtbox_pool.collision_layer = 2
-        hitbox_pool.collision_mask = 1
-
 func _initialize_collision_shapes(collision_shapes: Array) -> void:
     for collision_shape in collision_shapes:
         collision_shape.shape = RectangleShape2D.new()
@@ -85,9 +82,12 @@ func set_hurtboxes(rectangleSpecs: Array[RectangleSpec]) -> void:
 func get_hurtboxes() -> Array:
     return hurtboxes.filter(func(x): return not x.disabled)
 
+func get_hitboxes() -> Array:
+    return hitboxes.filter(func(x): return not x.disabled)
+
 func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData, new_attack: bool) -> void:
     _set_collision_boxes(hitboxes, rectangleSpecs)
-    set_deferred("current_attack_data", attack_data)
+    current_attack_data = attack_data
     if new_attack:
         attack_id += 1
 
@@ -132,20 +132,20 @@ func active_hurtbox_hit(enemy_attack_areas: Array) -> Array[bool]:
 
 static func overlapped(a: CollisionShape2D, b: CollisionShape2D) -> bool:
     var x_overlap = compare_dimension(
-        a.position.x + a.shape.x_offset,
-        b.position.x + b.shape.x_offset,
-        a.shape.width,
-        b.shape.width
+        a.global_position.x - a.shape.size.x / 2,
+        b.global_position.x - b.shape.size.x / 2,
+        a.shape.size.x,
+        b.shape.size.x
     )
 
     if not x_overlap:
         return false
     
     var y_overlap = compare_dimension(
-        a.position.y + a.shape.y_offset,
-        b.position.y + b.shape.y_offset,
-        a.shape.height,
-        b.shape.height
+        a.global_position.y - a.shape.size.y / 2,
+        b.global_position.y - b.shape.size.y / 2,
+        a.shape.size.y,
+        b.shape.size.y
     )
 
     return y_overlap
@@ -188,6 +188,7 @@ func _save_state() -> Dictionary:
     return {
         'x': position.x,
         'y': position.y,
+        't': team,
         'pi': previous_input,
         'c': character,
         'hp': health,
@@ -206,6 +207,7 @@ func _save_state() -> Dictionary:
 func _load_state(state: Dictionary) -> void:
     position.x = state['x']
     position.y = state['y']
+    team = state['t']
     previous_input = state['pi']
     health = state['hp']
     status = state['s']
@@ -255,12 +257,11 @@ func _network_process(input: Dictionary):
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     # check required parameters are provided
-    const essential_spawn_params = ['x', 'y', 'c']
+    const essential_spawn_params = ['x', 'y', 'c', 't']
     var keys = data.keys()
     for essential_param in essential_spawn_params:
-        if essential_param not in keys:
-            push_error("ERROR: spawn method not called with essential input '%s'. 
-                Input data:%s" % [essential_param, data])
+        assert(essential_param in keys, "ERROR: spawn method not called with essential input '%s'. 
+            Input data:%s" % [essential_param, data])
 
     # look up hp value for character:
     data['hp'] = 100 # placeholder logic for now
@@ -287,6 +288,7 @@ func _network_spawn(data: Dictionary) -> void:
     # need to do first time setup (based on character selection, etc.)
     character = data['c']
     health = data['hp']
+    team = data['t']
     fsm.prepare_states()
     # remaining setup is identical to any ordinary load state
     _load_state(data)

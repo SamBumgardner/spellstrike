@@ -36,12 +36,12 @@ func _ready():
         SyncManager.start()
 
 func _on_sync_started():
-    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 100, 'y': 200, 'c': Player.Characters.SPEED}, false);
+    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 100, 'y': 200, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
     #fighterP1.input_retriever.control_type = InputRetriever.ControlType.JOY
     #fighterP1.input_retriever.input_ids = InputRetriever.DEFAULT_CONTROLLER
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
 
-    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 400, 'y': 200, 'c': Player.Characters.REACH}, false);
+    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 400, 'y': 200, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
     #fighterP2.input_retriever.control_type = InputRetriever.ControlType.JOY
     #fighterP2.input_retriever.input_ids = InputRetriever.DEFAULT_CONTROLLER_2
     fighterP2.input_retriever.input_ids = InputRetriever.DEFAULT_P2

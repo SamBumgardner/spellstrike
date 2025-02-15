@@ -28,7 +28,7 @@ effects = Array[ExtResource("2_ng3ut")]([])
 script = ExtResource("4_i1wiu")
 damage = 20
 hitstun = 22
-hitstop = 8
+hitstop = 12
 pushback = 20
 
 [sub_resource type="Resource" id="Resource_jb5ve"]
