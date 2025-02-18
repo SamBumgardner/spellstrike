@@ -1,6 +1,7 @@
 class_name Player extends Node2D
 
 signal player_processing_finished
+signal defeated
 
 # State Dictionary:
     # x
@@ -120,11 +121,11 @@ func active_hurtbox_hit(enemy_attack_areas: Array) -> Array[bool]:
         # compare each hitbox / hurtbox combination until overlap is found
         for hitbox in attack_area_shapes:
             for hurtbox in my_hurtboxes:
-                collided = overlapped(hitbox, hurtbox) #TODO: replace with actual collision resolution method
+                collided = overlapped(hitbox, hurtbox) # TODO: replace with actual collision resolution method
                 if collided:
-                    break;
+                    break ;
             if collided:
-                break;
+                break ;
         hits.append(collided)
 
     # return bool values indicating what shapes hit me. Up to caller to act on that information.
@@ -176,9 +177,18 @@ func receive_hit(attack_data: AttackData) -> void:
     current_hitstop_tick = 0
     pushback = attack_data.pushback
     health -= attack_data.damage
+    
+    if health > 0:
+        # force player to jump to hurt state.
+        fsm.force_change_state(State.HITSTUN)
+    else:
+        handle_defeat()
 
-    # force player to jump to hurt state.
-    fsm.force_change_state(State.HITSTUN)
+func handle_defeat() -> void:
+    # stop all control
+    # play defeat animation
+    fsm.force_change_state(State.DEFEATED)
+    defeated.emit()
     
 
 ##########################
@@ -316,6 +326,7 @@ enum Status {
     ACTIVE = 2,
     RECOVERY = 3,
     HITSTUN = 4,
+    DEFEATED = 5,
 }
 
 enum State {
@@ -329,4 +340,6 @@ enum State {
     SPECIAL_NEUTRAL = 6,
     BURST = 7,
     HITSTUN = 8,
+    DEFEATED = 9,
+    VICTORY = 10,
 }
