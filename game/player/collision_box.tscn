@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://dbsv1t4mkjxn"]
+
+[ext_resource type="Script" path="res://player/collision_box.gd" id="1_qd7iv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f528"]
+size = Vector2(128, 128)
+
+[node name="Hurtbox1" type="CollisionShape2D"]
+visible = false
+shape = SubResource("RectangleShape2D_3f528")
+disabled = true
+script = ExtResource("1_qd7iv")

@@ -1,21 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://bqflbbnh7mpr4"]
+[gd_scene load_steps=4 format=3 uid="uid://bqflbbnh7mpr4"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_477q8"]
 [ext_resource type="Texture2D" uid="uid://c5v300cvg0b4q" path="res://icon.svg" id="2_ygsk7"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_3f528"]
-size = Vector2(128, 128)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ya347"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_pfvft"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_lan0q"]
-size = Vector2(80, 20)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vtqq6"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vf2eb"]
+[ext_resource type="PackedScene" uid="uid://dbsv1t4mkjxn" path="res://player/collision_box.tscn" id="3_upa8i"]
 
 [node name="Player" type="Node2D"]
 script = ExtResource("1_477q8")
@@ -28,23 +15,11 @@ z_index = 10
 collision_mask = 2
 input_pickable = false
 
-[node name="Hurtbox1" type="CollisionShape2D" parent="HurtboxPool"]
-visible = false
-shape = SubResource("RectangleShape2D_3f528")
-disabled = true
-debug_color = Color(0.0431373, 0.65098, 0, 0.227451)
+[node name="Hurtbox1" parent="HurtboxPool" instance=ExtResource("3_upa8i")]
 
-[node name="Hurtbox2" type="CollisionShape2D" parent="HurtboxPool"]
-visible = false
-shape = SubResource("RectangleShape2D_ya347")
-disabled = true
-debug_color = Color(0.0431373, 0.65098, 0, 0.227451)
+[node name="Hurtbox2" parent="HurtboxPool" instance=ExtResource("3_upa8i")]
 
-[node name="Hurtbox3" type="CollisionShape2D" parent="HurtboxPool"]
-visible = false
-shape = SubResource("RectangleShape2D_pfvft")
-disabled = true
-debug_color = Color(0.0431373, 0.65098, 0, 0.227451)
+[node name="Hurtbox3" parent="HurtboxPool" instance=ExtResource("3_upa8i")]
 
 [node name="HitboxPool" type="Area2D" parent="."]
 z_index = 10
@@ -52,21 +27,11 @@ collision_layer = 4
 collision_mask = 8
 input_pickable = false
 
-[node name="Hitbox1" type="CollisionShape2D" parent="HitboxPool"]
-visible = false
-position = Vector2(64, 0)
-shape = SubResource("RectangleShape2D_lan0q")
-disabled = true
-debug_color = Color(0.983676, 0.126161, 0, 0.42)
+[node name="Hitbox1" parent="HitboxPool" instance=ExtResource("3_upa8i")]
+draw_color = Color(1, 0, 0, 1)
 
-[node name="Hitbox2" type="CollisionShape2D" parent="HitboxPool"]
-visible = false
-shape = SubResource("RectangleShape2D_vtqq6")
-disabled = true
-debug_color = Color(0.983676, 0.126161, 0, 0.42)
+[node name="Hitbox2" parent="HitboxPool" instance=ExtResource("3_upa8i")]
+draw_color = Color(1, 0, 0, 1)
 
-[node name="Hitbox3" type="CollisionShape2D" parent="HitboxPool"]
-visible = false
-shape = SubResource("RectangleShape2D_vf2eb")
-disabled = true
-debug_color = Color(0.983676, 0.126161, 0, 0.42)
+[node name="Hitbox3" parent="HitboxPool" instance=ExtResource("3_upa8i")]
+draw_color = Color(1, 0, 0, 1)
