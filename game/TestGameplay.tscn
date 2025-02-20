@@ -1,8 +1,10 @@
-[gd_scene load_steps=4 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=6 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="3_7unwa"]
+[ext_resource type="PackedScene" uid="uid://bwc0dw853pipg" path="res://ui/WinTracker.tscn" id="3_nhsyv"]
+[ext_resource type="Script" path="res://ui/match_over.gd" id="3_qj1xu"]
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -10,25 +12,39 @@ script = ExtResource("1_hel5h")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="BattleHUD" type="Control" parent="UI"]
-custom_minimum_size = Vector2(1280, 720)
+custom_minimum_size = Vector2(800, 600)
 layout_mode = 3
 anchors_preset = 0
-offset_right = 1080.0
-offset_bottom = 720.0
+offset_right = 800.0
+offset_bottom = 600.0
 
-[node name="HealthTracker" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/BattleHUD"]
 layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
-[node name="HealthTracker2" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
+[node name="HealthTracker" parent="UI/BattleHUD/VBoxContainer" instance=ExtResource("2_cvjpa")]
+layout_mode = 2
+
+[node name="WinTracker" parent="UI/BattleHUD/VBoxContainer" instance=ExtResource("3_nhsyv")]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="UI/BattleHUD"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -98.0
-offset_right = 0.0
+offset_bottom = 40.0
 grow_horizontal = 0
 
-[node name="MatchOver" type="Label" parent="UI/BattleHUD"]
+[node name="HealthTracker2" parent="UI/BattleHUD/VBoxContainer2" instance=ExtResource("2_cvjpa")]
+layout_mode = 2
+
+[node name="WinTracker2" parent="UI/BattleHUD/VBoxContainer2" instance=ExtResource("3_nhsyv")]
+layout_mode = 2
+
+[node name="MatchOver" type="Label" parent="UI/BattleHUD" groups=["network_sync"]]
 visible = false
 layout_mode = 1
 anchors_preset = 8
@@ -44,8 +60,14 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "MATCH OVER"
 horizontal_alignment = 1
+script = ExtResource("3_qj1xu")
 
 [node name="ConfirmDefeatTimer" type="Node" parent="."]
+script = ExtResource("3_7unwa")
+one_shot = true
+hash_state = false
+
+[node name="StartNewRoundTimer" type="Node" parent="."]
 script = ExtResource("3_7unwa")
 one_shot = true
 hash_state = false

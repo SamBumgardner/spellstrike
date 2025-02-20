@@ -58,6 +58,7 @@ var hit_by: Dictionary
 
 # Stateless variables: refresh every frame
 var current_attack_data: AttackData
+var initial_spawn_state: Dictionary
 
 #########
 # SETUP #
@@ -105,7 +106,9 @@ func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[Rectangle
         else:
             collisionBoxes[i].disabled = true
             collisionBoxes[i].visible = false
-    
+
+func reset() -> void:
+    _load_state(initial_spawn_state)
     
 ########################
 # RESOLVE INTERACTIONS #
@@ -295,6 +298,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     return data
 
 func _network_spawn(data: Dictionary) -> void:
+    initial_spawn_state = data
     # need to do first time setup (based on character selection, etc.)
     character = data['c']
     health = data['hp']

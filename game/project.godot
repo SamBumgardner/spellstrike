@@ -21,12 +21,16 @@ SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
 
 [display]
 
-window/size/viewport_width=1280
-window/size/viewport_height=720
+window/size/viewport_width=800
+window/size/viewport_height=600
 
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/godot-rollback-netcode/plugin.cfg")
+
+[global_group]
+
+network_sync=""
 
 [input]
 

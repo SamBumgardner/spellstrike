@@ -2,6 +2,9 @@ class_name InteractionResolver extends RefCounted
 
 signal frame_resolved
 
+const min_x := 64
+const max_x := 736
+
 var p1: Player
 var p2: Player
 
@@ -107,10 +110,16 @@ func _adjudicate_interactions(actors: Array) -> void:
         
         pass # apply results to character
     
+    _restrict_player_x(p1)
+    _restrict_player_x(p2)
+    
     frame_resolved.emit()
 
 func _has_successful_attack(attacker: Player) -> bool:
     return attacker.active_hitbox_hit()
+
+func _restrict_player_x(player: Player):
+    player.position.x = clamp(player.position.x, min_x, max_x)
 
 enum ResultType {
     NEUTRAL = 0,
