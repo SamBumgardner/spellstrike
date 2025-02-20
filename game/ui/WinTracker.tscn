@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwc0dw853pipg"]
+
+[ext_resource type="Script" path="res://ui/WinTracker.gd" id="1_7vbpn"]
+
+[node name="WinTracker" type="HBoxContainer"]
+offset_right = 98.0
+offset_bottom = 23.0
+script = ExtResource("1_7vbpn")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+text = "WINS:"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 2
+text = "0"
