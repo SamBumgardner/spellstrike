@@ -45,17 +45,20 @@ func _ready():
 
 func _on_sync_started():
     var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 300, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
-    #fighterP1.input_retriever.control_type = InputRetriever.ControlType.JOY
-    #fighterP1.input_retriever.input_ids = InputRetriever.DEFAULT_CONTROLLER
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
+    fighterP1.input_retriever.input_ids = InputMappingManager.p1_input_mapping
     health_tracker_1.tracked_player = fighterP1
     fighterP1.defeated.connect(_on_player_defeated)
 
     var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 600, 'y': 300, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
-    #fighterP2.input_retriever.control_type = InputRetriever.ControlType.JOY
-    #fighterP2.input_retriever.input_ids = InputRetriever.DEFAULT_CONTROLLER_2
-    fighterP2.input_retriever.input_ids = InputRetriever.DEFAULT_P2
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
+
+    # when playing online as p2, use the "normal" p1 mapping the player set up.
+    if fighterP2.is_multiplayer_authority() and p1_network_id != p2_network_id:
+        fighterP2.input_retriever.input_ids = InputMappingManager.p1_input_mapping
+    else:
+        fighterP2.input_retriever.input_ids = InputMappingManager.p2_input_mapping
+
     fighterP2.hurtbox_pool.collision_layer = 8
     fighterP2.hurtbox_pool.collision_mask = 4
     fighterP2.hitbox_pool.collision_layer = 2
@@ -67,7 +70,8 @@ func _on_sync_started():
     interaction_resolver._setup_players(fighterP1, fighterP2)
     confirm_defeat_timer.timeout.connect(_on_confirm_defeat_timer_timeout.bind([fighterP1, fighterP2]))
     start_new_round_timer.timeout.connect(_on_start_new_round_timer_timeout.bind([fighterP1, fighterP2]))
-    
+
+
 func _on_sync_stopped():
     SyncManager.stop_logging()
 
@@ -95,7 +99,7 @@ func _player_defeat_confirmed(winner: Player, loser: Player):
     $UI/BattleHUD/MatchOver.visible = true
     # wait for some time, then do setup necessary to set up next round.
     const ticks_per_sec := 60
-    start_new_round_timer.start(ticks_per_sec)    
+    start_new_round_timer.start(ticks_per_sec)
     # call reset on both players
 
 # MISC.

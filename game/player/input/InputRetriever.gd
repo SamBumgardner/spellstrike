@@ -1,5 +1,8 @@
 class_name InputRetriever extends RefCounted
 
+const INPUT_KEYS = ["l", "r", "a", "b", "c", "s"]
+const INPUT_FRIENDLY_NAMES = ["Left", "Right", "A", "B", "C", "Special"]
+
 var control_type: ControlType = ControlType.KEYBOARD;
 var device_id: int = 0;
 var input_ids: Dictionary = DEFAULT_P1 # could store a dictionary of callables instead.
@@ -19,7 +22,7 @@ static var DEFAULT_P2 = {
     "a": [78], # N
     "b": [77], # M
     "c": [188], # ,
-    "s": [190], # .
+    "s": [190], #.
 }
 
 static var DEFAULT_CONTROLLER = {
@@ -28,7 +31,7 @@ static var DEFAULT_CONTROLLER = {
     "a": [0, 2], # N
     "b": [0, 3], # M
     "c": [0, 10], # ,
-    "s": [0, 0], # .
+    "s": [0, 0], #.
 }
 
 static var DEFAULT_CONTROLLER_2 = {
@@ -37,7 +40,7 @@ static var DEFAULT_CONTROLLER_2 = {
     "a": [1, 2], # N
     "b": [1, 3], # M
     "c": [1, 10], # ,
-    "s": [1, 0], # .
+    "s": [1, 0], #.
 }
 
 const EMPTY := {
@@ -58,7 +61,17 @@ func retrieve_input() -> Dictionary:
 
     var result: Dictionary = EMPTY.duplicate()
     for key in result.keys():
-        result[key] = 1 if input_retrieve_method.callv(input_ids[key]) else 0
+        var size = input_ids[key].size()
+        if size == 1:
+            input_retrieve_method = Input.is_physical_key_pressed
+            result[key] = 1 if input_retrieve_method.callv(input_ids[key]) else 0
+        elif size == 2:
+            input_retrieve_method = Input.is_joy_button_pressed
+            result[key] = 1 if input_retrieve_method.callv(input_ids[key]) else 0
+        else:
+            input_retrieve_method = Input.get_joy_axis
+            var axis_value = input_retrieve_method.callv(input_ids[key].slice(0, 2))
+            result[key] = 1 if sign(axis_value) == sign(input_ids[key][2]) and abs(axis_value) >= abs(input_ids[key][2]) else 0
     
     return result
 

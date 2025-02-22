@@ -1,0 +1,49 @@
+[gd_scene load_steps=3 format=3 uid="uid://ca1rtsmwjcvlc"]
+
+[ext_resource type="Script" path="res://options/InputRemapperDisplay.gd" id="1_3lelf"]
+[ext_resource type="PackedScene" uid="uid://cid5r0vr4uqf7" path="res://options/ActionInputPair.tscn" id="1_wkbd2"]
+
+[node name="InputRemapperDisplay" type="PanelContainer"]
+offset_right = 200.0
+offset_bottom = 220.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_3lelf")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Remap Input: P1"
+horizontal_alignment = 1
+
+[node name="ActionInputPair" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="ActionInputPair2" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="ActionInputPair3" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="ActionInputPair4" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="ActionInputPair5" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="ActionInputPair6" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Confirm" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Confirm"
+
+[node name="Redo" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "Redo"
