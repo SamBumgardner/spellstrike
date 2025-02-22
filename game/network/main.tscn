@@ -1,11 +1,15 @@
-[gd_scene load_steps=3 format=3 uid="uid://bjtha7dq81a0"]
+[gd_scene load_steps=4 format=3 uid="uid://bjtha7dq81a0"]
 
 [ext_resource type="Script" path="res://network/main.gd" id="1_mcj1k"]
 [ext_resource type="PackedScene" uid="uid://bmufwtv6hw8ys" path="res://TestGameplay.tscn" id="2_agxsy"]
+[ext_resource type="Script" path="res://options/InputRemapperLogic.gd" id="3_tjof3"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_mcj1k")
 map = ExtResource("2_agxsy")
+
+[node name="InputMapperLogic" type="Node" parent="."]
+script = ExtResource("3_tjof3")
 
 [node name="MapInstance" type="Node" parent="."]
 unique_name_in_owner = true
@@ -62,6 +66,13 @@ placeholder_text = "Enter server IP"
 layout_mode = 2
 text = "Join"
 
+[node name="Label3" type="Label" parent="Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="Remap P1 Input" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Remap P1 Input"
+
 [node name="DisplayPublicIP" type="Label" parent="."]
 unique_name_in_owner = true
 offset_right = 158.0
@@ -72,3 +83,4 @@ metadata/_edit_lock_ = true
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
 [connection signal="text_submitted" from="Menu/MarginContainer/VBoxContainer/To" to="." method="_on_to_text_submitted"]
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/Remap P1 Input" to="." method="_on_remap_button_pressed"]

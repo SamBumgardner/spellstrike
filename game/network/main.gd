@@ -27,6 +27,9 @@ func _on_local_button_pressed():
     %Menu.hide()
     load_game(1, 1)
 
+func _on_remap_button_pressed():
+    InputMappingManager.p1_input_mapping = await $InputMapperLogic.collect_input_mapping()
+
 # Server
 func _on_host_button_pressed():
     var peer = ENetMultiplayerPeer.new()

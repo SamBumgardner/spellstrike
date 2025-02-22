@@ -1,5 +1,7 @@
 class_name InputRetriever extends RefCounted
 
+const INPUT_KEYS = ["l", "r", "a", "b", "c", "s"]
+
 var control_type: ControlType = ControlType.KEYBOARD;
 var device_id: int = 0;
 var input_ids: Dictionary = DEFAULT_P1 # could store a dictionary of callables instead.
@@ -58,7 +60,17 @@ func retrieve_input() -> Dictionary:
 
     var result: Dictionary = EMPTY.duplicate()
     for key in result.keys():
-        result[key] = 1 if input_retrieve_method.callv(input_ids[key]) else 0
+        var size = input_ids[key].size()
+        if size == 1:
+            input_retrieve_method = Input.is_physical_key_pressed
+            result[key] = 1 if input_retrieve_method.callv(input_ids[key]) else 0
+        elif size == 2:
+            input_retrieve_method = Input.is_joy_button_pressed
+            result[key] = 1 if input_retrieve_method.callv(input_ids[key]) else 0
+        else:
+            input_retrieve_method = Input.get_joy_axis
+            var axis_value = input_retrieve_method.callv(input_ids[key].slice(0, 2))
+            result[key] = 1 if sign(axis_value) == sign(input_ids[key][2]) and abs(axis_value) >= abs(input_ids[key][2]) else 0
     
     return result
 
