@@ -1,6 +1,7 @@
 class_name InputRetriever extends RefCounted
 
 const INPUT_KEYS = ["l", "r", "a", "b", "c", "s"]
+const INPUT_FRIENDLY_NAMES = ["Left", "Right", "A", "B", "C", "Special"]
 
 var control_type: ControlType = ControlType.KEYBOARD;
 var device_id: int = 0;
@@ -21,7 +22,7 @@ static var DEFAULT_P2 = {
     "a": [78], # N
     "b": [77], # M
     "c": [188], # ,
-    "s": [190], # .
+    "s": [190], #.
 }
 
 static var DEFAULT_CONTROLLER = {
@@ -30,7 +31,7 @@ static var DEFAULT_CONTROLLER = {
     "a": [0, 2], # N
     "b": [0, 3], # M
     "c": [0, 10], # ,
-    "s": [0, 0], # .
+    "s": [0, 0], #.
 }
 
 static var DEFAULT_CONTROLLER_2 = {
@@ -39,7 +40,7 @@ static var DEFAULT_CONTROLLER_2 = {
     "a": [1, 2], # N
     "b": [1, 3], # M
     "c": [1, 10], # ,
-    "s": [1, 0], # .
+    "s": [1, 0], #.
 }
 
 const EMPTY := {

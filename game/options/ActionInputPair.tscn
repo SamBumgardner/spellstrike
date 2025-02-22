@@ -1,0 +1,27 @@
+[gd_scene load_steps=2 format=3 uid="uid://cid5r0vr4uqf7"]
+
+[ext_resource type="Script" path="res://options/ActionInputPair.gd" id="1_0pnyy"]
+
+[node name="ActionInputPair" type="MarginContainer"]
+custom_minimum_size = Vector2(200, 0)
+offset_right = 200.0
+offset_bottom = 23.0
+size_flags_horizontal = 4
+script = ExtResource("1_0pnyy")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ActionName" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "Action:"
+
+[node name="MappedInput" type="Label" parent="HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+text = "blah"

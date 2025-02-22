@@ -6,6 +6,13 @@ var player_2_id: int
 
 # Port mapping for online multiplayer
 func _ready():
+    $InputRemapperDisplay.confirmed.connect(_on_remapper_display_confirmed)
+    $InputRemapperDisplay.redo.connect(_on_remap_button_pressed)
+    
+    $InputMapperLogic.waiting_for_next_input.connect($InputRemapperDisplay._on_waiting_for_next_input)
+    $InputMapperLogic.input_received.connect($InputRemapperDisplay._on_input_received)
+    $InputMapperLogic.remap_complete.connect($InputRemapperDisplay._on_remap_complete)
+    
     if OS.get_name() != "Web":
         # not friendly with sam's current router, but also not required for testing.
 
@@ -27,8 +34,18 @@ func _on_local_button_pressed():
     %Menu.hide()
     load_game(1, 1)
 
-func _on_remap_button_pressed():
-    InputMappingManager.p1_input_mapping = await $InputMapperLogic.collect_input_mapping()
+func _on_remap_button_pressed(side: Player.Side):
+    $Menu.hide()
+    $InputRemapperDisplay.start(side)
+    if side == Player.Side.P1:
+        InputMappingManager.p1_input_mapping = await $InputMapperLogic.collect_input_mapping()
+    elif side == Player.Side.P2:
+        InputMappingManager.p2_input_mapping = await $InputMapperLogic.collect_input_mapping()
+
+func _on_remapper_display_confirmed():
+    $InputRemapperDisplay.hide()
+    $Menu.show()
+    $"Menu/MarginContainer/VBoxContainer/Remap P1 Input".grab_focus.call_deferred()
 
 # Server
 func _on_host_button_pressed():
