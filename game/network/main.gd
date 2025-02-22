@@ -28,6 +28,8 @@ func _ready():
         $Menu/MarginContainer/VBoxContainer/Label.hide()
         %To.hide()
         $Menu/MarginContainer/VBoxContainer/JoinButton.hide()
+    
+    $Menu/MarginContainer/VBoxContainer/LocalButton.grab_focus.call_deferred()
         
 
 func _on_local_button_pressed():

@@ -47,3 +47,4 @@ func _on_remap_complete(_complete_input_map) -> void:
     selected_action_input_pair.unhighlight()
     confirm_button.disabled = false
     redo_button.disabled = false
+    confirm_button.grab_focus.call_deferred()
