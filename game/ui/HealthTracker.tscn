@@ -1,16 +1,55 @@
-[gd_scene load_steps=2 format=3 uid="uid://dv55emdwbx4m0"]
+[gd_scene load_steps=5 format=3 uid="uid://dv55emdwbx4m0"]
 
 [ext_resource type="Script" path="res://ui/HealthTracker.gd" id="1_ccee7"]
+[ext_resource type="Theme" uid="uid://b4550oudr0v52" path="res://ui/HealthTheme.tres" id="2_rl4ad"]
+[ext_resource type="Theme" uid="uid://cnejelfj3q0pl" path="res://ui/HealthFollowTheme.tres" id="3_jgjos"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="4_1s0li"]
 
-[node name="HBoxContainer" type="HBoxContainer"]
-offset_right = 98.0
-offset_bottom = 23.0
+[node name="HealthTracker" type="MarginContainer"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 32.0
+grow_horizontal = 2
 script = ExtResource("1_ccee7")
 
-[node name="Label" type="Label" parent="."]
+[node name="TextDisplay" type="HBoxContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="Label" type="Label" parent="TextDisplay"]
 layout_mode = 2
 text = "HEALTH:"
 
-[node name="Label2" type="Label" parent="."]
+[node name="Label2" type="Label" parent="TextDisplay"]
 layout_mode = 2
 text = "100"
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+self_modulate = Color(1, 0.811765, 0, 1)
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme = ExtResource("2_rl4ad")
+value = 50.0
+fill_mode = 1
+show_percentage = false
+
+[node name="HealthFollow" type="ProgressBar" parent="HealthBar"]
+self_modulate = Color(0.717647, 0, 0, 0.631373)
+show_behind_parent = true
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+theme = ExtResource("3_jgjos")
+value = 70.0
+fill_mode = 1
+show_percentage = false
+
+[node name="DelayFollow" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="NetworkTimer" type="Node" parent="."]
+script = ExtResource("4_1s0li")

@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://b4550oudr0v52"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_pp0la"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rxwsj"]
+bg_color = Color(1, 1, 1, 1)
+skew = Vector2(-1, 0)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 10
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+border_blend = true
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxEmpty_pp0la")
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_rxwsj")

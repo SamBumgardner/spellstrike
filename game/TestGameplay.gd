@@ -8,10 +8,10 @@ var client_side := Side.P2
 # handle game ending
 @onready var confirm_defeat_timer: NetworkTimer = $ConfirmDefeatTimer
 @onready var start_new_round_timer: NetworkTimer = $StartNewRoundTimer
-@onready var health_tracker_1: HealthTracker = $UI/BattleHUD/VBoxContainer/HealthTracker
-@onready var health_tracker_2: HealthTracker = $UI/BattleHUD/VBoxContainer2/HealthTracker2
-@onready var win_tracker_1: WinTracker = $UI/BattleHUD/VBoxContainer/WinTracker
-@onready var win_tracker_2: WinTracker = $UI/BattleHUD/VBoxContainer2/WinTracker2
+@onready var health_tracker_1: HealthTracker = $UI/BattleHUD/HealthTracker
+@onready var health_tracker_2: HealthTracker = $UI/BattleHUD/HealthTracker2
+@onready var win_tracker_1: WinTracker = $UI/BattleHUD/WinTracker
+@onready var win_tracker_2: WinTracker = $UI/BattleHUD/WinTracker2
 
 enum Side {
     P1 = 0,

@@ -18,31 +18,43 @@ anchors_preset = 0
 offset_right = 800.0
 offset_bottom = 600.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/BattleHUD"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="HealthTracker" parent="UI/BattleHUD/VBoxContainer" instance=ExtResource("2_cvjpa")]
-layout_mode = 2
-
-[node name="WinTracker" parent="UI/BattleHUD/VBoxContainer" instance=ExtResource("3_nhsyv")]
-layout_mode = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="UI/BattleHUD"]
+[node name="HealthTracker" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
+custom_minimum_size = Vector2(335, 0)
 layout_mode = 1
-anchors_preset = 1
+anchors_preset = -1
+anchor_right = 0.0
+offset_left = 25.0
+offset_top = 10.0
+offset_bottom = 8.0
+grow_horizontal = 1
+
+[node name="WinTracker" parent="UI/BattleHUD" instance=ExtResource("3_nhsyv")]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 50.0
+offset_top = 45.0
+offset_right = 60.0
+
+[node name="HealthTracker2" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
+custom_minimum_size = Vector2(335, 0)
+layout_direction = 2
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+offset_left = -25.0
+offset_top = 10.0
+grow_horizontal = 1
+scale = Vector2(-1, 1)
+
+[node name="WinTracker2" parent="UI/BattleHUD" instance=ExtResource("3_nhsyv")]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -98.0
-offset_bottom = 40.0
+offset_top = 50.0
+offset_right = -45.0
+offset_bottom = 0.0
 grow_horizontal = 0
-
-[node name="HealthTracker2" parent="UI/BattleHUD/VBoxContainer2" instance=ExtResource("2_cvjpa")]
-layout_mode = 2
-
-[node name="WinTracker2" parent="UI/BattleHUD/VBoxContainer2" instance=ExtResource("3_nhsyv")]
-layout_mode = 2
 
 [node name="MatchOver" type="Label" parent="UI/BattleHUD" groups=["network_sync"]]
 visible = false

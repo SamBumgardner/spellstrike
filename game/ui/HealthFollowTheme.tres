@@ -1,0 +1,8 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cnejelfj3q0pl"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4q7c6"]
+bg_color = Color(0, 0, 0, 1)
+skew = Vector2(-1, 0)
+
+[resource]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_4q7c6")
