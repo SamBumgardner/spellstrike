@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=7 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="3_7unwa"]
 [ext_resource type="PackedScene" uid="uid://bwc0dw853pipg" path="res://ui/WinTracker.tscn" id="3_nhsyv"]
 [ext_resource type="Script" path="res://ui/match_over.gd" id="3_qj1xu"]
+[ext_resource type="AudioStream" uid="uid://b8l368ifqnna4" path="res://assets/music/battle_bgm.ogg" id="6_nwacf"]
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -83,3 +84,7 @@ hash_state = false
 script = ExtResource("3_7unwa")
 one_shot = true
 hash_state = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_nwacf")
+parameters/looping = true

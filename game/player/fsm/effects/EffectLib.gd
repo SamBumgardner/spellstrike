@@ -3,7 +3,7 @@
 #  actions. 
 class_name EffectLib
 
-enum Effect { 
+enum Effect {
     NONE = -1,
     NORMAL_WALK = 0,
     STOPPED_TO_IDLE = 1,
@@ -14,6 +14,7 @@ enum Effect {
     CHECK_HITSTUN_OVER = 6,
     DECAYING_PUSHBACK = 7,
     VELOCITY_DECAY_NATURAL = 8,
+    PLAY_SOUND = 9,
 }
 
 static var methods := {
@@ -26,6 +27,7 @@ static var methods := {
     Effect.CHECK_HITSTUN_OVER: check_hitstun_over,
     Effect.DECAYING_PUSHBACK: decaying_pushback,
     Effect.VELOCITY_DECAY_NATURAL: velocity_decay_natural,
+    Effect.PLAY_SOUND: play_sound,
 }
 
 
@@ -45,13 +47,13 @@ static func walk(owner: Player, input: Dictionary, _ticks_in_state: int) -> Play
 
     owner.velocity = clamp(
         owner.velocity + owner.walk_accel * movement_direction,
-        -owner.walk_speed,
+        - owner.walk_speed,
         owner.walk_speed)
     
     return Player.State.NONE
 
 static func stopped_to_idle(owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    var movement_direction = _get_move_direction(input) 
+    var movement_direction = _get_move_direction(input)
     
     if movement_direction == 0:
         if owner.velocity > 0:
@@ -108,5 +110,10 @@ static func velocity_decay_natural(owner: Player, _input: Dictionary, _ticks_in_
         owner.velocity = max(0, owner.velocity - rate)
     elif owner.velocity < 0:
         owner.velocity = min(0, owner.velocity + rate)
+
+    return Player.State.NONE
+
+static func play_sound(owner: Player, _input: Dictionary, _ticks_in_state: int, sound_effect: AudioStream) -> Player.State:
+    SyncManager.play_sound("%s_effectLib_%s" % [owner.name, sound_effect.resource_name], sound_effect)
 
     return Player.State.NONE

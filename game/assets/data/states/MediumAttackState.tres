@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=17 format=3 uid="uid://ct6y8ttfvxha1"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=19 format=3 uid="uid://ct6y8ttfvxha1"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_pivfc"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_ng3ut"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_i1wiu"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="6_t00mo"]
 [ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="6_yv17h"]
+[ext_resource type="AudioStream" uid="uid://fexx1vv7iifg" path="res://assets/sound/startup_medium.wav" id="8_6l1vh"]
 
 [sub_resource type="Resource" id="Resource_12ocq"]
 script = ExtResource("3_p2fwi")
@@ -84,10 +85,16 @@ typeId = 5
 once_at_start = true
 params = [0]
 
+[sub_resource type="Resource" id="Resource_vck4p"]
+script = ExtResource("2_ng3ut")
+typeId = 9
+once_at_start = true
+params = [ExtResource("8_6l1vh")]
+
 [resource]
 script = ExtResource("6_t00mo")
 stateId = 3
 expirationStateId = 0
 phases = Array[ExtResource("1_pivfc")]([SubResource("Resource_mmymt"), SubResource("Resource_0q5cg"), SubResource("Resource_21ysp"), SubResource("Resource_64fi3")])
-transition_in_effects = Array[ExtResource("2_ng3ut")]([SubResource("Resource_jam7s")])
+transition_in_effects = Array[ExtResource("2_ng3ut")]([SubResource("Resource_jam7s"), SubResource("Resource_vck4p")])
 transition_out_effects = Array[ExtResource("2_ng3ut")]([])

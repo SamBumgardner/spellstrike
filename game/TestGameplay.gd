@@ -70,6 +70,8 @@ func _on_sync_started():
     interaction_resolver._setup_players(fighterP1, fighterP2)
     confirm_defeat_timer.timeout.connect(_on_confirm_defeat_timer_timeout.bind([fighterP1, fighterP2]))
     start_new_round_timer.timeout.connect(_on_start_new_round_timer_timeout.bind([fighterP1, fighterP2]))
+    
+    $AudioStreamPlayer.play()
 
 
 func _on_sync_stopped():
