@@ -13,6 +13,7 @@ script = ExtResource("1_hel5h")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="BattleHUD" type="Control" parent="UI"]
+visible = false
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 3
 anchors_preset = 0

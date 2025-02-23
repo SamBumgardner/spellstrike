@@ -72,6 +72,7 @@ func _on_sync_started():
     start_new_round_timer.timeout.connect(_on_start_new_round_timer_timeout.bind([fighterP1, fighterP2]))
     
     $AudioStreamPlayer.play()
+    $UI/BattleHUD.show()
 
 
 func _on_sync_stopped():
