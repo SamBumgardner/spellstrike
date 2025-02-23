@@ -21,14 +21,16 @@ var actual_health_stable: int = 0
             health_bar.value = display_health
             if display_health > health_follow.value:
                 health_follow.value = display_health
-            delay_follow_timer.start(follow_delay_duration)
+            else:
+                is_following = false
+                delay_follow_timer.stop()
+                delay_follow_timer.start(follow_delay_duration)
 
 @export var actual_health: int:
     set(x):
         if actual_health != x:
             actual_health = x
             actual_health_stable = 0
-            is_following = false
 
 @export var tracked_player: Player:
     set(x):

@@ -5,6 +5,7 @@ var attack_id: int
 @export var hitstun: int
 @export var hitstop: int
 @export var pushback: int
+@export var sound_effect: AudioStream
 var num_hits: int = 1
 
 static func combine_overlapping_attacks(accumulator: AttackData, real: AttackData) -> AttackData:

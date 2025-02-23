@@ -180,6 +180,7 @@ func receive_hit(attack_data: AttackData) -> void:
     current_hitstop_tick = 0
     pushback = attack_data.pushback
     health -= attack_data.damage
+    SyncManager.play_sound("%s_%s" % [name, attack_data.attack_id], attack_data.sound_effect)
     
     if health > 0:
         # force player to jump to hurt state.

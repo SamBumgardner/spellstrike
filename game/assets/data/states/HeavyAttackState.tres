@@ -1,10 +1,12 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=14 format=3 uid="uid://y6085lvsh3c"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=17 format=3 uid="uid://y6085lvsh3c"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_0wi3i"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_s2k2m"]
+[ext_resource type="AudioStream" uid="uid://8kcsq3alq1j" path="res://assets/sound/charge.wav" id="3_g6ky2"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_iaxbt"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_agimc"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_dw1ck"]
+[ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="6_1qdmv"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="6_jqef7"]
 
 [sub_resource type="Resource" id="Resource_qxkwy"]
@@ -30,6 +32,7 @@ damage = 50
 hitstun = 20
 hitstop = 15
 pushback = 30
+sound_effect = ExtResource("6_1qdmv")
 
 [sub_resource type="Resource" id="Resource_xwuo8"]
 script = ExtResource("3_iaxbt")
@@ -65,10 +68,16 @@ typeId = 5
 once_at_start = true
 params = [0]
 
+[sub_resource type="Resource" id="Resource_5wxif"]
+script = ExtResource("2_s2k2m")
+typeId = 9
+once_at_start = true
+params = [ExtResource("3_g6ky2")]
+
 [resource]
 script = ExtResource("6_jqef7")
 stateId = 4
 expirationStateId = 0
 phases = Array[ExtResource("1_0wi3i")]([SubResource("Resource_nu8le"), SubResource("Resource_yl1ic"), SubResource("Resource_mutyd")])
-transition_in_effects = Array[ExtResource("2_s2k2m")]([SubResource("Resource_jam7s")])
+transition_in_effects = Array[ExtResource("2_s2k2m")]([SubResource("Resource_jam7s"), SubResource("Resource_5wxif")])
 transition_out_effects = Array[ExtResource("2_s2k2m")]([])
