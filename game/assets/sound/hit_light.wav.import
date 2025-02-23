@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bsxeprql80qws"
-path="res://.godot/imported/Hit_Hurt40.wav-6d3204b4f10227f2d717a266faa3a382.sample"
+uid="uid://bvcnlmpbmhnwx"
+path="res://.godot/imported/hit_light.wav-45e99ad98f7eef08b1f011e63c690b78.sample"
 
 [deps]
 
-source_file="res://assets/sound/Hit_Hurt40.wav"
-dest_files=["res://.godot/imported/Hit_Hurt40.wav-6d3204b4f10227f2d717a266faa3a382.sample"]
+source_file="res://assets/sound/hit_light.wav"
+dest_files=["res://.godot/imported/hit_light.wav-45e99ad98f7eef08b1f011e63c690b78.sample"]
 
 [params]
 

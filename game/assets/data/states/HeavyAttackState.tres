@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=14 format=3 uid="uid://y6085lvsh3c"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=15 format=3 uid="uid://y6085lvsh3c"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_0wi3i"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_s2k2m"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_iaxbt"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_agimc"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_dw1ck"]
+[ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="6_1qdmv"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="6_jqef7"]
 
 [sub_resource type="Resource" id="Resource_qxkwy"]
@@ -30,6 +31,7 @@ damage = 50
 hitstun = 20
 hitstop = 15
 pushback = 30
+sound_effect = ExtResource("6_1qdmv")
 
 [sub_resource type="Resource" id="Resource_xwuo8"]
 script = ExtResource("3_iaxbt")
