@@ -17,6 +17,7 @@ signal defeated
     # hst - current hitstop tick
     # hsu - hitstun duration
     # pb - pushback
+    # pbf - pushback from (other player, etc.)
     # v - velocity
     # a - attack id
     # hb - hit by
@@ -52,6 +53,7 @@ var current_hitstop_tick: int
 
 var hitstun_duration: int
 var pushback: int
+var pushback_from: Object
 
 var attack_id: int
 var hit_by: Dictionary
@@ -59,6 +61,7 @@ var hit_by: Dictionary
 # Stateless variables: refresh every frame
 var current_attack_data: AttackData
 var initial_spawn_state: Dictionary
+var pushback_velocity: int = 0
 
 #########
 # SETUP #
@@ -172,15 +175,16 @@ func perform_hit(attack_data: AttackData) -> void:
     hitstop_duration = attack_data.hitstop
     current_hitstop_tick = 0
 
-func receive_hit(attack_data: AttackData) -> void:
+func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     # do whatever steps are neeed to apply attack data (damage received, add hitstop, change state)
     # add attacker id to map of things you've been hit by, value is attack's numeric id.
     hitstun_duration = attack_data.hitstun
     hitstop_duration = attack_data.hitstop
     current_hitstop_tick = 0
     pushback = attack_data.pushback
+    pushback_from = attack_owner
     health -= attack_data.damage
-    SyncManager.play_sound("%s_%s" % [name, attack_data.attack_id], attack_data.sound_effect)
+    SyncManager.play_sound("%s_%s" % [name, attack_owner.attack_id], attack_data.sound_effect)
     
     if health > 0:
         # force player to jump to hurt state.
@@ -213,6 +217,7 @@ func _save_state() -> Dictionary:
         'hst': current_hitstop_tick,
         'hsu': hitstun_duration,
         'pb': pushback,
+        'pbf': pushback_from,
         'v': velocity,
         'a': attack_id,
         'hb': var_to_bytes(hit_by),
@@ -229,6 +234,7 @@ func _load_state(state: Dictionary) -> void:
     current_hitstop_tick = state['hst']
     hitstun_duration = state['hsu']
     pushback = state['pb']
+    pushback_from = state['pbf']
     velocity = state['v']
     attack_id = state['a']
     hit_by = bytes_to_var(state['hb'])
@@ -253,6 +259,9 @@ func _network_process(input: Dictionary):
     if input.is_empty():
         input = InputRetriever.EMPTY
         
+    # pushblock should be reset to 0 and recalc'd every tick. This prevents movement during hitstop.
+    pushback_velocity = 0
+
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     if current_hitstop_tick < hitstop_duration:
@@ -293,6 +302,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['hst'] = spawn_hitstop
     data['hsu'] = spawn_hitstop
     data['pb'] = spawn_velocity
+    data['pbf'] = null
     data['v'] = spawn_velocity
     data['a'] = initial_attack_id
     data['hb'] = var_to_bytes({})

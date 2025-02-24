@@ -24,28 +24,54 @@ func _on_player_processing_complete() -> void:
     num_players_complete += 1
     
     if num_players_complete == 2:
+        # Resolve intended movement
+        _resolve_player_movement()
+
         # Get list of results
         _adjudicate_interactions([p1, p2])
         
-        # Apply result to each object, let them do their thing
+        # all steps complete
+        frame_resolved.emit()
         
         # Reset for next tick
         num_players_complete = 0
-        
+
+
+func _resolve_player_movement() -> void:
+    var players = [p1, p2]
+
+    # if a player is past edge and has pushback also in that direction, apply pushback to their attacker.
+    for player in players:
+        var predicted_x = player.position.x + player.pushback_velocity
+        if player.pushback_from is Player and (\
+                (predicted_x <= min_x and player.pushback_velocity < 0) \
+                or (predicted_x >= max_x and player.pushback_velocity > 0)):
+            _apply_reversed_pushback(player)
+    
+    for player in players:
+        # Apply pushback now that calculations are done
+        player.position.x += player.pushback_velocity
+        # Clamp player x values to stay within stage boundaries
+        _restrict_player_x(player)
+
+func _apply_reversed_pushback(pushed_player: Player) -> void:
+    var attacker = pushed_player.pushback_from
+    if attacker.pushback_velocity != 0:
+        attacker.pushback_velocity = attacker.pushback_velocity
+    else:
+        attacker.pushback_velocity = -1 * pushed_player.pushback_velocity
+
 
 func _adjudicate_interactions(actors: Array) -> void:
     # goal:
     #  For each game object, determine what "result" it ultimately had this frame.
     #  These results can be mututally exclusive with one another, so we want one "outcome" remembered per object.
-    
     # attacks hit:
     # For each player, check if their hitbox pool has a collision.
     #  remember it for now - if they didn't get hit, then we want to apply appropriate hitstop based on their move.
-    
     # For each player, check if their hurtbox pool got hit.
     #  This will replace the "successful hit" status for them
     # for each successful collision, apply damage to the other player.
-    
     if p1.position.x > p2.position.x:
         p1.scale.x = -1
         p2.scale.x = 1
@@ -58,8 +84,8 @@ func _adjudicate_interactions(actors: Array) -> void:
     var p2_attack_shapes: Array = []
     for actor in actors:
         var allied_attack_shapes: Array
-        match actor.team: 
-            Player.Side.P1: 
+        match actor.team:
+            Player.Side.P1:
                 allied_attack_shapes = p1_attack_shapes
             Player.Side.P2:
                 allied_attack_shapes = p2_attack_shapes
@@ -78,16 +104,15 @@ func _adjudicate_interactions(actors: Array) -> void:
             if attacks_hit[i]:
                 overlapping_areas.append(attack_shapes[i])
         
-        var actually_hit_by: Array[AttackData] = []
+        var actually_hit_by: Array = []
         for area in overlapping_areas:
             # determine if they've already been hit by this attack
             var attacker = area[0].owner
             var attacker_path = attacker.get_path()
             if not (actor.hit_by as Dictionary).has(attacker_path) or actor.hit_by[attacker_path] < attacker.attack_id:
                 # this is a legitimate attack
-
                 actor.hit_by[attacker_path] = attacker.attack_id
-                actually_hit_by.append(attacker.current_attack_data)
+                actually_hit_by.append([attacker.current_attack_data, attacker])
                 attacker_hit.append(attacker)
         
         if not actually_hit_by.is_empty():
@@ -101,19 +126,13 @@ func _adjudicate_interactions(actors: Array) -> void:
     
     for defender in hit_defenders:
         var hit_attacks = defender_hit_by_dict[defender]
-        var total_hit: AttackData
+        var total_hit: Array
         if hit_attacks.size() > 1:
-            total_hit = hit_attacks.reduce(AttackData.combine_overlapping_attacks, AttackData.new())
+            total_hit = hit_attacks.reduce(AttackData.combine_overlapping_attacks, [AttackData.new(), null])
         else:
             total_hit = hit_attacks[0]
-        defender.receive_hit(total_hit)
+        defender.receive_hit(total_hit[0], total_hit[1])
         
-        pass # apply results to character
-    
-    _restrict_player_x(p1)
-    _restrict_player_x(p2)
-    
-    frame_resolved.emit()
 
 func _has_successful_attack(attacker: Player) -> bool:
     return attacker.active_hitbox_hit()
