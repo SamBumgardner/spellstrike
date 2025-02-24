@@ -5,6 +5,8 @@ var p2_network_id: int = 1
 var host_side := Side.P1
 var client_side := Side.P2
 
+var match_options: MatchOptions
+
 # handle game ending
 @onready var confirm_defeat_timer: NetworkTimer = $ConfirmDefeatTimer
 @onready var start_new_round_timer: NetworkTimer = $StartNewRoundTimer
@@ -19,6 +21,9 @@ enum Side {
 }
 
 var interaction_resolver := InteractionResolver.new()
+
+func init_options(options: MatchOptions) -> void:
+    match_options = options
 
 func _ready():
     SyncManager.sync_started.connect(_on_sync_started)
@@ -44,9 +49,13 @@ func _ready():
         SyncManager.start()
 
 func _on_sync_started():
+    if match_options == null:
+        push_error("Match Options is unset. Falling back to default options...")
+        match_options = MatchOptions.generate_default()
+
     var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 300, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
-    fighterP1.input_retriever.input_ids = InputMappingManager.p1_input_mapping
+    fighterP1.input_retriever = match_options.input_retrievers[0]
     health_tracker_1.tracked_player = fighterP1
     fighterP1.defeated.connect(_on_player_defeated)
 
@@ -55,9 +64,9 @@ func _on_sync_started():
 
     # when playing online as p2, use the "normal" p1 mapping the player set up.
     if fighterP2.is_multiplayer_authority() and p1_network_id != p2_network_id:
-        fighterP2.input_retriever.input_ids = InputMappingManager.p1_input_mapping
+        fighterP2.input_retriever = match_options.input_retrievers[0]
     else:
-        fighterP2.input_retriever.input_ids = InputMappingManager.p2_input_mapping
+        fighterP2.input_retriever = match_options.input_retrievers[1]
 
     fighterP2.hurtbox_pool.collision_layer = 8
     fighterP2.hurtbox_pool.collision_mask = 4

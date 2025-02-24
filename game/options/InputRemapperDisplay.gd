@@ -1,5 +1,7 @@
 class_name InputRemapperDisplay extends Control
 
+signal redo
+
 @export var highlight_color = Color(Color.GREEN, .5)
 
 @onready var action_input_pairs: Array = get_tree().get_nodes_in_group("action_input_pair")
@@ -7,18 +9,21 @@ class_name InputRemapperDisplay extends Control
 @onready var redo_button: Button = $VBoxContainer/HBoxContainer/Redo
 
 @onready var confirmed: Signal = confirm_button.pressed
-@onready var redo: Signal = redo_button.pressed
 
+var current_side: Player.Side
 var action_input_pairs_mapped: Dictionary
 var selected_action_input_pair: ActionInputPair
 
 func _ready() -> void:
+    redo_button.pressed.connect(_on_redo_pressed)
+    
     action_input_pairs_mapped = {}
     assert(InputRetriever.INPUT_FRIENDLY_NAMES.size() == action_input_pairs.size())
     for i in action_input_pairs.size():
         action_input_pairs_mapped[InputRetriever.INPUT_KEYS[i]] = action_input_pairs[i]
     
 func start(side: Player.Side = Player.Side.P1) -> void:
+    current_side = side
     visible = true
     $VBoxContainer/Title.text = "Remap Input: P%d" % (side + 1)
 
@@ -48,3 +53,6 @@ func _on_remap_complete(_complete_input_map) -> void:
     confirm_button.disabled = false
     redo_button.disabled = false
     confirm_button.grab_focus.call_deferred()
+
+func _on_redo_pressed():
+    redo.emit(current_side)

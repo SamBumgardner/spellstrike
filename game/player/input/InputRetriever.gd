@@ -52,6 +52,9 @@ const EMPTY := {
     "s": 0,
 }
 
+func _init(mapping: Dictionary = DEFAULT_P1):
+    input_ids = mapping
+
 func retrieve_input() -> Dictionary:
     var input_retrieve_method: Callable
     if control_type == ControlType.KEYBOARD:
@@ -74,6 +77,9 @@ func retrieve_input() -> Dictionary:
             result[key] = 1 if sign(axis_value) == sign(input_ids[key][2]) and abs(axis_value) >= abs(input_ids[key][2]) else 0
     
     return result
+
+func _process(_delta):
+    pass
 
 enum ControlType {
     KEYBOARD = 0,
