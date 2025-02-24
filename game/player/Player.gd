@@ -29,6 +29,7 @@ const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
 @onready var hurtboxes := hurtbox_pool.get_children()
 @onready var hitbox_pool: Area2D = $HitboxPool
 @onready var hitboxes := hitbox_pool.get_children()
+@onready var animation: NetworkAnimationPlayer = $Animation
 
 # composed utils
 var input_retriever: InputRetriever
@@ -112,6 +113,7 @@ func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[Rectangle
 
 func reset() -> void:
     _load_state(initial_spawn_state)
+    fsm.force_change_state(State.IDLE)
     
 ########################
 # RESOLVE INTERACTIONS #
@@ -265,8 +267,10 @@ func _network_process(input: Dictionary):
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     if current_hitstop_tick < hitstop_duration:
+        animation.pause()
         current_hitstop_tick += 1
     else:
+        animation.play()
         fsm.process(input)
         position.x += velocity
     
