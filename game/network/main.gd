@@ -13,9 +13,11 @@ func _ready():
     $InputMapperLogic.input_received.connect($InputRemapperDisplay._on_input_received)
     $InputMapperLogic.remap_complete.connect($InputRemapperDisplay._on_remap_complete)
     
+    $"%MatchOptionsButton".pressed.connect(_on_match_options_pressed)
+    $MatchOptionsMenu.closed.connect(_on_match_options_closed)
+    
     if OS.get_name() != "Web":
         # not friendly with sam's current router, but also not required for testing.
-
         # var upnp = UPNP.new()
         # upnp.discover()
         # var result = upnp.add_port_mapping(9999)
@@ -35,6 +37,14 @@ func _ready():
 func _on_local_button_pressed():
     %Menu.hide()
     load_game(1, 1)
+
+func _on_match_options_pressed():
+    $Menu.hide()
+    $MatchOptionsMenu.open()
+
+func _on_match_options_closed():
+    $Menu.show()
+    $MatchOptionsMenu.hide()
 
 func _on_remap_button_pressed(side: Player.Side):
     $Menu.hide()
@@ -70,6 +80,8 @@ func _on_join_button_pressed():
     multiplayer.server_disconnected.connect(server_offline)
 
 func load_game(p1_id = 1, p2_id = 0):
+    var options: MatchOptions = $MatchOptionsMenu.get_match_options()
+
     if p2_id == 0:
         p2_id = multiplayer.get_unique_id()
     
@@ -78,6 +90,7 @@ func load_game(p1_id = 1, p2_id = 0):
         %MapInstance.get_child(0).queue_free()
     
     var instantiated_map = map.instantiate()
+    instantiated_map.init_options(options)
     instantiated_map.p1_network_id = p1_id
     instantiated_map.p2_network_id = p2_id
     %MapInstance.add_child(instantiated_map)

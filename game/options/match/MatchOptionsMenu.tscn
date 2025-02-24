@@ -1,0 +1,71 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd0s2v25q8xtj"]
+
+[ext_resource type="PackedScene" uid="uid://d2kpv8jsk4xt2" path="res://options/match/toggle_option.tscn" id="1_6ppfl"]
+[ext_resource type="Script" path="res://options/match/MatchOptionsMenu.gd" id="1_8pohc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b3fo5"]
+bg_color = Color(0.374139, 0.374139, 0.374139, 1)
+
+[node name="MatchOptionsMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_8pohc")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -39.0
+offset_right = 150.0
+offset_bottom = 39.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="MainTitle" type="Label" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+text = "MATCH OPTIONS"
+horizontal_alignment = 1
+
+[node name="InputOptions" type="PanelContainer" parent="PanelContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_b3fo5")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/InputOptions"]
+layout_mode = 2
+
+[node name="InputTitle" type="Label" parent="PanelContainer/VBoxContainer/InputOptions/VBoxContainer"]
+layout_mode = 2
+text = "Input Options"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/InputOptions/VBoxContainer"]
+layout_mode = 2
+
+[node name="P1_CPU" parent="PanelContainer/VBoxContainer/InputOptions/VBoxContainer/HBoxContainer" instance=ExtResource("1_6ppfl")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "P1 CPU?"
+
+[node name="P2_CPU" parent="PanelContainer/VBoxContainer/InputOptions/VBoxContainer/HBoxContainer" instance=ExtResource("1_6ppfl")]
+unique_name_in_owner = true
+layout_mode = 2
+text = "P2 CPU?"
+
+[node name="DoneButton" type="Button" parent="PanelContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Done"

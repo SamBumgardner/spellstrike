@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjtha7dq81a0"]
+[gd_scene load_steps=6 format=3 uid="uid://bjtha7dq81a0"]
 
 [ext_resource type="Script" path="res://network/main.gd" id="1_mcj1k"]
 [ext_resource type="PackedScene" uid="uid://bmufwtv6hw8ys" path="res://TestGameplay.tscn" id="2_agxsy"]
 [ext_resource type="Script" path="res://options/InputRemapperLogic.gd" id="3_tjof3"]
 [ext_resource type="PackedScene" uid="uid://ca1rtsmwjcvlc" path="res://options/InputRemapperDisplay.tscn" id="4_b3cy8"]
+[ext_resource type="PackedScene" uid="uid://dd0s2v25q8xtj" path="res://options/match/MatchOptionsMenu.tscn" id="5_4f10j"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_mcj1k")
@@ -79,6 +80,15 @@ text = "Remap P1 Input"
 layout_mode = 2
 text = "Remap P2 Input"
 
+[node name="Label4" type="Label" parent="Menu/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "--------------------------"
+
+[node name="MatchOptionsButton" type="Button" parent="Menu/MarginContainer/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Match Options"
+
 [node name="DisplayPublicIP" type="Label" parent="."]
 unique_name_in_owner = true
 offset_right = 158.0
@@ -96,6 +106,9 @@ offset_left = -100.0
 offset_top = -110.0
 offset_right = 100.0
 offset_bottom = 110.0
+
+[node name="MatchOptionsMenu" parent="." instance=ExtResource("5_4f10j")]
+visible = false
 
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/LocalButton" to="." method="_on_local_button_pressed"]
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
