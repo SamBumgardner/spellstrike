@@ -43,10 +43,11 @@ func _resolve_player_movement() -> void:
     # if a player is past edge and has pushback also in that direction, apply pushback to their attacker.
     for player in players:
         var predicted_x = player.position.x + player.pushback_velocity
-        if player.pushback_from is Player and (\
+        var player_attackers = players.filter(func(x): return x.name == player.pushback_from)
+        if not player_attackers.is_empty() and player_attackers[0] is Player and (\
                 (predicted_x <= min_x and player.pushback_velocity < 0) \
                 or (predicted_x >= max_x and player.pushback_velocity > 0)):
-            _apply_reversed_pushback(player)
+            _apply_reversed_pushback(player, player_attackers[0])
     
     for player in players:
         # Apply pushback now that calculations are done
@@ -54,8 +55,7 @@ func _resolve_player_movement() -> void:
         # Clamp player x values to stay within stage boundaries
         _restrict_player_x(player)
 
-func _apply_reversed_pushback(pushed_player: Player) -> void:
-    var attacker = pushed_player.pushback_from
+func _apply_reversed_pushback(pushed_player: Player, attacker: Player) -> void:
     if attacker.pushback_velocity != 0:
         attacker.pushback_velocity = attacker.pushback_velocity
     else:

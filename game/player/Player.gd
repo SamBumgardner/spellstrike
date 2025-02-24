@@ -53,7 +53,7 @@ var current_hitstop_tick: int
 
 var hitstun_duration: int
 var pushback: int
-var pushback_from: Object
+var pushback_from: String
 
 var attack_id: int
 var hit_by: Dictionary
@@ -182,7 +182,7 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     hitstop_duration = attack_data.hitstop
     current_hitstop_tick = 0
     pushback = attack_data.pushback
-    pushback_from = attack_owner
+    pushback_from = attack_owner.name
     health -= attack_data.damage
     SyncManager.play_sound("%s_%s" % [name, attack_owner.attack_id], attack_data.sound_effect)
     
@@ -302,7 +302,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['hst'] = spawn_hitstop
     data['hsu'] = spawn_hitstop
     data['pb'] = spawn_velocity
-    data['pbf'] = null
+    data['pbf'] = ""
     data['v'] = spawn_velocity
     data['a'] = initial_attack_id
     data['hb'] = var_to_bytes({})
