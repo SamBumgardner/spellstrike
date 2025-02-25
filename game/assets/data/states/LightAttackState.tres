@@ -97,3 +97,4 @@ expirationStateId = 0
 phases = Array[ExtResource("1_ffoxh")]([SubResource("Resource_84otp"), SubResource("Resource_vdygf"), SubResource("Resource_jpwca"), SubResource("Resource_a7mce")])
 transition_in_effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_v8mpq"), SubResource("Resource_16ped")])
 transition_out_effects = Array[ExtResource("2_5tlun")]([])
+animation_key = "light_attack"

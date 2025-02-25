@@ -5,6 +5,7 @@ class_name FsmState extends Resource
 @export var phases: Array[Phase] = []
 @export var transition_in_effects: Array[PhaseEffect] = []
 @export var transition_out_effects: Array[PhaseEffect] = []
+@export var animation_key: String = ""
 
 func transition_in(owner: Player, input: Dictionary) -> void:
     # apply all one-time phase effects to do when transitioning into the state.
@@ -13,6 +14,8 @@ func transition_in(owner: Player, input: Dictionary) -> void:
         var params = [owner, input, ticks_in_state]
         params.append_array(effect.params)
         (EffectLib.methods[effect.typeId] as Callable).callv(params)
+    owner.animation.play(animation_key)
+    owner.animation.advance(0)
 
 func transition_out() -> void:
     # apply al one-time phase effects to do when transitioning out of this state.

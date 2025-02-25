@@ -35,3 +35,4 @@ expirationStateId = -1
 phases = Array[ExtResource("1_ge7fh")]([SubResource("Resource_706cg")])
 transition_in_effects = Array[ExtResource("2_dtrk1")]([SubResource("Resource_2oujd")])
 transition_out_effects = Array[ExtResource("2_dtrk1")]([])
+animation_key = "hurt"
