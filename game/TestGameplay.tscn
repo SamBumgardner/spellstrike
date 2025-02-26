@@ -1,11 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=10 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
+[ext_resource type="Theme" uid="uid://1m0q2nll6ojc" path="res://ui/MatchTheme.tres" id="2_mo6pi"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="3_7unwa"]
 [ext_resource type="PackedScene" uid="uid://bwc0dw853pipg" path="res://ui/WinTracker.tscn" id="3_nhsyv"]
 [ext_resource type="Script" path="res://ui/match_over.gd" id="3_qj1xu"]
 [ext_resource type="AudioStream" uid="uid://b8l368ifqnna4" path="res://assets/music/battle_bgm.ogg" id="6_nwacf"]
+[ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
+[ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -19,6 +22,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 800.0
 offset_bottom = 600.0
+theme = ExtResource("2_mo6pi")
 
 [node name="HealthTracker" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
 custom_minimum_size = Vector2(335, 0)
@@ -89,3 +93,10 @@ hash_state = false
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_nwacf")
 parameters/looping = true
+
+[node name="CameraControl" type="Node2D" parent="."]
+script = ExtResource("7_1ckhu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 300)
+texture = ExtResource("8_7iqk1")

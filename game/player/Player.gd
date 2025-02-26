@@ -39,6 +39,7 @@ var fsm: Fsm
 const walk_speed: int = 5
 const walk_accel: int = 5
 const walk_drag: int = 2
+const width: int = 128
 
 # Custom state variables
 var team: Side
