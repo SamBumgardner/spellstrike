@@ -1,4 +1,6 @@
-extends Node2D
+class_name TestGameplay extends Node2D
+
+const STAGE_WIDTH: int = 512
 
 var p1_network_id: int = 1
 var p2_network_id: int = 1
@@ -14,6 +16,8 @@ var match_options: MatchOptions
 @onready var health_tracker_2: HealthTracker = $UI/BattleHUD/HealthTracker2
 @onready var win_tracker_1: WinTracker = $UI/BattleHUD/WinTracker
 @onready var win_tracker_2: WinTracker = $UI/BattleHUD/WinTracker2
+
+@onready var camera_control: CameraControl = $CameraControl
 
 enum Side {
     P1 = 0,
@@ -53,13 +57,13 @@ func _on_sync_started():
         push_error("Match Options is unset. Falling back to default options...")
         match_options = MatchOptions.generate_default()
 
-    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 300, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
+    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': - 200, 'y': 300, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
     fighterP1.input_retriever = match_options.input_retrievers[0]
     health_tracker_1.tracked_player = fighterP1
     fighterP1.defeated.connect(_on_player_defeated)
 
-    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 600, 'y': 300, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
+    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 300, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
 
     # when playing online as p2, use the "normal" p1 mapping the player set up.
@@ -77,6 +81,9 @@ func _on_sync_started():
     fighterP2.defeated.connect(_on_player_defeated)
     
     interaction_resolver._setup_players(fighterP1, fighterP2)
+    interaction_resolver.camera_control = camera_control
+    camera_control._sync_start_initialize([fighterP1, fighterP2])
+
     confirm_defeat_timer.timeout.connect(_on_confirm_defeat_timer_timeout.bind([fighterP1, fighterP2]))
     start_new_round_timer.timeout.connect(_on_start_new_round_timer_timeout.bind([fighterP1, fighterP2]))
     

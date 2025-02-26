@@ -2,11 +2,12 @@ class_name InteractionResolver extends RefCounted
 
 signal frame_resolved
 
-const min_x := 64
-const max_x := 736
+const min_x = -1 * TestGameplay.STAGE_WIDTH
+const max_x = TestGameplay.STAGE_WIDTH
 
 var p1: Player
 var p2: Player
+var camera_control: CameraControl
 
 var num_players_complete := 0
 
@@ -45,15 +46,20 @@ func _resolve_player_movement() -> void:
         var predicted_x = player.position.x + player.pushback_velocity
         var player_attackers = players.filter(func(x): return x.name == player.pushback_from)
         if not player_attackers.is_empty() and player_attackers[0] is Player and (\
-                (predicted_x <= min_x and player.pushback_velocity < 0) \
-                or (predicted_x >= max_x and player.pushback_velocity > 0)):
+                (predicted_x <= min_x + player.width / 2 and player.pushback_velocity < 0) \
+                or (predicted_x >= max_x - player.width / 2 and player.pushback_velocity > 0)):
             _apply_reversed_pushback(player, player_attackers[0])
     
     for player in players:
         # Apply pushback now that calculations are done
         player.position.x += player.pushback_velocity
-        # Clamp player x values to stay within stage boundaries
+        # Clamp player x values to stay within camera boundaries
         _restrict_player_x(player)
+
+    # Camera position will be set in CameraControl's post-process
+
+func _restrict_player_x(player: Player):
+    player.position.x = camera_control.clamp_to_logical_camera(player.position.x, player.width)
 
 func _apply_reversed_pushback(pushed_player: Player, attacker: Player) -> void:
     if attacker.pushback_velocity != 0:
@@ -136,9 +142,6 @@ func _adjudicate_interactions(actors: Array) -> void:
 
 func _has_successful_attack(attacker: Player) -> bool:
     return attacker.active_hitbox_hit()
-
-func _restrict_player_x(player: Player):
-    player.position.x = clamp(player.position.x, min_x, max_x)
 
 enum ResultType {
     NEUTRAL = 0,
