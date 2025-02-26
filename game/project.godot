@@ -23,6 +23,7 @@ SyncManager="*res://addons/godot-rollback-netcode/SyncManager.gd"
 
 window/size/viewport_width=800
 window/size/viewport_height=600
+window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
@@ -61,6 +62,9 @@ sync_debug={
 rollback/classes/network_adaptor="res://addons/godot-rollback-netcode/RPCNetworkAdaptor.gd"
 rollback/classes/message_serializer="res://network/VsMessageSerializer.gd"
 rollback/classes/hash_serializer="res://addons/godot-rollback-netcode/HashSerializer.gd"
+rollback/debug/rollback_ticks=2
+rollback/debug/random_rollback_ticks=2
+rollback/debug/skip_nth_message=3
 
 [rendering]
 
