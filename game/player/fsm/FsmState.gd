@@ -14,7 +14,11 @@ func transition_in(owner: Player, input: Dictionary) -> void:
         var params = [owner, input, ticks_in_state]
         params.append_array(effect.params)
         (EffectLib.methods[effect.typeId] as Callable).callv(params)
-    owner.animation.play(animation_key)
+    
+    if owner.animation.current_animation != animation_key:
+        owner.animation.play(animation_key)
+    else:
+        owner.animation.seek(0)
     owner.animation.advance(0)
 
 func transition_out() -> void:
@@ -42,7 +46,12 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
     # Common Status Behavior (Neutral)
     owner.status = current_phase.player_status
     if owner.status == Player.Status.NEUTRAL:
-        var next_state = EffectLib.start_action(owner, input, ticks_in_state)
+        const idle_actions := {
+            "a": Player.State.A,
+            "b": Player.State.B,
+            "c": Player.State.C,
+        }
+        var next_state = EffectLib.start_action(owner, input, ticks_in_state, idle_actions, false)
         if next_state != Player.State.NONE:
             return next_state
     
@@ -50,7 +59,7 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
     var default_params = [owner, input, ticks_in_state]
     for effect in current_phase.effects:
         if not effect.once_at_start or phase_just_started:
-            var params = default_params
+            var params = default_params.duplicate()
             params.append_array(effect.params)
             var next_state = (EffectLib.methods[effect.typeId] as Callable).callv(params)
 

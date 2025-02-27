@@ -68,13 +68,13 @@ static func start_walk(_owner: Player, input: Dictionary, _ticks_in_state: int) 
     
     return Player.State.WALK if movement_direction != 0 else Player.State.NONE
 
-static func start_action(_owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    if input["c"]:
-        return Player.State.C
-    if input["b"]:
-        return Player.State.B
-    if input["a"]:
-        return Player.State.A
+static func start_action(owner: Player, input: Dictionary, _ticks_in_state: int, input_to_state_mapping: Dictionary, attack_hit_required: bool) -> Player.State:
+    if attack_hit_required and not owner.attack_hit:
+        return Player.State.NONE
+    
+    for key in input_to_state_mapping.keys():
+        if input[key]:
+            return input_to_state_mapping[key]
     
     return Player.State.NONE
 
