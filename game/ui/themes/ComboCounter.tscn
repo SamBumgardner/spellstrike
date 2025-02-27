@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://d23c1is7wr3gs"]
+
+[node name="ComboCounter" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = 10.3299
+offset_top = 6.0
+offset_right = 70.3299
+offset_bottom = 29.0
+text = "Combo!"
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+offset_left = 0.329948
+offset_top = 18.0
+offset_right = 55.3299
+offset_bottom = 85.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = -6.42281
+pivot_offset = Vector2(27, 33)
+theme_override_font_sizes/font_size = 48
+text = "10"
+
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = 59.3299
+offset_top = 49.0
+offset_right = 99.3299
+offset_bottom = 72.0
+text = "Hit"

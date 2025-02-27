@@ -1,11 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=11 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
-[ext_resource type="Theme" uid="uid://1m0q2nll6ojc" path="res://ui/MatchTheme.tres" id="2_mo6pi"]
+[ext_resource type="Theme" uid="uid://1m0q2nll6ojc" path="res://ui/themes/MatchTheme.tres" id="2_mo6pi"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="3_7unwa"]
 [ext_resource type="PackedScene" uid="uid://bwc0dw853pipg" path="res://ui/WinTracker.tscn" id="3_nhsyv"]
 [ext_resource type="Script" path="res://ui/match_over.gd" id="3_qj1xu"]
+[ext_resource type="PackedScene" uid="uid://d23c1is7wr3gs" path="res://ui/themes/ComboCounter.tscn" id="6_5bdtu"]
 [ext_resource type="AudioStream" uid="uid://b8l368ifqnna4" path="res://assets/music/battle_bgm.ogg" id="6_nwacf"]
 [ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
 [ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]
@@ -16,7 +17,6 @@ script = ExtResource("1_hel5h")
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="BattleHUD" type="Control" parent="UI"]
-visible = false
 custom_minimum_size = Vector2(800, 600)
 layout_mode = 3
 anchors_preset = 0
@@ -79,6 +79,20 @@ grow_vertical = 2
 text = "MATCH OVER"
 horizontal_alignment = 1
 script = ExtResource("3_qj1xu")
+
+[node name="ComboCounter" parent="UI/BattleHUD" instance=ExtResource("6_5bdtu")]
+visible = false
+offset_left = 10.0
+offset_top = 94.0
+offset_right = 10.0
+offset_bottom = 94.0
+
+[node name="ComboCounter2" parent="UI/BattleHUD" instance=ExtResource("6_5bdtu")]
+visible = false
+offset_left = 690.0
+offset_top = 94.0
+offset_right = 690.0
+offset_bottom = 94.0
 
 [node name="ConfirmDefeatTimer" type="Node" parent="."]
 script = ExtResource("3_7unwa")
