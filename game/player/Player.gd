@@ -20,6 +20,7 @@ signal defeated
     # pbf - pushback from (other player, etc.)
     # v - velocity
     # a - attack id
+    # ah - attack hit
     # hb - hit by
     # 
 
@@ -58,6 +59,7 @@ var pushback: int
 var pushback_from: String
 
 var attack_id: int
+var attack_hit: bool
 var hit_by: Dictionary
 
 # Stateless variables: refresh every frame
@@ -97,6 +99,9 @@ func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData,
     current_attack_data = attack_data
     if new_attack:
         attack_id += 1
+        attack_hit = false
+    elif attack_data == null:
+        attack_hit = false
 
 func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[RectangleSpec]) -> void:
     assert(collisionBoxes.size() >= rectangleSpecs.size(), "cannot specify more than %d rectangles" % collisionBoxes.size())
@@ -175,6 +180,7 @@ static func compare_dimension(start1: int, start2: int, length1: int, length2: i
 
 func perform_hit(attack_data: AttackData) -> void:
     # put self in hitstop for frames based on own attack data (which is fed in here)
+    attack_hit = true
     hitstop_duration = attack_data.hitstop
     current_hitstop_tick = 0
 
@@ -223,6 +229,7 @@ func _save_state() -> Dictionary:
         'pbf': pushback_from,
         'v': velocity,
         'a': attack_id,
+        'ah': attack_hit,
         'hb': var_to_bytes(hit_by),
     }
 
@@ -240,6 +247,7 @@ func _load_state(state: Dictionary) -> void:
     pushback_from = state['pbf']
     velocity = state['v']
     attack_id = state['a']
+    attack_hit = state['ah']
     hit_by = bytes_to_var(state['hb'])
 
     var fsm_state = state['fs']
@@ -310,6 +318,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['pbf'] = ""
     data['v'] = spawn_velocity
     data['a'] = initial_attack_id
+    data['ah'] = false
     data['hb'] = var_to_bytes({})
     return data
 
@@ -364,4 +373,8 @@ enum State {
     HITSTUN = 8,
     DEFEATED = 9,
     VICTORY = 10,
+    CHARACTER_0 = 11,
+    CHARACTER_1 = 12,
+    CHARACTER_2 = 13,
+    CHARACTER_3 = 14,
 }

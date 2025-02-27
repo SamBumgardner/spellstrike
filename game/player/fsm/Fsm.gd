@@ -17,7 +17,8 @@ func prepare_states() -> void:
         Player.State.C: preload("res://assets/data/states/HeavyAttackState.tres"),
         Player.State.HITSTUN: preload("res://assets/data/states/HurtState.tres"),
         Player.State.DEFEATED: preload("res://assets/data/states/DefeatedState.tres"),
-        Player.State.VICTORY: preload("res://assets/data/states/VictoryState.tres")
+        Player.State.VICTORY: preload("res://assets/data/states/VictoryState.tres"),
+        Player.State.CHARACTER_0: preload("res://assets/data/states/LightAttackChainState.tres"),
     }
 
 func load(

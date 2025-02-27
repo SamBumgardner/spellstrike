@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=19 format=3 uid="uid://b1ogno7xi50fe"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://b1ogno7xi50fe"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_ffoxh"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5tlun"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="5_kjf7r"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_ksfka"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="6_m83vg"]
+[ext_resource type="Resource" uid="uid://b88simmqjf5pt" path="res://assets/data/states/LightAttackCancelEffect.tres" id="6_q78fj"]
 [ext_resource type="AudioStream" uid="uid://b2gcgop30e55s" path="res://assets/sound/startup_light.wav" id="8_7wevv"]
 
 [sub_resource type="Resource" id="Resource_87e8y"]
@@ -45,9 +46,9 @@ effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet")])
 [sub_resource type="Resource" id="Resource_qmmfu"]
 script = ExtResource("5_ksfka")
 damage = 10
-hitstun = 8
+hitstun = 11
 hitstop = 8
-pushback = 20
+pushback = 15
 sound_effect = ExtResource("5_kjf7r")
 
 [sub_resource type="Resource" id="Resource_ai28f"]
@@ -66,7 +67,7 @@ hitboxes = Array[ExtResource("3_gewd5")]([ExtResource("5_8jkpt")])
 new_attack = true
 attack_data = SubResource("Resource_qmmfu")
 hurtboxes = Array[ExtResource("3_gewd5")]([SubResource("Resource_87e8y"), SubResource("Resource_ai28f")])
-effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet")])
+effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet"), ExtResource("6_q78fj")])
 
 [sub_resource type="Resource" id="Resource_a7mce"]
 script = ExtResource("1_ffoxh")
@@ -76,7 +77,7 @@ player_status = 3
 hitboxes = Array[ExtResource("3_gewd5")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_gewd5")]([SubResource("Resource_87e8y"), SubResource("Resource_ai28f")])
-effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet")])
+effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet"), ExtResource("6_q78fj")])
 
 [sub_resource type="Resource" id="Resource_v8mpq"]
 script = ExtResource("2_5tlun")
