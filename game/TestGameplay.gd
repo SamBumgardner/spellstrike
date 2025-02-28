@@ -16,6 +16,8 @@ var match_options: MatchOptions
 @onready var health_tracker_2: HealthTracker = $UI/BattleHUD/HealthTracker2
 @onready var win_tracker_1: WinTracker = $UI/BattleHUD/WinTracker
 @onready var win_tracker_2: WinTracker = $UI/BattleHUD/WinTracker2
+@onready var combo_counter_1: ComboCounter = $UI/BattleHUD/ComboCounter
+@onready var combo_counter_2: ComboCounter = $UI/BattleHUD/ComboCounter2
 
 @onready var camera_control: CameraControl = $CameraControl
 
@@ -61,6 +63,8 @@ func _on_sync_started():
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
     fighterP1.input_retriever = match_options.input_retrievers[0]
     health_tracker_1.tracked_player = fighterP1
+    combo_counter_1.tracked_player = fighterP1
+    
     fighterP1.defeated.connect(_on_player_defeated)
 
     var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 300, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
@@ -78,6 +82,7 @@ func _on_sync_started():
     fighterP2.hitbox_pool.collision_mask = 1
     fighterP2.scale.x = -1
     health_tracker_2.tracked_player = fighterP2
+    combo_counter_2.tracked_player = fighterP2
     fighterP2.defeated.connect(_on_player_defeated)
     
     interaction_resolver._setup_players(fighterP1, fighterP2)

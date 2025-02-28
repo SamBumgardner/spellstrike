@@ -6,7 +6,7 @@
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="3_7unwa"]
 [ext_resource type="PackedScene" uid="uid://bwc0dw853pipg" path="res://ui/WinTracker.tscn" id="3_nhsyv"]
 [ext_resource type="Script" path="res://ui/match_over.gd" id="3_qj1xu"]
-[ext_resource type="PackedScene" uid="uid://d23c1is7wr3gs" path="res://ui/themes/ComboCounter.tscn" id="6_5bdtu"]
+[ext_resource type="PackedScene" uid="uid://d23c1is7wr3gs" path="res://ui/ComboCounter.tscn" id="6_5bdtu"]
 [ext_resource type="AudioStream" uid="uid://b8l368ifqnna4" path="res://assets/music/battle_bgm.ogg" id="6_nwacf"]
 [ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
 [ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]

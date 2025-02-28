@@ -36,7 +36,7 @@ params = [0]
 
 [resource]
 script = ExtResource("5_20bvh")
-stateId = 0
+stateId = 8
 expirationStateId = -1
 phases = Array[ExtResource("1_twd7v")]([SubResource("Resource_706cg")])
 transition_in_effects = Array[ExtResource("2_0s1qv")]([SubResource("Resource_2oujd")])

@@ -20,6 +20,8 @@ func transition_in(owner: Player, input: Dictionary) -> void:
     else:
         owner.animation.seek(0)
     owner.animation.advance(0)
+    
+    owner.status = phases[0].player_status
 
 func transition_out() -> void:
     # apply al one-time phase effects to do when transitioning out of this state.
@@ -44,7 +46,7 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
         return expirationStateId
     
     # Common Status Behavior (Neutral)
-    owner.status = current_phase.player_status
+    owner.status = current_phase.player_status        
     if owner.status == Player.Status.NEUTRAL:
         const idle_actions := {
             "a": Player.State.A,

@@ -1,10 +1,13 @@
-[gd_scene format=3 uid="uid://d23c1is7wr3gs"]
+[gd_scene load_steps=2 format=3 uid="uid://d23c1is7wr3gs"]
+
+[ext_resource type="Script" path="res://ui/ComboCounter.gd" id="1_ajei2"]
 
 [node name="ComboCounter" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_ajei2")
 
-[node name="Label3" type="Label" parent="."]
+[node name="Title" type="Label" parent="."]
 layout_mode = 0
 offset_left = 10.3299
 offset_top = 6.0
@@ -12,21 +15,22 @@ offset_right = 70.3299
 offset_bottom = 29.0
 text = "Combo!"
 
-[node name="Label" type="Label" parent="."]
+[node name="HitsCounter" type="Label" parent="."]
+unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
 offset_left = 0.329948
-offset_top = 18.0
+offset_top = 23.0
 offset_right = 55.3299
-offset_bottom = 85.0
-grow_horizontal = 2
+offset_bottom = 90.0
+grow_horizontal = 0
 grow_vertical = 2
-rotation = -6.42281
 pivot_offset = Vector2(27, 33)
 theme_override_font_sizes/font_size = 48
-text = "10"
+text = "2"
+horizontal_alignment = 2
 
-[node name="Label2" type="Label" parent="."]
+[node name="units" type="Label" parent="."]
 layout_mode = 0
 offset_left = 59.3299
 offset_top = 49.0
