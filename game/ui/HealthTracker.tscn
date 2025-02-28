@@ -1,8 +1,8 @@
 [gd_scene load_steps=5 format=3 uid="uid://dv55emdwbx4m0"]
 
 [ext_resource type="Script" path="res://ui/HealthTracker.gd" id="1_ccee7"]
-[ext_resource type="Theme" uid="uid://b4550oudr0v52" path="res://ui/HealthTheme.tres" id="2_rl4ad"]
-[ext_resource type="Theme" uid="uid://cnejelfj3q0pl" path="res://ui/HealthFollowTheme.tres" id="3_jgjos"]
+[ext_resource type="Theme" uid="uid://b4550oudr0v52" path="res://ui/themes/HealthTheme.tres" id="2_rl4ad"]
+[ext_resource type="Theme" uid="uid://cnejelfj3q0pl" path="res://ui/themes/HealthFollowTheme.tres" id="3_jgjos"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="4_1s0li"]
 
 [node name="HealthTracker" type="MarginContainer"]

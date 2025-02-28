@@ -15,6 +15,7 @@ signal defeated
     # ft - number of ticks spent in current fsm state
     # hs - total hitstop duration (usually 0)
     # hst - current hitstop tick
+    # rcc - received combo count
     # hsu - hitstun duration
     # pb - pushback
     # pbf - pushback from (other player, etc.)
@@ -53,6 +54,7 @@ var status: Status
 
 var hitstop_duration: int
 var current_hitstop_tick: int
+var received_combo_count: int
 
 var hitstun_duration: int
 var pushback: int
@@ -192,6 +194,7 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     current_hitstop_tick = 0
     pushback = attack_data.pushback
     pushback_from = attack_owner.name
+    received_combo_count += attack_data.num_hits
     health -= attack_data.damage
     SyncManager.play_sound("%s_%s" % [name, attack_owner.attack_id], attack_data.sound_effect)
     
@@ -224,6 +227,7 @@ func _save_state() -> Dictionary:
         'ft': fsm.ticks_in_state,
         'hs': hitstop_duration,
         'hst': current_hitstop_tick,
+        'rcc': received_combo_count,
         'hsu': hitstun_duration,
         'pb': pushback,
         'pbf': pushback_from,
@@ -242,6 +246,7 @@ func _load_state(state: Dictionary) -> void:
     status = state['s']
     hitstop_duration = state['hs']
     current_hitstop_tick = state['hst']
+    received_combo_count = state['rcc']
     hitstun_duration = state['hsu']
     pushback = state['pb']
     pushback_from = state['pbf']
@@ -283,8 +288,8 @@ func _network_process(input: Dictionary):
         fsm.process(input)
         position.x += velocity
     
-    #fsm.process(input)
-    #position.x += velocity
+    if status != Player.Status.HITSTUN and status != Player.Status.DEFEATED:
+        received_combo_count = 0
 
     # once both are complete, adjudicator resolves interactions
     #  calls methods on p1 and p2 as needed to apply results.
@@ -305,6 +310,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     # overwrite other params with default values
     const spawn_num_ticks_in_state = 0
     const spawn_hitstop = 0
+    const spawn_combo_size = 0
     const spawn_velocity = 0
     const initial_attack_id = 0
     data['pi'] = InputHelper.EMPTY
@@ -313,6 +319,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['ft'] = spawn_num_ticks_in_state
     data['hs'] = spawn_hitstop
     data['hst'] = spawn_hitstop
+    data['rcc'] = spawn_combo_size
     data['hsu'] = spawn_hitstop
     data['pb'] = spawn_velocity
     data['pbf'] = ""
