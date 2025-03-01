@@ -132,7 +132,7 @@ static func expire_owner(owner: Player, _input: Dictionary, _ticks_in_state: int
 
     return Player.State.NONE
 
-static func request_projectile(owner: Player, _input: Dictionary, _ticks_in_state: int, projectile_type: Projectile.ProjectileType) -> Player.State:
+static func request_projectile(owner: Player, _input: Dictionary, _ticks_in_state: int, projectile_type: int) -> Player.State:
     owner.request_projectile.emit(projectile_type, owner)
 
     return Player.State.NONE

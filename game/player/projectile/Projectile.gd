@@ -8,6 +8,7 @@ var projectile_type: ProjectileType
 
 func _ready():
     despawn_timer.timeout.connect(_on_despawn_delay_timeout)
+    add_to_group("network_sync")
 
 func reset() -> void:
     pass
@@ -90,7 +91,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
             Input data:%s" % [essential_param, data])
 
     # placeholder logic, should be pulled from projectile type or provided by creator.
-    const spawn_velocity = 10
+    const spawn_velocity = 0
 
     # overwrite other params with default values
     const spawn_num_ticks_in_state = 0
@@ -104,12 +105,12 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     return data
 
 func _network_spawn(data: Dictionary) -> void:
-    show()
-    # need to do first time setup (based on character selection, etc.)
+    show()    
+    # basic setup is identical to any ordinary load state
+    _load_state(data)
+    # Run initial state transition in
     fsm.prepare_states(Fsm.projectile_states)
     fsm.reset()
-    # remaining setup is identical to any ordinary load state
-    _load_state(data)
 
 func expire() -> void:
     hide()

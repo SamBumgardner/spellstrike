@@ -32,6 +32,7 @@ func prepare_states(provided_states: Dictionary) -> void:
 func reset() -> void:
     state = Player.State.IDLE
     ticks_in_state = 0
+    states[state].transition_in(owner, InputRetriever.EMPTY)
 
 func load(
     new_state: Player.State,
@@ -54,7 +55,7 @@ func process(input: Dictionary) -> void:
             break
             
         # Prepare to transition
-        states[state].transition_out()
+        states[state].transition_out(owner, input, ticks_in_state)
         state = next_state
         ticks_in_state = 0
 
@@ -65,7 +66,7 @@ func process(input: Dictionary) -> void:
     ticks_in_state += 1
 
 func force_change_state(next_state: Player.State) -> void:
-    states[state].transition_out()
+    states[state].transition_out(owner, InputRetriever.EMPTY, ticks_in_state)
     state = next_state
     ticks_in_state = 0
     # Transition to next state

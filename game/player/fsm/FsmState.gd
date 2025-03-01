@@ -26,9 +26,12 @@ func transition_in(owner: Player, input: Dictionary) -> void:
     
     owner.status = phases[0].player_status
 
-func transition_out() -> void:
+func transition_out(owner: Player, input: Dictionary, ticks_in_state: int) -> void:
     # apply al one-time phase effects to do when transitioning out of this state.
-    pass
+    for effect in transition_out_effects:
+        var params = [owner, input, ticks_in_state]
+        params.append_array(effect.params)
+        (EffectLib.methods[effect.typeId] as Callable).callv(params)
 
 # Override this in child classes. Should consider input to decide how states
 #  may transition into each other. Returns the next state to transition to, or NONE to keep this 

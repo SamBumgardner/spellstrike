@@ -328,8 +328,10 @@ func _network_process(input: Dictionary):
         z_index = 0
     
     # TODO: tmp code, remove:
-    if input['s'] == 1:
+    if input['s'] == 1 and InputHelper.to_dict(previous_input)['s'] != 1:
         EffectLib.request_projectile(self, input, 0, Projectile.ProjectileType.DELAYED_BLAST_FIREBALL)
+    
+    previous_input = InputHelper.to_int(input)
 
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
