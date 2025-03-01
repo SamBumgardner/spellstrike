@@ -6,6 +6,7 @@ func reset() -> void:
     pass
 
 func perform_hit(_attack_data: AttackData) -> void:
+    # state for projectile decides what to do if projectile hits.
     pass
 
 func handle_defeat() -> void:
@@ -99,7 +100,7 @@ func _network_spawn(data: Dictionary) -> void:
     show()
     process_mode = PROCESS_MODE_INHERIT
     # need to do first time setup (based on character selection, etc.)
-    fsm.prepare_states()
+    fsm.prepare_states(Fsm.projectile_states)
     # remaining setup is identical to any ordinary load state
     _load_state(data)
 

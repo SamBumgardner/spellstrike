@@ -1,0 +1,59 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=12 format=3 uid="uid://3r1wtbtwvlss"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_n303d"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="2_0ku8o"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5uhsn"]
+[ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="3_be8xt"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_d0qcm"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="4_by0ri"]
+
+[sub_resource type="Resource" id="Resource_q148j"]
+script = ExtResource("2_0ku8o")
+damage = 25
+hitstun = 15
+hitstop = 5
+pushback = 40
+sound_effect = ExtResource("3_be8xt")
+
+[sub_resource type="Resource" id="Resource_kdq4f"]
+script = ExtResource("3_d0qcm")
+x_offset = 0
+y_offset = 0
+width = 148
+height = 148
+
+[sub_resource type="Resource" id="Resource_u6ds3"]
+script = ExtResource("1_n303d")
+duration = 12
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d0qcm")]([SubResource("Resource_kdq4f")])
+new_attack = true
+attack_data = SubResource("Resource_q148j")
+hurtboxes = Array[ExtResource("3_d0qcm")]([])
+effects = Array[ExtResource("2_5uhsn")]([])
+
+[sub_resource type="Resource" id="Resource_pjdsg"]
+script = ExtResource("2_5uhsn")
+typeId = -1
+once_at_start = true
+params = []
+
+[sub_resource type="Resource" id="Resource_5snmm"]
+script = ExtResource("1_n303d")
+duration = 0
+endless = true
+player_status = 0
+hitboxes = Array[ExtResource("3_d0qcm")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_d0qcm")]([])
+effects = Array[ExtResource("2_5uhsn")]([SubResource("Resource_pjdsg")])
+
+[resource]
+script = ExtResource("4_by0ri")
+stateId = 12
+expirationStateId = 0
+phases = Array[ExtResource("1_n303d")]([SubResource("Resource_u6ds3"), SubResource("Resource_5snmm")])
+transition_in_effects = Array[ExtResource("2_5uhsn")]([])
+transition_out_effects = Array[ExtResource("2_5uhsn")]([])
+animation_key = "delay_fireball/explosion"

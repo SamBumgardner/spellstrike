@@ -368,7 +368,7 @@ func _network_spawn(data: Dictionary) -> void:
     character = data['c']
     health = data['hp']
     team = data['t']
-    fsm.prepare_states()
+    fsm.prepare_states(Fsm.player_states)
     # remaining setup is identical to any ordinary load state
     _load_state(data)
 
