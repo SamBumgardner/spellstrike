@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://b73ng3k4tabec"]
+[gd_scene load_steps=17 format=3 uid="uid://b73ng3k4tabec"]
 
 [ext_resource type="PackedScene" uid="uid://bqflbbnh7mpr4" path="res://player/Player.tscn" id="1_4w42d"]
 [ext_resource type="Script" path="res://player/projectile/Projectile.gd" id="1_81xvg"]
 [ext_resource type="Texture2D" uid="uid://ckn1hsb7bjiop" path="res://assets/art/delay_fireball.png" id="3_gfr4p"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="4_p6rk1"]
 
 [sub_resource type="Animation" id="Animation_i4rnd"]
 length = 0.001
@@ -193,3 +194,7 @@ libraries = {
 [node name="Pushbox" parent="." index="4"]
 visible = false
 shape = SubResource("RectangleShape2D_j4wgl")
+
+[node name="DespawnTimer" type="Node" parent="." index="5"]
+script = ExtResource("4_p6rk1")
+one_shot = true

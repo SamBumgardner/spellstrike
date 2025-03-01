@@ -1,5 +1,6 @@
 class_name Player extends Node2D
 
+signal request_projectile(projectile_type: Projectile.ProjectileType, requestor: Player)
 signal player_processing_finished
 signal defeated
 
@@ -325,6 +326,10 @@ func _network_process(input: Dictionary):
         z_index = -1
     else:
         z_index = 0
+    
+    # TODO: tmp code, remove:
+    if input['s'] == 1:
+        EffectLib.request_projectile(self, input, 0, Projectile.ProjectileType.DELAYED_BLAST_FIREBALL)
 
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
@@ -372,8 +377,8 @@ func _network_spawn(data: Dictionary) -> void:
     # remaining setup is identical to any ordinary load state
     _load_state(data)
 
-func _network_despawn() -> void:
-    pass
+#func _network_despawn() -> void:
+    #pass
 
 func _process(delta: float) -> void:
     input_retriever._process(delta)

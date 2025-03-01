@@ -22,11 +22,16 @@ static var player_states := {
 static var projectile_states := {
     Player.State.IDLE: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
     Player.State.CHARACTER_0: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
+    Player.State.DEFEATED: preload("res://assets/data/states/projectile/ExpiredState.tres")
 }
 
 func prepare_states(provided_states: Dictionary) -> void:
     # need to take character spec as an input, then populate the `states` dict with their state objects
     states = provided_states
+
+func reset() -> void:
+    state = Player.State.IDLE
+    ticks_in_state = 0
 
 func load(
     new_state: Player.State,

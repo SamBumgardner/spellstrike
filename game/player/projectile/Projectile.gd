@@ -1,6 +1,13 @@
 class_name Projectile extends Player
 
+const DESPAWN_DELAY := 10
+
+@onready var despawn_timer = $DespawnTimer
+
 var projectile_type: ProjectileType
+
+func _ready():
+    despawn_timer.timeout.connect(_on_despawn_delay_timeout)
 
 func reset() -> void:
     pass
@@ -98,15 +105,18 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
 
 func _network_spawn(data: Dictionary) -> void:
     show()
-    process_mode = PROCESS_MODE_INHERIT
     # need to do first time setup (based on character selection, etc.)
     fsm.prepare_states(Fsm.projectile_states)
+    fsm.reset()
     # remaining setup is identical to any ordinary load state
     _load_state(data)
 
-func _network_despawn() -> void:
+func expire() -> void:
     hide()
-    process_mode = PROCESS_MODE_DISABLED
+    despawn_timer.start(DESPAWN_DELAY)
+
+func _on_despawn_delay_timeout():
+    SyncManager.despawn(self)
 
 # ENUM #
 

@@ -18,7 +18,7 @@ func transition_in(owner: Player, input: Dictionary) -> void:
         params.append_array(effect.params)
         (EffectLib.methods[effect.typeId] as Callable).callv(params)
     
-    if owner.animation.current_animation != animation_key:
+    if owner.animation.current_animation != animation_key and not animation_key.is_empty():
         owner.animation.play(animation_key)
     else:
         owner.animation.seek(0)

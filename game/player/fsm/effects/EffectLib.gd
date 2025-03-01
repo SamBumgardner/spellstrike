@@ -16,6 +16,7 @@ enum Effect {
     VELOCITY_DECAY_NATURAL = 8,
     PLAY_SOUND = 9,
     MATCH_SCALE_TO_FACING = 10,
+    EXPIRE_OWNER = 11,
 }
 
 static var methods := {
@@ -30,6 +31,7 @@ static var methods := {
     Effect.VELOCITY_DECAY_NATURAL: velocity_decay_natural,
     Effect.PLAY_SOUND: play_sound,
     Effect.MATCH_SCALE_TO_FACING: match_scale_to_facing,
+    Effect.EXPIRE_OWNER: expire_owner,
 }
 
 
@@ -122,5 +124,15 @@ static func play_sound(owner: Player, _input: Dictionary, _ticks_in_state: int, 
 
 static func match_scale_to_facing(owner: Player, _input: Dictionary, _ticks_in_state: int) -> Player.State:
     owner.scale.x = Player.get_side_scale(owner.facing_direction)
+
+    return Player.State.NONE
+
+static func expire_owner(owner: Player, _input: Dictionary, _ticks_in_state: int) -> Player.State:
+    owner.expire()
+
+    return Player.State.NONE
+
+static func request_projectile(owner: Player, _input: Dictionary, _ticks_in_state: int, projectile_type: Projectile.ProjectileType) -> Player.State:
+    owner.request_projectile.emit(projectile_type, owner)
 
     return Player.State.NONE

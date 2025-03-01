@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=4 format=3 uid="uid://db1aryqgr2shx"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_2wai0"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_cdjld"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_u5gpm"]
+
+[resource]
+script = ExtResource("2_cdjld")
+stateId = 0
+expirationStateId = 0
+phases = Array[ExtResource("1_2wai0")]([])
+transition_in_effects = Array[ExtResource("3_u5gpm")]([])
+transition_out_effects = Array[ExtResource("3_u5gpm")]([])
+animation_key = ""
