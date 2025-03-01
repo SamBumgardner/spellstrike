@@ -17,6 +17,7 @@ enum Effect {
     PLAY_SOUND = 9,
     MATCH_SCALE_TO_FACING = 10,
     EXPIRE_OWNER = 11,
+    REQUEST_PROJECTILE = 12,
 }
 
 static var methods := {
@@ -32,6 +33,7 @@ static var methods := {
     Effect.PLAY_SOUND: play_sound,
     Effect.MATCH_SCALE_TO_FACING: match_scale_to_facing,
     Effect.EXPIRE_OWNER: expire_owner,
+    Effect.REQUEST_PROJECTILE: request_projectile,
 }
 
 

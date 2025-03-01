@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=19 format=3 uid="uid://ct6y8ttfvxha1"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://ct6y8ttfvxha1"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_pivfc"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_ng3ut"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_i1wiu"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="6_t00mo"]
 [ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="6_yv17h"]
+[ext_resource type="Resource" uid="uid://cx6i6kgt6eybp" path="res://assets/data/states/character/speed/DelayedFireballCancelEffect.tres" id="7_xhldi"]
 [ext_resource type="AudioStream" uid="uid://fexx1vv7iifg" path="res://assets/sound/startup_medium.wav" id="8_6l1vh"]
 
 [sub_resource type="Resource" id="Resource_12ocq"]
@@ -57,7 +58,7 @@ hitboxes = Array[ExtResource("3_p2fwi")]([SubResource("Resource_jb5ve")])
 new_attack = true
 attack_data = SubResource("Resource_mh7e2")
 hurtboxes = Array[ExtResource("3_p2fwi")]([ExtResource("4_455d5"), SubResource("Resource_o52bw")])
-effects = Array[ExtResource("2_ng3ut")]([])
+effects = Array[ExtResource("2_ng3ut")]([ExtResource("7_xhldi")])
 
 [sub_resource type="Resource" id="Resource_21ysp"]
 script = ExtResource("1_pivfc")
@@ -67,7 +68,7 @@ player_status = 3
 hitboxes = Array[ExtResource("3_p2fwi")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_p2fwi")]([SubResource("Resource_o52bw"), ExtResource("4_455d5")])
-effects = Array[ExtResource("2_ng3ut")]([])
+effects = Array[ExtResource("2_ng3ut")]([ExtResource("7_xhldi")])
 
 [sub_resource type="Resource" id="Resource_64fi3"]
 script = ExtResource("1_pivfc")
@@ -77,7 +78,7 @@ player_status = 3
 hitboxes = Array[ExtResource("3_p2fwi")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_p2fwi")]([ExtResource("4_455d5")])
-effects = Array[ExtResource("2_ng3ut")]([])
+effects = Array[ExtResource("2_ng3ut")]([ExtResource("7_xhldi")])
 
 [sub_resource type="Resource" id="Resource_jam7s"]
 script = ExtResource("2_ng3ut")

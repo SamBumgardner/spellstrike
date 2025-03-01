@@ -13,6 +13,7 @@ static var player_states := {
     Player.State.A: preload("res://assets/data/states/character/speed/LightAttackState.tres"),
     Player.State.B: preload("res://assets/data/states/character/speed/MediumAttackState.tres"),
     Player.State.C: preload("res://assets/data/states/character/speed/HeavyAttackState.tres"),
+    Player.State.SPECIAL_CANCEL: preload("res://assets/data/states/character/speed/DelayedFireballCast.tres"),
     Player.State.HITSTUN: preload("res://assets/data/states/character/speed/HurtState.tres"),
     Player.State.DEFEATED: preload("res://assets/data/states/character/speed/DefeatedState.tres"),
     Player.State.VICTORY: preload("res://assets/data/states/character/speed/VictoryState.tres"),
