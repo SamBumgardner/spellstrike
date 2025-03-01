@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://b73ng3k4tabec"]
+
+[ext_resource type="PackedScene" uid="uid://bqflbbnh7mpr4" path="res://player/Player.tscn" id="1_4w42d"]
+[ext_resource type="Script" path="res://player/projectile/Projectile.gd" id="1_81xvg"]
+
+[node name="Projectile" instance=ExtResource("1_4w42d")]
+script = ExtResource("1_81xvg")
