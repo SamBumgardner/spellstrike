@@ -316,10 +316,7 @@ func _network_process(input: Dictionary):
     if status != Player.Status.HITSTUN and status != Player.Status.DEFEATED:
         received_combo_count = 0
 
-    # once both are complete, adjudicator resolves interactions
-    #  calls methods on p1 and p2 as needed to apply results.
-    player_processing_finished.emit()
-    
+func _network_postprocess(input: Dictionary):
     if status in [Status.STARTUP, Status.ACTIVE]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:

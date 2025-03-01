@@ -1,4 +1,4 @@
-class_name InteractionResolver extends RefCounted
+class_name InteractionResolver extends Node
 
 signal frame_resolved
 
@@ -9,8 +9,14 @@ var p1: Player
 var p2: Player
 var camera_control: CameraControl
 
-var num_players_complete := 0
+var num_actors_complete := 0
+var active_actors := 0
 
+var registered_actors: Array = []
+
+
+func _ready() -> void:
+    add_to_group("network_sync")
 # need to wait for p1 and p2 to communicate that they're done.
 # When both are finished, evaluates ways players interacted.
 # For each interaction, call method(s) on both players to cause appropriate reactions
@@ -18,25 +24,18 @@ var num_players_complete := 0
 func _setup_players(new_p1: Player, new_p2: Player) -> void:
     p1 = new_p1
     p2 = new_p2
-    p1.player_processing_finished.connect(_on_player_processing_complete)
-    p2.player_processing_finished.connect(_on_player_processing_complete)
+    registered_actors.append(p1)
+    registered_actors.append(p2)
+    active_actors += 2
 
-func _on_player_processing_complete() -> void:
-    num_players_complete += 1
-    
-    if num_players_complete == 2:
-        # Resolve intended movement
+func register_new_projectile(new_projectile: Projectile) -> void:
+    if new_projectile not in registered_actors:
+        registered_actors.append(new_projectile)
+
+func _network_postprocess(_input: Dictionary) -> void:
         _resolve_player_movement()
-
         # Get list of results
-        _adjudicate_interactions([p1, p2])
-        
-        # all steps complete
-        frame_resolved.emit()
-        
-        # Reset for next tick
-        num_players_complete = 0
-
+        _adjudicate_interactions(registered_actors)  
 
 func _resolve_player_movement() -> void:
     var players = [p1, p2]
@@ -55,7 +54,7 @@ func _resolve_player_movement() -> void:
     for player in players:
         var predicted_x = player.position.x + player.pushback_velocity
         var player_attackers = players.filter(func(x): return x.name == player.pushback_from)
-        if not player_attackers.is_empty() and player_attackers[0] is Player and (\
+        if not player_attackers.is_empty() and player_attackers[0] is not Projectile and (\
                 (predicted_x <= min_x + player.width / 2 and player.pushback_velocity < 0) \
                 or (predicted_x >= max_x - player.width / 2 and player.pushback_velocity > 0)):
             _apply_reversed_pushback(player, player_attackers[0])
@@ -100,7 +99,6 @@ func _adjudicate_interactions(actors: Array) -> void:
     # For each player, check if their hurtbox pool got hit.
     #  This will replace the "successful hit" status for them
     # for each successful collision, apply damage to the other player.
-
     # get all hitboxes, sort by allegiance.
     var p1_attack_shapes: Array = []
     var p2_attack_shapes: Array = []
@@ -114,6 +112,9 @@ func _adjudicate_interactions(actors: Array) -> void:
         var attack_shape: Array = actor.get_hitboxes()
         if not attack_shape.is_empty():
             allied_attack_shapes.append(attack_shape)
+    
+    if p1_attack_shapes.size() > 1:
+        pass
 
     # store 'true' for each actor path if they had an attack that succeeded.
     var attacker_hit := []

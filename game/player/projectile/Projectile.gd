@@ -1,5 +1,7 @@
 class_name Projectile extends Player
 
+signal despawned
+
 const DESPAWN_DELAY := 10
 
 @onready var despawn_timer = $DespawnTimer
@@ -70,10 +72,7 @@ func _network_process(input: Dictionary):
     fsm.process(input)
     position.x += velocity
     
-    # once both are complete, adjudicator resolves interactions
-    #  calls methods on p1 and p2 as needed to apply results.
-    player_processing_finished.emit()
-    
+func _network_postprocess(_input: Dictionary):    
     if status in [Status.STARTUP, Status.ACTIVE]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:
@@ -105,7 +104,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     return data
 
 func _network_spawn(data: Dictionary) -> void:
-    show()    
+    show()
     # basic setup is identical to any ordinary load state
     _load_state(data)
     # Run initial state transition in
@@ -117,6 +116,7 @@ func expire() -> void:
     despawn_timer.start(DESPAWN_DELAY)
 
 func _on_despawn_delay_timeout():
+    despawned.emit()
     SyncManager.despawn(self)
 
 # ENUM #

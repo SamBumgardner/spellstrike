@@ -19,14 +19,13 @@ var match_options: MatchOptions
 @onready var combo_counter_1: ComboCounter = $UI/BattleHUD/ComboCounter
 @onready var combo_counter_2: ComboCounter = $UI/BattleHUD/ComboCounter2
 
+@onready var interaction_resolver: InteractionResolver = $InteractionResolver
 @onready var camera_control: CameraControl = $CameraControl
 
 enum Side {
     P1 = 0,
     P2 = 1,
 }
-
-var interaction_resolver := InteractionResolver.new()
 
 func init_options(options: MatchOptions) -> void:
     match_options = options
@@ -126,7 +125,8 @@ func _player_defeat_confirmed(winner: Player, loser: Player):
 # MISC.
 
 func _on_player_requested_projectile(projectile_type: Projectile.ProjectileType, requestor: Player) -> void:
-    SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team})
+    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team})
+    interaction_resolver.register_new_projectile(new_projectile)
 
 func _on_start_new_round_timer_timeout(players: Array):
     for player in players:
