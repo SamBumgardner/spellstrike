@@ -10,6 +10,7 @@ class_name FsmState extends Resource
 func transition_in(owner: Player, input: Dictionary) -> void:
     # default behavior - change facing when entering a new state.
     EffectLib.match_scale_to_facing(owner, input, 0)
+    owner.attack_hit = false
     
     # apply all one-time phase effects to do when transitioning into the state.
     for effect in transition_in_effects:

@@ -107,8 +107,6 @@ func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData,
     if new_attack:
         attack_id += 1
         attack_hit = false
-    elif attack_data == null:
-        attack_hit = false
 
 func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[RectangleSpec]) -> void:
     assert(collisionBoxes.size() >= rectangleSpecs.size(), "cannot specify more than %d rectangles" % collisionBoxes.size())
@@ -355,7 +353,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['pb'] = spawn_velocity
     data['pbf'] = ""
     data['v'] = spawn_velocity
-    data['fd'] = Player.Side.P1 if sign(position.x) < 0 else Player.Side.P2
+    data['fd'] = Player.Side.P1 if sign(data['x']) < 0 else Player.Side.P2
     data['sx'] = get_side_scale(facing_direction)
     data['a'] = initial_attack_id
     data['ah'] = false

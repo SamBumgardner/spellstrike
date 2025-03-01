@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=12 format=3 uid="uid://coai4cjw4ontv"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=13 format=3 uid="uid://coai4cjw4ontv"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_n303d"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="2_0ku8o"]
@@ -13,7 +13,12 @@ damage = 25
 hitstun = 15
 hitstop = 5
 pushback = 15
-sound_effect = ExtResource("3_be8xt")
+
+[sub_resource type="Resource" id="Resource_kskp0"]
+script = ExtResource("2_5uhsn")
+typeId = 9
+once_at_start = true
+params = [ExtResource("3_be8xt")]
 
 [sub_resource type="Resource" id="Resource_mmwji"]
 script = ExtResource("3_d0qcm")
@@ -31,7 +36,7 @@ hitboxes = Array[ExtResource("3_d0qcm")]([SubResource("Resource_mmwji")])
 new_attack = true
 attack_data = SubResource("Resource_fxmds")
 hurtboxes = Array[ExtResource("3_d0qcm")]([])
-effects = Array[ExtResource("2_5uhsn")]([])
+effects = Array[ExtResource("2_5uhsn")]([SubResource("Resource_kskp0")])
 
 [sub_resource type="Resource" id="Resource_4rldy"]
 script = ExtResource("1_n303d")
