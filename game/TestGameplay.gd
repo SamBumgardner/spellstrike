@@ -76,11 +76,6 @@ func _on_sync_started():
     else:
         fighterP2.input_retriever = match_options.input_retrievers[1]
 
-    fighterP2.hurtbox_pool.collision_layer = 8
-    fighterP2.hurtbox_pool.collision_mask = 4
-    fighterP2.hitbox_pool.collision_layer = 2
-    fighterP2.hitbox_pool.collision_mask = 1
-    fighterP2.scale.x = -1
     health_tracker_2.tracked_player = fighterP2
     combo_counter_2.tracked_player = fighterP2
     fighterP2.defeated.connect(_on_player_defeated)

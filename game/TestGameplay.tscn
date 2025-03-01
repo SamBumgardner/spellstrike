@@ -112,5 +112,6 @@ parameters/looping = true
 script = ExtResource("7_1ckhu")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -100
 position = Vector2(0, 300)
 texture = ExtResource("8_7iqk1")

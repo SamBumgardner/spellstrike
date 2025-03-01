@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bqflbbnh7mpr4"]
+[gd_scene load_steps=14 format=3 uid="uid://bqflbbnh7mpr4"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_477q8"]
 [ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="2_xguty"]
@@ -135,6 +135,9 @@ _data = {
 "walk": SubResource("Animation_btqih")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_nfot4"]
+size = Vector2(48, 128)
+
 [node name="Player" type="Node2D"]
 script = ExtResource("1_477q8")
 
@@ -176,3 +179,8 @@ libraries = {
 autoplay = "idle"
 playback_auto_capture = false
 script = ExtResource("4_cqwil")
+
+[node name="Pushbox" parent="." instance=ExtResource("3_upa8i")]
+visible = true
+shape = SubResource("RectangleShape2D_nfot4")
+draw_color = Color(0, 0.940033, 0.967931, 1)
