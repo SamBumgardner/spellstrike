@@ -32,6 +32,7 @@ const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
 @onready var hitbox_pool: Area2D = $HitboxPool
 @onready var hitboxes := hitbox_pool.get_children()
 @onready var animation: NetworkAnimationPlayer = $Animation
+@onready var pushbox: CollisionShape2D = $Pushbox
 
 # composed utils
 var input_retriever: InputRetriever
@@ -167,6 +168,22 @@ static func overlapped(a: CollisionShape2D, b: CollisionShape2D) -> bool:
 
     return y_overlap
 
+static func get_overlap_x_distance(a: CollisionShape2D, b: CollisionShape2D) -> int:
+    var overlap_distance := 0
+    var start1 = a.global_position.x - a.shape.size.x / 2
+    var length1 = a.shape.size.x
+    var start2 = b.global_position.x - b.shape.size.x / 2
+    var length2 = b.shape.size.x
+
+    if start1 == start2:
+        overlap_distance = min(length1, length2)
+    elif start1 < start2:
+        overlap_distance = max(0, start1 + length1 - start2)
+    elif start2 < start1:
+        overlap_distance = max(0, start2 + length2 - start1)
+    
+    return overlap_distance
+
 static func compare_dimension(start1: int, start2: int, length1: int, length2: int) -> bool:
     var overlap := false
     if start1 == start2:
@@ -294,6 +311,13 @@ func _network_process(input: Dictionary):
     # once both are complete, adjudicator resolves interactions
     #  calls methods on p1 and p2 as needed to apply results.
     player_processing_finished.emit()
+    
+    if status in [Status.STARTUP, Status.ACTIVE]:
+        z_index = 1
+    elif status in [Status.HITSTUN, Status.DEFEATED]:
+        z_index = -1
+    else:
+        z_index = 0
 
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:

@@ -1,5 +1,7 @@
 class_name MatchOptions extends RefCounted
 
+const separate_distance: int = 10
+
 var input_retrievers: Array
 
 func _init(new_input_retrievers):

@@ -41,6 +41,16 @@ func _on_player_processing_complete() -> void:
 func _resolve_player_movement() -> void:
     var players = [p1, p2]
 
+    # separate players if pushboxes overlap
+    var overlap_distance = Player.get_overlap_x_distance(p1.pushbox, p2.pushbox)
+    if overlap_distance > 0:
+        # whoever has the higher magnitude of distance gets the extra bit of push
+        var separate_distance = min(overlap_distance / 2, MatchOptions.separate_distance)
+        var remainder = overlap_distance % 2
+        players.sort_custom(func(a, b): return abs(a.position.x) > abs(b.position.x))
+        players[0].position.x += (separate_distance + remainder) * sign(players[0].position.x)
+        players[1].position.x += separate_distance * -1 * sign(players[0].position.x)
+
     # if a player is past edge and has pushback also in that direction, apply pushback to their attacker.
     for player in players:
         var predicted_x = player.position.x + player.pushback_velocity
