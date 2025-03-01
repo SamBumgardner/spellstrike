@@ -1,0 +1,41 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=8 format=3 uid="uid://cm4bgxkcu16vg"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_1jnfw"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_5sam6"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_3gd6q"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_meo85"]
+
+[sub_resource type="Resource" id="Resource_f5fw5"]
+script = ExtResource("1_1jnfw")
+duration = 2
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("3_3gd6q")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_3gd6q")]([])
+effects = Array[ExtResource("3_meo85")]([])
+
+[sub_resource type="Resource" id="Resource_d8ij5"]
+script = ExtResource("3_meo85")
+typeId = 12
+once_at_start = true
+params = [0]
+
+[sub_resource type="Resource" id="Resource_g3a7y"]
+script = ExtResource("1_1jnfw")
+duration = 2
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("3_3gd6q")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_3gd6q")]([])
+effects = Array[ExtResource("3_meo85")]([SubResource("Resource_d8ij5")])
+
+[resource]
+script = ExtResource("2_5sam6")
+stateId = 5
+expirationStateId = 0
+phases = Array[ExtResource("1_1jnfw")]([SubResource("Resource_f5fw5"), SubResource("Resource_g3a7y")])
+transition_in_effects = Array[ExtResource("3_meo85")]([])
+transition_out_effects = Array[ExtResource("3_meo85")]([])
+animation_key = "delayed_fireball_cast"

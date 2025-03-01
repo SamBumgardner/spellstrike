@@ -16,6 +16,8 @@ enum Effect {
     VELOCITY_DECAY_NATURAL = 8,
     PLAY_SOUND = 9,
     MATCH_SCALE_TO_FACING = 10,
+    EXPIRE_OWNER = 11,
+    REQUEST_PROJECTILE = 12,
 }
 
 static var methods := {
@@ -30,6 +32,8 @@ static var methods := {
     Effect.VELOCITY_DECAY_NATURAL: velocity_decay_natural,
     Effect.PLAY_SOUND: play_sound,
     Effect.MATCH_SCALE_TO_FACING: match_scale_to_facing,
+    Effect.EXPIRE_OWNER: expire_owner,
+    Effect.REQUEST_PROJECTILE: request_projectile,
 }
 
 
@@ -85,7 +89,7 @@ static func debug_log(_owner: Player, _input: Dictionary, _ticks_in_state: int, 
     return Player.State.NONE
 
 static func set_velocity(owner: Player, input: Dictionary, _ticks_in_state: int, new_velocity: int = 0, consider_input: bool = false) -> Player.State:
-    var movement_direction = 1 if not consider_input else _get_move_direction(input)
+    var movement_direction = owner.scale.x if not consider_input else _get_move_direction(input)
     
     owner.velocity = new_velocity * movement_direction
     return Player.State.NONE
@@ -122,5 +126,15 @@ static func play_sound(owner: Player, _input: Dictionary, _ticks_in_state: int, 
 
 static func match_scale_to_facing(owner: Player, _input: Dictionary, _ticks_in_state: int) -> Player.State:
     owner.scale.x = Player.get_side_scale(owner.facing_direction)
+
+    return Player.State.NONE
+
+static func expire_owner(owner: Player, _input: Dictionary, _ticks_in_state: int) -> Player.State:
+    owner.expire()
+
+    return Player.State.NONE
+
+static func request_projectile(owner: Player, _input: Dictionary, _ticks_in_state: int, projectile_type: int) -> Player.State:
+    owner.request_projectile.emit(projectile_type, owner)
 
     return Player.State.NONE

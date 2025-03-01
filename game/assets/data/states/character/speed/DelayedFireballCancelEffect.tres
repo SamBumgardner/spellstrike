@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PhaseEffect" load_steps=2 format=3 uid="uid://cx6i6kgt6eybp"]
+
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="1_s2egp"]
+
+[resource]
+script = ExtResource("1_s2egp")
+typeId = 3
+once_at_start = false
+params = [{
+"s": 5
+}, true]

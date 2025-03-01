@@ -1,5 +1,6 @@
 class_name Player extends Node2D
 
+signal request_projectile(projectile_type: Projectile.ProjectileType, requestor: Player)
 signal player_processing_finished
 signal defeated
 
@@ -105,8 +106,6 @@ func set_hitboxes(rectangleSpecs: Array[RectangleSpec], attack_data: AttackData,
     current_attack_data = attack_data
     if new_attack:
         attack_id += 1
-        attack_hit = false
-    elif attack_data == null:
         attack_hit = false
 
 func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[RectangleSpec]) -> void:
@@ -315,16 +314,15 @@ func _network_process(input: Dictionary):
     if status != Player.Status.HITSTUN and status != Player.Status.DEFEATED:
         received_combo_count = 0
 
-    # once both are complete, adjudicator resolves interactions
-    #  calls methods on p1 and p2 as needed to apply results.
-    player_processing_finished.emit()
-    
+func _network_postprocess(input: Dictionary):
     if status in [Status.STARTUP, Status.ACTIVE]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:
         z_index = -1
     else:
         z_index = 0
+    
+    previous_input = InputHelper.to_int(input)
 
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
@@ -355,7 +353,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['pb'] = spawn_velocity
     data['pbf'] = ""
     data['v'] = spawn_velocity
-    data['fd'] = Player.Side.P1 if sign(position.x) < 0 else Player.Side.P2
+    data['fd'] = Player.Side.P1 if sign(data['x']) < 0 else Player.Side.P2
     data['sx'] = get_side_scale(facing_direction)
     data['a'] = initial_attack_id
     data['ah'] = false
@@ -368,12 +366,12 @@ func _network_spawn(data: Dictionary) -> void:
     character = data['c']
     health = data['hp']
     team = data['t']
-    fsm.prepare_states()
+    fsm.prepare_states(Fsm.player_states)
     # remaining setup is identical to any ordinary load state
     _load_state(data)
 
-func _network_despawn() -> void:
-    pass
+#func _network_despawn() -> void:
+    #pass
 
 func _process(delta: float) -> void:
     input_retriever._process(delta)

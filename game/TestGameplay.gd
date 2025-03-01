@@ -19,14 +19,13 @@ var match_options: MatchOptions
 @onready var combo_counter_1: ComboCounter = $UI/BattleHUD/ComboCounter
 @onready var combo_counter_2: ComboCounter = $UI/BattleHUD/ComboCounter2
 
+@onready var interaction_resolver: InteractionResolver = $InteractionResolver
 @onready var camera_control: CameraControl = $CameraControl
 
 enum Side {
     P1 = 0,
     P2 = 1,
 }
-
-var interaction_resolver := InteractionResolver.new()
 
 func init_options(options: MatchOptions) -> void:
     match_options = options
@@ -66,6 +65,7 @@ func _on_sync_started():
     combo_counter_1.tracked_player = fighterP1
     
     fighterP1.defeated.connect(_on_player_defeated)
+    fighterP1.request_projectile.connect(_on_player_requested_projectile)
 
     var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 300, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
@@ -79,6 +79,7 @@ func _on_sync_started():
     health_tracker_2.tracked_player = fighterP2
     combo_counter_2.tracked_player = fighterP2
     fighterP2.defeated.connect(_on_player_defeated)
+    fighterP2.request_projectile.connect(_on_player_requested_projectile)
     
     interaction_resolver._setup_players(fighterP1, fighterP2)
     interaction_resolver.camera_control = camera_control
@@ -122,6 +123,10 @@ func _player_defeat_confirmed(winner: Player, loser: Player):
     # call reset on both players
 
 # MISC.
+
+func _on_player_requested_projectile(projectile_type: Projectile.ProjectileType, requestor: Player) -> void:
+    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x })
+    interaction_resolver.register_new_projectile(new_projectile)
 
 func _on_start_new_round_timer_timeout(players: Array):
     for player in players:

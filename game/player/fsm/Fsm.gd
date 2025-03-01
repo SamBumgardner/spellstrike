@@ -7,19 +7,33 @@ var owner: Player
 var state := Player.State.IDLE
 var ticks_in_state := 0
 
-func prepare_states() -> void:
+static var player_states := {
+    Player.State.IDLE: preload("res://assets/data/states/character/speed/IdleState.tres"),
+    Player.State.WALK: preload("res://assets/data/states/character/speed/WalkState.tres"),
+    Player.State.A: preload("res://assets/data/states/character/speed/LightAttackState.tres"),
+    Player.State.B: preload("res://assets/data/states/character/speed/MediumAttackState.tres"),
+    Player.State.C: preload("res://assets/data/states/character/speed/HeavyAttackState.tres"),
+    Player.State.SPECIAL_CANCEL: preload("res://assets/data/states/character/speed/DelayedFireballCast.tres"),
+    Player.State.HITSTUN: preload("res://assets/data/states/character/speed/HurtState.tres"),
+    Player.State.DEFEATED: preload("res://assets/data/states/character/speed/DefeatedState.tres"),
+    Player.State.VICTORY: preload("res://assets/data/states/character/speed/VictoryState.tres"),
+    Player.State.CHARACTER_0: preload("res://assets/data/states/character/speed/LightAttackChainState.tres"),
+}
+
+static var projectile_states := {
+    Player.State.IDLE: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
+    Player.State.CHARACTER_0: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
+    Player.State.DEFEATED: preload("res://assets/data/states/projectile/ExpiredState.tres")
+}
+
+func prepare_states(provided_states: Dictionary) -> void:
     # need to take character spec as an input, then populate the `states` dict with their state objects
-    states = {
-        Player.State.IDLE: preload("res://assets/data/states/IdleState.tres"),
-        Player.State.WALK: preload("res://assets/data/states/WalkState.tres"),
-        Player.State.A: preload("res://assets/data/states/LightAttackState.tres"),
-        Player.State.B: preload("res://assets/data/states/MediumAttackState.tres"),
-        Player.State.C: preload("res://assets/data/states/HeavyAttackState.tres"),
-        Player.State.HITSTUN: preload("res://assets/data/states/HurtState.tres"),
-        Player.State.DEFEATED: preload("res://assets/data/states/DefeatedState.tres"),
-        Player.State.VICTORY: preload("res://assets/data/states/VictoryState.tres"),
-        Player.State.CHARACTER_0: preload("res://assets/data/states/LightAttackChainState.tres"),
-    }
+    states = provided_states
+
+func reset() -> void:
+    state = Player.State.IDLE
+    ticks_in_state = 0
+    states[state].transition_in(owner, InputRetriever.EMPTY)
 
 func load(
     new_state: Player.State,
@@ -42,7 +56,7 @@ func process(input: Dictionary) -> void:
             break
             
         # Prepare to transition
-        states[state].transition_out()
+        states[state].transition_out(owner, input, ticks_in_state)
         state = next_state
         ticks_in_state = 0
 
@@ -53,7 +67,7 @@ func process(input: Dictionary) -> void:
     ticks_in_state += 1
 
 func force_change_state(next_state: Player.State) -> void:
-    states[state].transition_out()
+    states[state].transition_out(owner, InputRetriever.EMPTY, ticks_in_state)
     state = next_state
     ticks_in_state = 0
     # Transition to next state

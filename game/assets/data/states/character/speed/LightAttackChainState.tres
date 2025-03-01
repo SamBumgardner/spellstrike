@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_rn3pl"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_mo7rb"]
 [ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="5_oema1"]
-[ext_resource type="Resource" uid="uid://b88simmqjf5pt" path="res://assets/data/states/LightAttackCancelEffect.tres" id="6_iwvbj"]
+[ext_resource type="Resource" uid="uid://b88simmqjf5pt" path="res://assets/data/states/character/speed/LightAttackCancelEffect.tres" id="6_iwvbj"]
 [ext_resource type="Resource" uid="uid://b882y4r2cdik4" path="res://assets/data/collision/hitbox/StandardHitbox.tres" id="6_ytklt"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="7_6jopq"]
 [ext_resource type="AudioStream" uid="uid://b2gcgop30e55s" path="res://assets/sound/startup_light.wav" id="8_3fwye"]

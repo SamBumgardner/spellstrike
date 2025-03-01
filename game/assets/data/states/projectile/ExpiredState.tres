@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=6 format=3 uid="uid://clwgkrarhx0hf"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_2wai0"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_cdjld"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_6fovw"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_u5gpm"]
+
+[sub_resource type="Resource" id="Resource_stgkw"]
+script = ExtResource("1_2wai0")
+duration = 0
+endless = true
+player_status = 5
+hitboxes = Array[ExtResource("3_6fovw")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_6fovw")]([])
+effects = Array[ExtResource("3_u5gpm")]([])
+
+[resource]
+script = ExtResource("2_cdjld")
+stateId = 9
+expirationStateId = -1
+phases = Array[ExtResource("1_2wai0")]([SubResource("Resource_stgkw")])
+transition_in_effects = Array[ExtResource("3_u5gpm")]([])
+transition_out_effects = Array[ExtResource("3_u5gpm")]([])
+animation_key = ""

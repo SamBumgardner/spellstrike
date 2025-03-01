@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqflbbnh7mpr4"]
+[gd_scene load_steps=15 format=3 uid="uid://b73ng3k4tabec"]
 
-[ext_resource type="Script" path="res://player/Player.gd" id="1_477q8"]
-[ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="2_xguty"]
-[ext_resource type="PackedScene" uid="uid://dbsv1t4mkjxn" path="res://player/collision_box.tscn" id="3_upa8i"]
-[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="4_cqwil"]
+[ext_resource type="PackedScene" uid="uid://bqflbbnh7mpr4" path="res://player/Player.tscn" id="1_4w42d"]
+[ext_resource type="Script" path="res://player/projectile/Projectile.gd" id="1_81xvg"]
+[ext_resource type="Texture2D" uid="uid://ckn1hsb7bjiop" path="res://assets/art/delay_fireball.png" id="3_gfr4p"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="4_p6rk1"]
+[ext_resource type="AnimationLibrary" uid="uid://4s5lgurbwrc5" path="res://assets/art/delay_fireball_anim.res" id="4_wpe5w"]
 
 [sub_resource type="Animation" id="Animation_i4rnd"]
 length = 0.001
@@ -18,23 +19,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [0]
-}
-
-[sub_resource type="Animation" id="Animation_4eiy3"]
-resource_name = "delayed_fireball_cast"
-length = 0.0666683
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.0166667, 0.0333333, 0.05),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 1,
-"values": [4, 4, 6, 6]
 }
 
 [sub_resource type="Animation" id="Animation_1q78x"]
@@ -144,7 +128,6 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2kyqy"]
 _data = {
 "RESET": SubResource("Animation_i4rnd"),
-"delayed_fireball_cast": SubResource("Animation_4eiy3"),
 "heavy_attack": SubResource("Animation_1q78x"),
 "hurt": SubResource("Animation_n5ldy"),
 "idle": SubResource("Animation_v12si"),
@@ -153,52 +136,25 @@ _data = {
 "walk": SubResource("Animation_btqih")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nfot4"]
-size = Vector2(48, 128)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j4wgl"]
+size = Vector2(0, 0)
 
-[node name="Player" type="Node2D"]
-script = ExtResource("1_477q8")
+[node name="Projectile" instance=ExtResource("1_4w42d")]
+script = ExtResource("1_81xvg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_xguty")
-hframes = 4
-vframes = 2
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_gfr4p")
 
-[node name="HurtboxPool" type="Area2D" parent="."]
-z_index = 10
-collision_mask = 2
-input_pickable = false
-
-[node name="Hurtbox1" parent="HurtboxPool" instance=ExtResource("3_upa8i")]
-
-[node name="Hurtbox2" parent="HurtboxPool" instance=ExtResource("3_upa8i")]
-
-[node name="Hurtbox3" parent="HurtboxPool" instance=ExtResource("3_upa8i")]
-
-[node name="HitboxPool" type="Area2D" parent="."]
-z_index = 10
-collision_layer = 4
-collision_mask = 8
-input_pickable = false
-
-[node name="Hitbox1" parent="HitboxPool" instance=ExtResource("3_upa8i")]
-draw_color = Color(1, 0, 0, 1)
-
-[node name="Hitbox2" parent="HitboxPool" instance=ExtResource("3_upa8i")]
-draw_color = Color(1, 0, 0, 1)
-
-[node name="Hitbox3" parent="HitboxPool" instance=ExtResource("3_upa8i")]
-draw_color = Color(1, 0, 0, 1)
-
-[node name="Animation" type="AnimationPlayer" parent="."]
+[node name="Animation" parent="." index="3"]
 libraries = {
-"": SubResource("AnimationLibrary_2kyqy")
+"": SubResource("AnimationLibrary_2kyqy"),
+"delay_fireball": ExtResource("4_wpe5w")
 }
-autoplay = "idle"
-playback_auto_capture = false
-script = ExtResource("4_cqwil")
 
-[node name="Pushbox" parent="." instance=ExtResource("3_upa8i")]
-visible = true
-shape = SubResource("RectangleShape2D_nfot4")
-draw_color = Color(0, 0.940033, 0.967931, 1)
+[node name="Pushbox" parent="." index="4"]
+visible = false
+shape = SubResource("RectangleShape2D_j4wgl")
+
+[node name="DespawnTimer" type="Node" parent="." index="5"]
+script = ExtResource("4_p6rk1")
+one_shot = true
