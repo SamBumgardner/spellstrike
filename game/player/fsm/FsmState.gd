@@ -8,6 +8,9 @@ class_name FsmState extends Resource
 @export var animation_key: String = ""
 
 func transition_in(owner: Player, input: Dictionary) -> void:
+    # default behavior - change facing when entering a new state.
+    EffectLib.match_scale_to_facing(owner, input, 0)
+    
     # apply all one-time phase effects to do when transitioning into the state.
     for effect in transition_in_effects:
         const ticks_in_state = 0

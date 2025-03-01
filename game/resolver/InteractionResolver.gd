@@ -66,8 +66,20 @@ func _resolve_player_movement() -> void:
         # Clamp player x values to stay within camera boundaries
         _restrict_player_x(player)
 
+    # update player's side information based on position. It's up to player when to fix their scale.
+    if p1.position.x < p2.position.x:
+        p1.facing_direction = 0
+        p2.facing_direction = 1
+    else:
+        p1.facing_direction = 1
+        p2.facing_direction = 0
     # Camera position will be set in CameraControl's post-process
-
+    
+    for player in players:
+        if player.status == Player.Status.NEUTRAL:
+            player.scale.x = Player.get_side_scale(player.facing_direction)
+        
+    
 func _restrict_player_x(player: Player):
     player.position.x = camera_control.clamp_to_logical_camera(player.position.x, player.width)
 
@@ -88,12 +100,6 @@ func _adjudicate_interactions(actors: Array) -> void:
     # For each player, check if their hurtbox pool got hit.
     #  This will replace the "successful hit" status for them
     # for each successful collision, apply damage to the other player.
-    if p1.position.x > p2.position.x:
-        p1.scale.x = -1
-        p2.scale.x = 1
-    elif p1.position.x < p2.position.x:
-        p1.scale.x = 1
-        p2.scale.x = -1
 
     # get all hitboxes, sort by allegiance.
     var p1_attack_shapes: Array = []
