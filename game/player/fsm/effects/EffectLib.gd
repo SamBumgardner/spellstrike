@@ -89,7 +89,7 @@ static func debug_log(_owner: Player, _input: Dictionary, _ticks_in_state: int, 
     return Player.State.NONE
 
 static func set_velocity(owner: Player, input: Dictionary, _ticks_in_state: int, new_velocity: int = 0, consider_input: bool = false) -> Player.State:
-    var movement_direction = 1 if not consider_input else _get_move_direction(input)
+    var movement_direction = owner.scale.x if not consider_input else _get_move_direction(input)
     
     owner.velocity = new_velocity * movement_direction
     return Player.State.NONE

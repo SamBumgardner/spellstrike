@@ -27,7 +27,6 @@ func receive_hit(_attack_data: AttackData, _attack_owner: Object) -> void:
     # should probably switch states to a "getting destroyed state" instead that despawns at end.
     SyncManager.despawn(self)
 
-
 ##########################
 # ROLLBACK IMPLEMENTATION #
 ##########################
@@ -80,10 +79,9 @@ func _network_postprocess(_input: Dictionary):
     else:
         z_index = 0
 
-
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     # check required parameters are provided
-    const essential_spawn_params = ['x', 'y', 'pt', 't']
+    const essential_spawn_params = ['x', 'y', 'pt', 't', 'fd', 'sx']
     var keys = data.keys()
     for essential_param in essential_spawn_params:
         assert(essential_param in keys, "ERROR: spawn method not called with essential input '%s'. 
@@ -98,8 +96,6 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['fs'] = State.IDLE
     data['ft'] = spawn_num_ticks_in_state
     data['v'] = spawn_velocity
-    data['fd'] = Player.Side.P1 if sign(position.x) < 0 else Player.Side.P2
-    data['sx'] = get_side_scale(facing_direction)
     data['a'] = initial_attack_id
     return data
 

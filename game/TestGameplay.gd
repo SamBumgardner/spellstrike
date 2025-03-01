@@ -125,7 +125,7 @@ func _player_defeat_confirmed(winner: Player, loser: Player):
 # MISC.
 
 func _on_player_requested_projectile(projectile_type: Projectile.ProjectileType, requestor: Player) -> void:
-    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team})
+    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x })
     interaction_resolver.register_new_projectile(new_projectile)
 
 func _on_start_new_round_timer_timeout(players: Array):
