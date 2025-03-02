@@ -26,6 +26,7 @@ signal defeated
     # a - attack id
     # ah - attack hit
     # hb - hit by
+    # su - special uses available
     # 
 
 const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
@@ -68,6 +69,8 @@ var pushback_from: String
 var attack_id: int
 var attack_hit: bool
 var hit_by: Dictionary
+
+var special_uses: int
 
 # Stateless variables: refresh every frame
 var current_attack_data: AttackData
@@ -256,6 +259,7 @@ func _save_state() -> Dictionary:
         'a': attack_id,
         'ah': attack_hit,
         'hb': var_to_bytes(hit_by),
+        'su': special_uses,
     }
 
 func _load_state(state: Dictionary) -> void:
@@ -277,6 +281,7 @@ func _load_state(state: Dictionary) -> void:
     attack_id = state['a']
     attack_hit = state['ah']
     hit_by = bytes_to_var(state['hb'])
+    special_uses = state['su']
 
     var fsm_state = state['fs']
     var fsm_ticks_in_state = state['ft']
@@ -335,6 +340,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
 
     # look up hp value for character:
     data['hp'] = 100 # placeholder logic for now
+    data['su'] = 2 # placeholder logic
 
     # overwrite other params with default values
     const spawn_num_ticks_in_state = 0
