@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=13 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://b8l368ifqnna4" path="res://assets/music/battle_bgm.ogg" id="6_nwacf"]
 [ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
 [ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]
+[ext_resource type="PackedScene" uid="uid://cnrgtvljl7jnx" path="res://ui/SpecialCounter.tscn" id="8_iinh3"]
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -97,6 +98,28 @@ offset_left = 690.0
 offset_top = 94.0
 offset_right = 690.0
 offset_bottom = 94.0
+
+[node name="SpecialCounter" parent="UI/BattleHUD" instance=ExtResource("8_iinh3")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.3
+anchor_top = 0.08
+anchor_right = 0.3
+anchor_bottom = 0.08
+offset_top = 0.0
+offset_bottom = 34.0
+grow_vertical = 1
+
+[node name="SpecialCounter2" parent="UI/BattleHUD" instance=ExtResource("8_iinh3")]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.7
+anchor_top = 0.08
+anchor_right = 0.7
+anchor_bottom = 0.08
+offset_top = 0.0
+offset_bottom = 34.0
+grow_vertical = 1
 
 [node name="ConfirmDefeatTimer" type="Node" parent="."]
 script = ExtResource("3_7unwa")

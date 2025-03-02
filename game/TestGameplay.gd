@@ -18,6 +18,8 @@ var match_options: MatchOptions
 @onready var win_tracker_2: WinTracker = $UI/BattleHUD/WinTracker2
 @onready var combo_counter_1: ComboCounter = $UI/BattleHUD/ComboCounter
 @onready var combo_counter_2: ComboCounter = $UI/BattleHUD/ComboCounter2
+@onready var special_counter_1: SpecialCounter = $UI/BattleHUD/SpecialCounter
+@onready var special_counter_2: SpecialCounter = $UI/BattleHUD/SpecialCounter2
 
 @onready var interaction_resolver: InteractionResolver = $InteractionResolver
 @onready var camera_control: CameraControl = $CameraControl
@@ -63,6 +65,7 @@ func _on_sync_started():
     fighterP1.input_retriever = match_options.input_retrievers[0]
     health_tracker_1.tracked_player = fighterP1
     combo_counter_1.tracked_player = fighterP1
+    special_counter_1.tracked_player = fighterP1
     
     fighterP1.defeated.connect(_on_player_defeated)
     fighterP1.request_projectile.connect(_on_player_requested_projectile)
@@ -78,6 +81,7 @@ func _on_sync_started():
 
     health_tracker_2.tracked_player = fighterP2
     combo_counter_2.tracked_player = fighterP2
+    special_counter_2.tracked_player = fighterP2
     fighterP2.defeated.connect(_on_player_defeated)
     fighterP2.request_projectile.connect(_on_player_requested_projectile)
     
@@ -125,7 +129,7 @@ func _player_defeat_confirmed(winner: Player, loser: Player):
 # MISC.
 
 func _on_player_requested_projectile(projectile_type: Projectile.ProjectileType, requestor: Player) -> void:
-    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x })
+    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x})
     interaction_resolver.register_new_projectile(new_projectile)
 
 func _on_start_new_round_timer_timeout(players: Array):
