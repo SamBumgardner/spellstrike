@@ -13,11 +13,9 @@ func transition_in(owner: Player, input: Dictionary) -> void:
     owner.attack_hit = false
     
     # apply all one-time phase effects to do when transitioning into the state.
-    for effect in transition_in_effects:
-        const ticks_in_state = 0
-        var params = [owner, input, ticks_in_state]
-        params.append_array(effect.params)
-        (EffectLib.methods[effect.typeId] as Callable).callv(params)
+    const ticks_in_state = 0
+    var params = [owner, input, ticks_in_state]
+    _execute_effects(params, transition_in_effects)
     
     if owner.animation.current_animation != animation_key and not animation_key.is_empty():
         owner.animation.play(animation_key)
@@ -29,10 +27,8 @@ func transition_in(owner: Player, input: Dictionary) -> void:
 
 func transition_out(owner: Player, input: Dictionary, ticks_in_state: int) -> void:
     # apply al one-time phase effects to do when transitioning out of this state.
-    for effect in transition_out_effects:
-        var params = [owner, input, ticks_in_state]
-        params.append_array(effect.params)
-        (EffectLib.methods[effect.typeId] as Callable).callv(params)
+    var params = [owner, input, ticks_in_state]
+    _execute_effects(params, transition_out_effects)
 
 # Override this in child classes. Should consider input to decide how states
 #  may transition into each other. Returns the next state to transition to, or NONE to keep this 
@@ -53,7 +49,7 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
         return expirationStateId
     
     # Common Status Behavior (Neutral)
-    owner.status = current_phase.player_status        
+    owner.status = current_phase.player_status
     if owner.status == Player.Status.NEUTRAL:
         const idle_actions := {
             "a": Player.State.A,
@@ -67,16 +63,36 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
     # Apply all phase effects
     var default_params = [owner, input, ticks_in_state]
     for effect in current_phase.effects:
-        if not effect.once_at_start or phase_just_started:
-            var params = default_params.duplicate()
-            params.append_array(effect.params)
-            var next_state = (EffectLib.methods[effect.typeId] as Callable).callv(params)
+        if (not effect.once_at_start or phase_just_started) and _check_effect_conditions(default_params, effect.conditions):
+                var params = default_params.duplicate()
+                params.append_array(effect.params)
+                var next_state = (EffectLib.methods[effect.typeId] as Callable).callv(params)
 
-            if next_state != Player.State.NONE:
-                return next_state
+                if next_state != Player.State.NONE:
+                    return next_state
     
     # If we got here, no change to player's state.
     # Set collision according to current phase
     owner.set_hitboxes(current_phase.hitboxes, current_phase.attack_data, current_phase.new_attack and phase_just_started)
     owner.set_hurtboxes(current_phase.hurtboxes)
     return Player.State.NONE
+
+# HELPER #
+static func _check_effect_conditions(base_params: Array, conditions: Array[EffectCondition]) -> bool:
+    var passed_conditions: bool = true
+    for condition in conditions:
+        var condition_params = base_params.duplicate()
+        condition_params.append_array(condition.params)
+        passed_conditions = (ConditionLib.methods[condition.conditionId] as Callable).callv(condition_params)
+
+        if not passed_conditions:
+            break
+    
+    return passed_conditions
+
+static func _execute_effects(base_params, effects: Array[PhaseEffect]) -> void:
+    for effect in effects:
+        var params = base_params.duplicate()
+        if _check_effect_conditions(params, effect.conditions):
+            params.append_array(effect.params)
+            (EffectLib.methods[effect.typeId] as Callable).callv(params)

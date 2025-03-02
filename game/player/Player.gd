@@ -340,7 +340,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
 
     # look up hp value for character:
     data['hp'] = 100 # placeholder logic for now
-    data['su'] = 10 # placeholder logic
+    data['su'] = 2 # placeholder logic
 
     # overwrite other params with default values
     const spawn_num_ticks_in_state = 0
