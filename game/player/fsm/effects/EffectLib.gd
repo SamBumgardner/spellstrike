@@ -18,6 +18,7 @@ enum Effect {
     MATCH_SCALE_TO_FACING = 10,
     EXPIRE_OWNER = 11,
     REQUEST_PROJECTILE = 12,
+    MODIFY_SPECIAL_STOCK = 13,
 }
 
 static var methods := {
@@ -34,6 +35,7 @@ static var methods := {
     Effect.MATCH_SCALE_TO_FACING: match_scale_to_facing,
     Effect.EXPIRE_OWNER: expire_owner,
     Effect.REQUEST_PROJECTILE: request_projectile,
+    Effect.MODIFY_SPECIAL_STOCK: modify_special_stock
 }
 
 
@@ -136,5 +138,10 @@ static func expire_owner(owner: Player, _input: Dictionary, _ticks_in_state: int
 
 static func request_projectile(owner: Player, _input: Dictionary, _ticks_in_state: int, projectile_type: int) -> Player.State:
     owner.request_projectile.emit(projectile_type, owner)
+
+    return Player.State.NONE
+
+static func modify_special_stock(owner: Player, _input: Dictionary, _ticks_in_state: int, special_change_amt: int) -> Player.State:
+    owner.special_uses += special_change_amt
 
     return Player.State.NONE

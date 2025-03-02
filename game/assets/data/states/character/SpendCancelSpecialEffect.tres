@@ -1,0 +1,9 @@
+[gd_resource type="Resource" script_class="PhaseEffect" load_steps=2 format=3 uid="uid://by7bh3s7xipoc"]
+
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="1_wt01d"]
+
+[resource]
+script = ExtResource("1_wt01d")
+typeId = 13
+once_at_start = true
+params = [-1]
