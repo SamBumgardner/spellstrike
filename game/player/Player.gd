@@ -313,7 +313,7 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 func _network_process(input: Dictionary):
     if input.is_empty():
         input = InputRetriever.EMPTY
-    
+
     # add data to input buffer.
     button_buffer.push(input)
 

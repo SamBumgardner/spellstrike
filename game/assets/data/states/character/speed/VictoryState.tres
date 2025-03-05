@@ -32,5 +32,5 @@ phases = Array[ExtResource("1_nvg1a")]([SubResource("Resource_706cg")])
 transition_in_effects = Array[ExtResource("2_lop1i")]([SubResource("Resource_2oujd")])
 transition_out_effects = Array[ExtResource("2_lop1i")]([])
 animation_key = "idle"
-button_buffer_lookback = 1
+button_buffer_lookback = 8
 consumes_button_buffer = true

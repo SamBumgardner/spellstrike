@@ -19,6 +19,7 @@ func push(new_input: Dictionary) -> void:
 
 func clear() -> void:
     tail = head
+    circular_queue[tail] = 0
 
 func get_buffered_input(retrieve_last_n: int) -> Dictionary:
     var start_index := head - retrieve_last_n
@@ -36,10 +37,13 @@ func get_buffered_input(retrieve_last_n: int) -> Dictionary:
     
     var i = start_index
     var result: int = 0
-    while i != head:
+    while true:
         result = result & 0b001111 # remove directional inputs
         result = result | circular_queue[i]
         i = (i + 1) % QUEUE_LENGTH
+        
+        if i == head:
+            break;
     
     # directional inputs from current frame are preserved
     return InputHelper.to_dict(result)

@@ -46,5 +46,5 @@ phases = Array[ExtResource("1_twd7v")]([SubResource("Resource_706cg")])
 transition_in_effects = Array[ExtResource("2_0s1qv")]([SubResource("Resource_2oujd")])
 transition_out_effects = Array[ExtResource("2_0s1qv")]([])
 animation_key = "hurt"
-button_buffer_lookback = 1
-consumes_button_buffer = true
+button_buffer_lookback = 8
+consumes_button_buffer = false

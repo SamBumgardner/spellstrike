@@ -39,5 +39,5 @@ phases = Array[ExtResource("1_xjhl7")]([SubResource("Resource_1me4s")])
 transition_in_effects = Array[ExtResource("2_lmifq")]([])
 transition_out_effects = Array[ExtResource("2_lmifq")]([])
 animation_key = "walk"
-button_buffer_lookback = 1
+button_buffer_lookback = 8
 consumes_button_buffer = true

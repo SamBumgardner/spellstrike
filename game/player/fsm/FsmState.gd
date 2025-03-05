@@ -6,7 +6,7 @@ class_name FsmState extends Resource
 @export var transition_in_effects: Array[PhaseEffect] = []
 @export var transition_out_effects: Array[PhaseEffect] = []
 @export var animation_key: String = ""
-@export var button_buffer_lookback: int = 1
+@export var button_buffer_lookback: int = 8
 @export var consumes_button_buffer: bool = true
 
 func transition_in(owner: Player, input: Dictionary) -> void:
