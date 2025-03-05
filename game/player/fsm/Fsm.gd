@@ -42,8 +42,10 @@ func load(
     state = new_state
     ticks_in_state = new_ticks_in_state
 
-func process(input: Dictionary) -> void:
+func process(input) -> void:
     # Feed input into current state's process, loop through state transitions to get to ending state.
+    var should_clear_buffer = states[state].consumes_button_buffer
+
     var next_state = states[state].process(owner, input, ticks_in_state)
 
     var total_transitions := 0
@@ -63,8 +65,13 @@ func process(input: Dictionary) -> void:
         # Transition to next state
         states[state].transition_in(owner, input)
         next_state = states[state].process(owner, input, ticks_in_state)
+        
+        should_clear_buffer = states[state].consumes_button_buffer
     
     ticks_in_state += 1
+
+    if should_clear_buffer:
+        owner.button_buffer.clear()
 
 func force_change_state(next_state: Player.State) -> void:
     states[state].transition_out(owner, InputRetriever.EMPTY, ticks_in_state)

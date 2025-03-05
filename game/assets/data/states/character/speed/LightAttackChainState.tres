@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=19 format=3 uid="uid://4va3vpwoielf"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://4va3vpwoielf"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_pkxix"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_e141o"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_rn3pl"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_eoena"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_mo7rb"]
 [ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="5_oema1"]
 [ext_resource type="Resource" uid="uid://b88simmqjf5pt" path="res://assets/data/states/character/speed/LightAttackCancelEffect.tres" id="6_iwvbj"]
@@ -31,6 +32,7 @@ effects = Array[ExtResource("2_e141o")]([])
 script = ExtResource("2_e141o")
 typeId = 8
 once_at_start = false
+conditions = Array[ExtResource("4_eoena")]([])
 params = [1]
 
 [sub_resource type="Resource" id="Resource_vdygf"]
@@ -83,6 +85,7 @@ effects = Array[ExtResource("2_e141o")]([SubResource("Resource_eaoet"), ExtResou
 script = ExtResource("2_e141o")
 typeId = 9
 once_at_start = true
+conditions = Array[ExtResource("4_eoena")]([])
 params = [ExtResource("8_3fwye")]
 
 [resource]
@@ -93,3 +96,5 @@ phases = Array[ExtResource("1_pkxix")]([SubResource("Resource_84otp"), SubResour
 transition_in_effects = Array[ExtResource("2_e141o")]([SubResource("Resource_16ped")])
 transition_out_effects = Array[ExtResource("2_e141o")]([])
 animation_key = "light_attack"
+button_buffer_lookback = 1
+consumes_button_buffer = true

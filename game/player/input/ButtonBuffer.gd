@@ -2,7 +2,7 @@ class_name ButtonBuffer extends RefCounted
 
 const QUEUE_LENGTH: int = 8
 
-var circular_queue: Array[int]
+var circular_queue: Array
 var head: int = 0
 var tail: int = 0
 
@@ -15,7 +15,7 @@ func push(new_input: Dictionary) -> void:
     var int_input = InputHelper.to_int(new_input)
 
     circular_queue[head] = int_input
-    head += 1
+    head = (head + 1) % QUEUE_LENGTH
 
 func clear() -> void:
     tail = head
@@ -39,9 +39,7 @@ func get_buffered_input(retrieve_last_n: int) -> Dictionary:
     while i != head:
         result = result & 0b001111 # remove directional inputs
         result = result | circular_queue[i]
-        i += 1
-        if i > QUEUE_LENGTH:
-            i = i % QUEUE_LENGTH
+        i = (i + 1) % QUEUE_LENGTH
     
     # directional inputs from current frame are preserved
-    return InputHelper.to_dict(i)
+    return InputHelper.to_dict(result)

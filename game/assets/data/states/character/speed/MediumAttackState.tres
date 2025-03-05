@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://ct6y8ttfvxha1"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=21 format=3 uid="uid://ct6y8ttfvxha1"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_pivfc"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_ng3ut"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="6_yv17h"]
 [ext_resource type="Resource" uid="uid://cx6i6kgt6eybp" path="res://assets/data/states/character/speed/DelayedFireballCancelEffect.tres" id="7_xhldi"]
 [ext_resource type="AudioStream" uid="uid://fexx1vv7iifg" path="res://assets/sound/startup_medium.wav" id="8_6l1vh"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="9_ukc7p"]
 
 [sub_resource type="Resource" id="Resource_12ocq"]
 script = ExtResource("3_p2fwi")
@@ -84,12 +85,14 @@ effects = Array[ExtResource("2_ng3ut")]([ExtResource("7_xhldi")])
 script = ExtResource("2_ng3ut")
 typeId = 5
 once_at_start = true
+conditions = Array[ExtResource("9_ukc7p")]([])
 params = [0]
 
 [sub_resource type="Resource" id="Resource_vck4p"]
 script = ExtResource("2_ng3ut")
 typeId = 9
 once_at_start = true
+conditions = Array[ExtResource("9_ukc7p")]([])
 params = [ExtResource("8_6l1vh")]
 
 [resource]
@@ -100,3 +103,5 @@ phases = Array[ExtResource("1_pivfc")]([SubResource("Resource_mmymt"), SubResour
 transition_in_effects = Array[ExtResource("2_ng3ut")]([SubResource("Resource_jam7s"), SubResource("Resource_vck4p")])
 transition_out_effects = Array[ExtResource("2_ng3ut")]([])
 animation_key = "medium_attack"
+button_buffer_lookback = 1
+consumes_button_buffer = true

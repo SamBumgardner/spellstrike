@@ -71,7 +71,7 @@ func _network_process(input: Dictionary):
     fsm.process(input)
     position.x += velocity
     
-func _network_postprocess(_input: Dictionary):    
+func _network_postprocess(_input: Dictionary):
     if status in [Status.STARTUP, Status.ACTIVE]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:
