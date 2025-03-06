@@ -33,6 +33,7 @@ signal defeated
     # 
 
 const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
+const input_action_keys = ['a', 'b', 'c', 's']
 
 @onready var hurtbox_pool: Area2D = $HurtboxPool
 @onready var hurtboxes := hurtbox_pool.get_children()
