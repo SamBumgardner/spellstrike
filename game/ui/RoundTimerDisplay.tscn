@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://b31xd5gmlo6uy"]
+
+[ext_resource type="Theme" uid="uid://bap2d34tuj42" path="res://ui/themes/RoundTimerTheme.tres" id="1_foyby"]
+[ext_resource type="Script" path="res://ui/round_timer_display.gd" id="2_5x635"]
+
+[node name="RoundTimerDisplay" type="MarginContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -27.5
+offset_right = 27.5
+offset_bottom = 67.0
+grow_horizontal = 2
+theme = ExtResource("1_foyby")
+script = ExtResource("2_5x635")
+
+[node name="SecondsRemaining" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "90"
+horizontal_alignment = 1

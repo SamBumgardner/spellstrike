@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=15 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
 [ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]
 [ext_resource type="PackedScene" uid="uid://cnrgtvljl7jnx" path="res://ui/SpecialCounter.tscn" id="8_iinh3"]
+[ext_resource type="PackedScene" uid="uid://b31xd5gmlo6uy" path="res://ui/RoundTimerDisplay.tscn" id="9_cdte3"]
 [ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="9_rb1s8"]
 
 [node name="TestGameplay" type="Node2D"]
@@ -36,16 +37,18 @@ layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.0
 offset_left = 25.0
-offset_top = 10.0
-offset_bottom = 8.0
+offset_top = 28.0
+offset_right = 360.0
+offset_bottom = 60.0
 grow_horizontal = 1
 
 [node name="WinTracker" parent="UI/BattleHUD" instance=ExtResource("3_nhsyv")]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 50.0
-offset_top = 45.0
-offset_right = 60.0
+offset_top = 63.0
+offset_right = 137.0
+offset_bottom = 97.0
 
 [node name="HealthTracker2" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
 custom_minimum_size = Vector2(335, 0)
@@ -54,7 +57,9 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 offset_left = -25.0
-offset_top = 10.0
+offset_top = 28.0
+offset_right = 310.0
+offset_bottom = 60.0
 grow_horizontal = 1
 scale = Vector2(-1, 1)
 
@@ -63,9 +68,10 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_top = 50.0
+offset_left = -132.0
+offset_top = 68.0
 offset_right = -45.0
-offset_bottom = 0.0
+offset_bottom = 102.0
 grow_horizontal = 0
 
 [node name="MatchOver" type="Label" parent="UI/BattleHUD" groups=["network_sync"]]
@@ -107,8 +113,8 @@ anchor_left = 0.3
 anchor_top = 0.08
 anchor_right = 0.3
 anchor_bottom = 0.08
-offset_top = 0.0
-offset_bottom = 34.0
+offset_top = 18.0
+offset_bottom = 52.0
 grow_vertical = 1
 
 [node name="SpecialCounter2" parent="UI/BattleHUD" instance=ExtResource("8_iinh3")]
@@ -118,9 +124,13 @@ anchor_left = 0.7
 anchor_top = 0.08
 anchor_right = 0.7
 anchor_bottom = 0.08
-offset_top = 0.0
-offset_bottom = 34.0
+offset_top = 18.0
+offset_bottom = 52.0
 grow_vertical = 1
+
+[node name="RoundTimerDisplay" parent="UI/BattleHUD" instance=ExtResource("9_cdte3")]
+layout_mode = 1
+anchors_preset = -1
 
 [node name="Notification" parent="UI" instance=ExtResource("9_rb1s8")]
 visible = false
