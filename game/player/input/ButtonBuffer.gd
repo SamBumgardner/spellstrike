@@ -1,3 +1,4 @@
+# DEPRECATED: No longer used in favor of action buffer, but keeping it around for posterity
 class_name ButtonBuffer extends RefCounted
 
 const QUEUE_LENGTH: int = 8

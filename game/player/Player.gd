@@ -27,9 +27,6 @@ signal defeated
     # ah - attack hit
     # hb - hit by
     # su - special uses available
-    # bbcq - button buffer circular queue
-    # bbh - button buffer head
-    # bbt - button buffer tail
     # 
 
 const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
@@ -45,7 +42,6 @@ const input_action_keys = ['a', 'b', 'c', 's']
 # composed utils
 var input_retriever: InputRetriever
 var fsm: Fsm
-var button_buffer: ButtonBuffer
 @onready var action_buffer: ActionBuffer = $ActionBuffer
 
 # TODO: move these to character spec
@@ -91,7 +87,6 @@ func _init():
     input_retriever = InputRetriever.new()
     fsm = Fsm.new()
     fsm.owner = self
-    button_buffer = ButtonBuffer.new()
 
 func _ready():
     add_to_group("network_sync")
@@ -267,9 +262,6 @@ func _save_state() -> Dictionary:
         'ah': attack_hit,
         'hb': var_to_bytes(hit_by),
         'su': special_uses,
-        'bbcq': button_buffer.circular_queue,
-        'bbh': button_buffer.head,
-        'bbt': button_buffer.tail,
     }
 
 func _load_state(state: Dictionary) -> void:
@@ -292,9 +284,6 @@ func _load_state(state: Dictionary) -> void:
     attack_hit = state['ah']
     hit_by = bytes_to_var(state['hb'])
     special_uses = state['su']
-    button_buffer.circular_queue = state['bbcq']
-    button_buffer.head = state['bbh']
-    button_buffer.tail = state['bbt']
 
     var fsm_state = state['fs']
     var fsm_ticks_in_state = state['ft']
@@ -386,9 +375,6 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['a'] = initial_attack_id
     data['ah'] = false
     data['hb'] = var_to_bytes({})
-    data['bbcq'] = button_buffer.circular_queue
-    data['bbh'] = button_buffer.head
-    data['bbt'] = button_buffer.tail
     return data
 
 func _network_spawn(data: Dictionary) -> void:
