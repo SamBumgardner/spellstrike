@@ -37,7 +37,6 @@ func _ready():
 
 func _disconnect_existing_peers() -> void:
     multiplayer.multiplayer_peer.close()
-    multiplayer.multiplayer_peer = null
 
 func _on_local_button_pressed():
     %Menu.hide()
