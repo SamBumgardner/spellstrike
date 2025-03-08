@@ -7,7 +7,6 @@ class_name ActionBuffer extends Node
 
 # needs to implement "consume" method to use up an input from the buffer.
 
-
 const action_indices: Dictionary = {
     'a' = 0,
     'b' = 1,
@@ -49,7 +48,7 @@ func push_frame(new_input: Dictionary) -> void:
     for input_key in Player.input_action_keys:
         if new_input[input_key] == 1:
             last_pressed_indexes[action_indices[input_key]] = head
-        else:
+        elif last_pressed_indexes[action_indices[input_key]] == head:
             last_pressed_indexes[action_indices[input_key]] = NOT_PRESSED_INDEX
 
 func set_lookback_distance(lookback_distance: int = 0) -> void:
@@ -58,6 +57,7 @@ func set_lookback_distance(lookback_distance: int = 0) -> void:
     while current_distance < QUEUE_LENGTH:
         var lookback_index: int = head - current_distance + (0 if current_distance <= head else QUEUE_LENGTH)
         valid_lookback_indices[lookback_index] = 1 if current_distance <= lookback_distance else 0
+        current_distance += 1
 
 func is_pressed(input_key: String) -> int:
     var result: int = 0
@@ -65,6 +65,7 @@ func is_pressed(input_key: String) -> int:
         # if the last time this button was pressed is a '1' in valid lookbacks, we return 1
         var action_index = action_indices[input_key]
         result = valid_lookback_indices[last_pressed_indexes[action_index]]
+        
         # Clear the input from the buffer now that it's been consumed.
         last_pressed_indexes[action_index] = NOT_PRESSED_INDEX
     else:

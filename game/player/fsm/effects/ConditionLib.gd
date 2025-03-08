@@ -10,5 +10,5 @@ static var methods := {
 }
 
 # CONDITION METHODS #
-static func has_enough_special(owner: Player, _input: Dictionary, _ticks_in_state: int, minimum_inclusive: int) -> bool:
+static func has_enough_special(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, minimum_inclusive: int) -> bool:
     return owner.special_uses >= minimum_inclusive

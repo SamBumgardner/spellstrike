@@ -46,7 +46,7 @@ const input_action_keys = ['a', 'b', 'c', 's']
 var input_retriever: InputRetriever
 var fsm: Fsm
 var button_buffer: ButtonBuffer
-var action_buffer: ActionBuffer
+@onready var action_buffer: ActionBuffer = $ActionBuffer
 
 # TODO: move these to character spec
 const walk_speed: int = 5
@@ -324,7 +324,7 @@ func _network_process(input: Dictionary):
         input = InputRetriever.EMPTY
 
     # add data to input buffer.
-    button_buffer.push(input)
+    action_buffer.push_frame(input)
 
     # pushblock should be reset to 0 and recalc'd every tick. This prevents movement during hitstop.
     pushback_velocity = 0
@@ -336,7 +336,8 @@ func _network_process(input: Dictionary):
         current_hitstop_tick += 1
     else:
         animation.play()
-        fsm.process(button_buffer.get_buffered_input(fsm.states[fsm.state].button_buffer_lookback))
+        action_buffer.set_lookback_distance(fsm.states[fsm.state].button_buffer_lookback)
+        fsm.process(action_buffer)
         position.x += velocity
     
     if status != Player.Status.HITSTUN and status != Player.Status.DEFEATED:

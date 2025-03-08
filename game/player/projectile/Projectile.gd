@@ -68,7 +68,7 @@ func _network_process(input: Dictionary):
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     animation.play()
-    fsm.process(input)
+    fsm.process(action_buffer)
     position.x += velocity
     
 func _network_postprocess(_input: Dictionary):
