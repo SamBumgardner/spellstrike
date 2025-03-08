@@ -245,7 +245,7 @@ func _save_state() -> Dictionary:
         't': team,
         'pi': previous_input,
         'c': character,
-        'hp': randi_range(0, 100),#health,
+        'hp': health,
         's': status,
         'fs': fsm.state,
         'ft': fsm.ticks_in_state,

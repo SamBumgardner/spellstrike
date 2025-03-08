@@ -51,12 +51,13 @@ func _ready():
         var receiver_side = client_side if multiplayer.is_server() else host_side
         SyncManager.message_serializer.produce_input_path = "%s/fighter%s" % [get_path(), producer_side]
         SyncManager.message_serializer.receive_input_path = "%s/fighter%s" % [get_path(), receiver_side]
+        for id in [p1_network_id, p2_network_id]:
+            if id != multiplayer.get_unique_id():
+                SyncManager.add_peer(id)
     else:
         SyncManager.set_network_adaptor(preload("res://addons/godot-rollback-netcode/DummyNetworkAdaptor.gd").new())
 
-    for id in [p1_network_id, p2_network_id]:
-        if id != multiplayer.get_unique_id():
-            SyncManager.add_peer(id)
+    
     
     # SyncManager.start_logging("D:/detailed_logs/logfile_%s" % multiplayer.get_unique_id())
     
@@ -123,6 +124,8 @@ func _close_rollback_networking():
 
 func _return_to_network_menu() -> void:
     print_debug("I'm returning to the network menu!")
+    var main_menu_scene = SceneSwitchUtil.main_menu_scene.instantiate()
+    SceneSwitchUtil.change_scene(get_tree(), main_menu_scene)
     pass # return to network menu
 
 func _on_sync_stopped(reason: Disconnect.Reason):

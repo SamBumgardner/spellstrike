@@ -39,6 +39,8 @@ func _disconnect_existing_peers() -> void:
     multiplayer.multiplayer_peer.close()
 
 func _on_local_button_pressed():
+    multiplayer.multiplayer_peer = OfflineMultiplayerPeer.new()
+    
     %Menu.hide()
     load_game(1, 1)
 
@@ -90,14 +92,12 @@ func load_game(p1_id = 1, p2_id = 0):
         p2_id = multiplayer.get_unique_id()
     
     %Menu.hide()
-    if %MapInstance.get_children().size() > 0 && %MapInstance.get_child(0):
-        %MapInstance.get_child(0).queue_free()
     
     var instantiated_map = map.instantiate()
     instantiated_map.init_options(options)
     instantiated_map.p1_network_id = p1_id
     instantiated_map.p2_network_id = p2_id
-    %MapInstance.add_child(instantiated_map)
+    SceneSwitchUtil.change_scene(get_tree(), instantiated_map)
 
 func add_player_and_start_game(id):
     player_2_id = id
