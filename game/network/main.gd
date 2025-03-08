@@ -8,7 +8,7 @@ var player_2_id: int
 func _ready():
     InputMappingManager.load_all_mappings(_load_local_data("input_mapping.dat"))
     
-    $InputRemapperDisplay.confirmed.connect(_on_remapper_display_confirmed)
+    $InputRemapperDisplay.done.connect(_on_remapper_display_confirmed)
     $InputRemapperDisplay.redo.connect(_on_remap_button_pressed)
     
     $InputMapperLogic.waiting_for_next_input.connect($InputRemapperDisplay._on_waiting_for_next_input)
@@ -53,6 +53,7 @@ func _on_match_options_pressed():
 func _on_match_options_closed():
     $Menu.show()
     $MatchOptionsMenu.hide()
+    $"%MatchOptionsButton".grab_focus.call_deferred()
 
 func _on_remap_button_pressed(side: Player.Side):
     $Menu.hide()
@@ -62,12 +63,16 @@ func _on_remap_button_pressed(side: Player.Side):
     elif side == Player.Side.P2:
         InputMappingManager.p2_input_mapping = await $InputMapperLogic.collect_input_mapping()
 
-func _on_remapper_display_confirmed():
+func _on_remapper_display_confirmed(side: Player.Side):
     # save input config locally
     _save_local_data(InputMappingManager.get_all_mappings(), "input_mapping.dat")
     $InputRemapperDisplay.hide()
     $Menu.show()
-    $"Menu/MarginContainer/VBoxContainer/Remap P1 Input".grab_focus.call_deferred()
+    match side:
+        Player.Side.P1:
+            $"Menu/MarginContainer/VBoxContainer/Remap P1 Input".grab_focus.call_deferred()
+        Player.Side.P2:
+            $"Menu/MarginContainer/VBoxContainer/Remap P2 Input".grab_focus.call_deferred()
 
 func _save_local_data(data, filepath: String) -> void:
     var file = FileAccess.open("user://%s" % filepath, FileAccess.WRITE)

@@ -1,5 +1,6 @@
 class_name InputRemapperDisplay extends Control
 
+signal done
 signal redo
 
 @export var highlight_color = Color(Color.GREEN, .5)
@@ -8,13 +9,12 @@ signal redo
 @onready var confirm_button: Button = $VBoxContainer/HBoxContainer/Confirm
 @onready var redo_button: Button = $VBoxContainer/HBoxContainer/Redo
 
-@onready var confirmed: Signal = confirm_button.pressed
-
 var current_side: Player.Side
 var action_input_pairs_mapped: Dictionary
 var selected_action_input_pair: ActionInputPair
 
 func _ready() -> void:
+    confirm_button.pressed.connect(_on_confirm_pressed)
     redo_button.pressed.connect(_on_redo_pressed)
     
     action_input_pairs_mapped = {}
@@ -53,6 +53,9 @@ func _on_remap_complete(_complete_input_map) -> void:
     confirm_button.disabled = false
     redo_button.disabled = false
     confirm_button.grab_focus.call_deferred()
+
+func _on_confirm_pressed():
+    done.emit(current_side)
 
 func _on_redo_pressed():
     redo.emit(current_side)
