@@ -46,6 +46,7 @@ const input_action_keys = ['a', 'b', 'c', 's']
 var input_retriever: InputRetriever
 var fsm: Fsm
 var button_buffer: ButtonBuffer
+var action_buffer: ActionBuffer
 
 # TODO: move these to character spec
 const walk_speed: int = 5
@@ -304,7 +305,14 @@ func _load_state(state: Dictionary) -> void:
         state:%s, mem: %s''' % [state['c'], character])
 
 func _get_local_input() -> Dictionary:
-    return input_retriever.retrieve_input()
+    var new_input = input_retriever.retrieve_input()
+    var previous_dict = InputHelper.to_dict(previous_input)
+    previous_input = InputHelper.to_int(new_input)
+    
+    # Turn actions in dictionary to "just pressed" values (will be 0 if held)
+    for input_key in input_action_keys:
+        new_input[input_key] = new_input[input_key] & (new_input[input_key] ^ previous_dict[input_key])
+    return new_input
 
 func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
     if ticks_since_real_input >= 5:
@@ -342,8 +350,6 @@ func _network_postprocess(input: Dictionary):
     else:
         z_index = 0
     
-    previous_input = InputHelper.to_int(input)
-
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     # check required parameters are provided

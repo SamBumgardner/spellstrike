@@ -52,11 +52,14 @@ func push_frame(new_input: Dictionary) -> void:
         else:
             last_pressed_indexes[action_indices[input_key]] = NOT_PRESSED_INDEX
 
-func set_lookback_distance() -> void:
+func set_lookback_distance(lookback_distance: int = 0) -> void:
     # figure out which indices should be "on" based on lookback distance.
-    pass
+    var current_distance = 0
+    while current_distance < QUEUE_LENGTH:
+        var lookback_index: int = head - current_distance + (0 if current_distance <= head else QUEUE_LENGTH)
+        valid_lookback_indices[lookback_index] = 1 if current_distance <= lookback_distance else 0
 
-func consume_input(input_key: String) -> int:
+func is_pressed(input_key: String) -> int:
     var result: int = 0
     if input_key in action_indices.keys():
         # if the last time this button was pressed is a '1' in valid lookbacks, we return 1
@@ -70,9 +73,12 @@ func consume_input(input_key: String) -> int:
         result = current_frame_inputs[input_key]
     return result
 
-
 func _save_state() -> Dictionary:
-    return {}
+    return {
+        'lpi': last_pressed_indexes,
+        'h': head,
+    }
 
 func _load_state(state: Dictionary) -> void:
-    pass
+    last_pressed_indexes = state['lpi']
+    head = state['h']

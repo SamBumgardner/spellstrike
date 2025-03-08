@@ -1,6 +1,7 @@
-[gd_scene load_steps=15 format=3 uid="uid://bqflbbnh7mpr4"]
+[gd_scene load_steps=16 format=3 uid="uid://bqflbbnh7mpr4"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_477q8"]
+[ext_resource type="Script" path="res://player/input/ActionBuffer.gd" id="2_77wru"]
 [ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="2_xguty"]
 [ext_resource type="PackedScene" uid="uid://dbsv1t4mkjxn" path="res://player/collision_box.tscn" id="3_upa8i"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkAnimationPlayer.gd" id="4_cqwil"]
@@ -202,3 +203,6 @@ script = ExtResource("4_cqwil")
 visible = true
 shape = SubResource("RectangleShape2D_nfot4")
 draw_color = Color(0, 0.940033, 0.967931, 1)
+
+[node name="ActionBuffer" type="Node" parent="."]
+script = ExtResource("2_77wru")
