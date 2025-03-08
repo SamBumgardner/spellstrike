@@ -76,7 +76,7 @@ func is_pressed(input_key: String) -> int:
 
 func _save_state() -> Dictionary:
     return {
-        'lpi': last_pressed_indexes,
+        'lpi': last_pressed_indexes.duplicate(),
         'h': head,
     }
 

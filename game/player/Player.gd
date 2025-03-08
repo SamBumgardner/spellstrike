@@ -294,7 +294,10 @@ func _load_state(state: Dictionary) -> void:
         state:%s, mem: %s''' % [state['c'], character])
 
 func _get_local_input() -> Dictionary:
-    var new_input = input_retriever.retrieve_input()
+    return input_retriever.retrieve_input()
+
+func _process_input(new_input: Dictionary) -> Dictionary:
+    new_input = new_input.duplicate()
     var previous_dict = InputHelper.to_dict(previous_input)
     previous_input = InputHelper.to_int(new_input)
     
@@ -311,6 +314,8 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 func _network_process(input: Dictionary):
     if input.is_empty():
         input = InputRetriever.EMPTY
+
+    input = _process_input(input)
 
     # add data to input buffer.
     action_buffer.push_frame(input)
@@ -359,7 +364,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     const spawn_combo_size = 0
     const spawn_velocity = 0
     const initial_attack_id = 0
-    data['pi'] = InputHelper.EMPTY
+    data['pi'] = previous_input
     data['s'] = Status.NEUTRAL
     data['fs'] = State.IDLE
     data['ft'] = spawn_num_ticks_in_state
