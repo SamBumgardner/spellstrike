@@ -31,7 +31,7 @@ func stop():
     _running = false
     ticks_left = 0
 
-func _on_SyncManager_sync_stopped() -> void:
+func _on_SyncManager_sync_stopped(_reason: Disconnect.Reason) -> void:
     stop()
 
 func _network_process(_input: Dictionary) -> void:

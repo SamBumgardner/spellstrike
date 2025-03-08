@@ -582,17 +582,17 @@ func _on_received_remote_start() -> void:
     _spawn_manager.reset()
     sync_started.emit()
 
-func stop() -> void:
+func stop(reason: Disconnect.Reason = Disconnect.Reason.UNKNOWN) -> void:
     if _network_adaptor.is_network_host() and not _mechanized:
         for peer_id in peers:
-            _network_adaptor.send_remote_stop(peer_id)
+            _network_adaptor.send_remote_stop(peer_id, reason)
 
     _on_received_remote_stop()
 
-func _on_received_remote_stop() -> void:
+func _on_received_remote_stop(reason: Disconnect.Reason = Disconnect.Reason.UNKNOWN) -> void:
     if not (_started or _host_starting):
         return
-
+        
     _network_adaptor.stop_network_adaptor(self)
     _started = false
     _host_starting = false
@@ -601,14 +601,15 @@ func _on_received_remote_stop() -> void:
     for peer in peers.values():
         peer.clear()
 
-    sync_stopped.emit()
+    sync_stopped.emit(reason)
     _spawn_manager.reset()
     _spectating = false
 
 func _handle_fatal_error(msg: String):
     sync_error.emit(msg)
     push_error("NETWORK SYNC LOST: " + msg)
-    stop()
+    stop(Disconnect.Reason.DESYNC)
+    
     if _logger:
         _logger.log_fatal_error(msg)
     return null
