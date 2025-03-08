@@ -53,5 +53,5 @@ func _on_audio_finished(node: Node) -> void:
 func _on_SyncManager_tick_retired(tick) -> void:
     ticks.erase(tick)
 
-func _on_SyncManager_sync_stopped() -> void:
+func _on_SyncManager_sync_stopped(_reason: Disconnect.Reason) -> void:
     ticks.clear()

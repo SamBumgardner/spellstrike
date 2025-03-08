@@ -157,3 +157,6 @@ script = ExtResource("7_1ckhu")
 z_index = -100
 position = Vector2(0, 300)
 texture = ExtResource("8_7iqk1")
+
+[node name="StartMatchTimer" type="Timer" parent="."]
+one_shot = true

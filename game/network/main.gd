@@ -32,7 +32,12 @@ func _ready():
         $Menu/MarginContainer/VBoxContainer/JoinButton.hide()
     
     $Menu/MarginContainer/VBoxContainer/LocalButton.grab_focus.call_deferred()
-        
+    
+    _disconnect_existing_peers()
+
+func _disconnect_existing_peers() -> void:
+    multiplayer.multiplayer_peer.close()
+    multiplayer.multiplayer_peer = null
 
 func _on_local_button_pressed():
     %Menu.hide()
@@ -101,13 +106,11 @@ func add_player_and_start_game(id):
 
 @rpc("any_peer")
 func remove_player(id):
+    #_disconnect_existing_peers()
     #%Menu.show()
-    #if %MapInstance.get_child(0):
-        #%MapInstance.get_child(0).queue_free()
     pass
 
 func server_offline():
+    #_disconnect_existing_peers()
     #%Menu.show()
-    #if %MapInstance.get_child(0):
-        #%MapInstance.get_child(0).queue_free()
     pass

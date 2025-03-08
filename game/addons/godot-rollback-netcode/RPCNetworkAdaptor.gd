@@ -23,12 +23,12 @@ func send_remote_start(peer_id: int) -> void:
 func _remote_start() -> void:
     received_remote_start.emit()
 
-func send_remote_stop(peer_id: int) -> void:
-    _remote_stop.rpc_id(peer_id)
+func send_remote_stop(peer_id: int, reason: Disconnect.Reason = Disconnect.Reason.UNKNOWN) -> void:
+    _remote_stop.rpc_id(peer_id, reason)
 
 @rpc("any_peer")
-func _remote_stop() -> void:
-    received_remote_stop.emit()
+func _remote_stop(reason: Disconnect.Reason = Disconnect.Reason.UNKNOWN) -> void:
+    received_remote_stop.emit(reason)
 
 func send_input_tick(peer_id: int, msg: PackedByteArray) -> void:
     _rit.rpc_id(peer_id, msg)
