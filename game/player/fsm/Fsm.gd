@@ -33,7 +33,7 @@ func prepare_states(provided_states: Dictionary) -> void:
 func reset() -> void:
     state = Player.State.IDLE
     ticks_in_state = 0
-    states[state].transition_in(owner, InputRetriever.EMPTY)
+    states[state].transition_in(owner, owner.action_buffer)
 
 func load(
     new_state: Player.State,
@@ -42,9 +42,9 @@ func load(
     state = new_state
     ticks_in_state = new_ticks_in_state
 
-func process(input: Dictionary) -> void:
+func process(action_buffer: ActionBuffer) -> void:
     # Feed input into current state's process, loop through state transitions to get to ending state.
-    var next_state = states[state].process(owner, input, ticks_in_state)
+    var next_state = states[state].process(owner, action_buffer, ticks_in_state)
 
     var total_transitions := 0
     const too_many_transitions = 50
@@ -56,19 +56,19 @@ func process(input: Dictionary) -> void:
             break
             
         # Prepare to transition
-        states[state].transition_out(owner, input, ticks_in_state)
+        states[state].transition_out(owner, action_buffer, ticks_in_state)
         state = next_state
         ticks_in_state = 0
 
         # Transition to next state
-        states[state].transition_in(owner, input)
-        next_state = states[state].process(owner, input, ticks_in_state)
-    
+        states[state].transition_in(owner, action_buffer)
+        next_state = states[state].process(owner, action_buffer, ticks_in_state)
+        
     ticks_in_state += 1
 
 func force_change_state(next_state: Player.State) -> void:
-    states[state].transition_out(owner, InputRetriever.EMPTY, ticks_in_state)
+    states[state].transition_out(owner, owner.action_buffer, ticks_in_state)
     state = next_state
     ticks_in_state = 0
     # Transition to next state
-    states[state].transition_in(owner, InputRetriever.EMPTY)
+    states[state].transition_in(owner, owner.action_buffer)

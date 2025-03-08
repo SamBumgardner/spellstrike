@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=21 format=3 uid="uid://b1ogno7xi50fe"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=22 format=3 uid="uid://b1ogno7xi50fe"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_ffoxh"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5tlun"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_gewd5"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_h6ifd"]
 [ext_resource type="Resource" uid="uid://b882y4r2cdik4" path="res://assets/data/collision/hitbox/StandardHitbox.tres" id="5_8jkpt"]
 [ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="5_kjf7r"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_ksfka"]
@@ -32,6 +33,7 @@ effects = Array[ExtResource("2_5tlun")]([])
 script = ExtResource("2_5tlun")
 typeId = 8
 once_at_start = false
+conditions = Array[ExtResource("4_h6ifd")]([])
 params = [1]
 
 [sub_resource type="Resource" id="Resource_vdygf"]
@@ -84,12 +86,14 @@ effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet"), ExtResou
 script = ExtResource("2_5tlun")
 typeId = 5
 once_at_start = true
+conditions = Array[ExtResource("4_h6ifd")]([])
 params = [12, true]
 
 [sub_resource type="Resource" id="Resource_16ped"]
 script = ExtResource("2_5tlun")
 typeId = 9
 once_at_start = true
+conditions = Array[ExtResource("4_h6ifd")]([])
 params = [ExtResource("8_7wevv")]
 
 [resource]
@@ -100,3 +104,5 @@ phases = Array[ExtResource("1_ffoxh")]([SubResource("Resource_84otp"), SubResour
 transition_in_effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_v8mpq"), SubResource("Resource_16ped")])
 transition_out_effects = Array[ExtResource("2_5tlun")]([])
 animation_key = "light_attack"
+button_buffer_lookback = 8
+consumes_button_buffer = true

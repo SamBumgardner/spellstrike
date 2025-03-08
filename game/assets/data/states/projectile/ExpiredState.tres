@@ -23,3 +23,5 @@ phases = Array[ExtResource("1_2wai0")]([SubResource("Resource_stgkw")])
 transition_in_effects = Array[ExtResource("3_u5gpm")]([])
 transition_out_effects = Array[ExtResource("3_u5gpm")]([])
 animation_key = ""
+button_buffer_lookback = 1
+consumes_button_buffer = true

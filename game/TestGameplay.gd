@@ -49,7 +49,7 @@ func _ready():
         if id != multiplayer.get_unique_id():
             SyncManager.add_peer(id)
     
-    #SyncManager.start_logging("D:/detailed_logs/logfile_%s" % multiplayer.get_unique_id())
+    # SyncManager.start_logging("D:/detailed_logs/logfile_%s" % multiplayer.get_unique_id())
     
     if multiplayer.is_server():
         await get_tree().create_timer(2).timeout
@@ -94,7 +94,7 @@ func _on_sync_started():
     
     $AudioStreamPlayer.play()
     $UI/BattleHUD.show()
-
+    
 
 func _on_sync_stopped():
     SyncManager.stop_logging()

@@ -6,15 +6,17 @@ class_name FsmState extends Resource
 @export var transition_in_effects: Array[PhaseEffect] = []
 @export var transition_out_effects: Array[PhaseEffect] = []
 @export var animation_key: String = ""
+@export var button_buffer_lookback: int = 8
+@export var consumes_button_buffer: bool = true
 
-func transition_in(owner: Player, input: Dictionary) -> void:
+func transition_in(owner: Player, input_buffer: ActionBuffer) -> void:
     # default behavior - change facing when entering a new state.
-    EffectLib.match_scale_to_facing(owner, input, 0)
+    EffectLib.match_scale_to_facing(owner, input_buffer, 0)
     owner.attack_hit = false
     
     # apply all one-time phase effects to do when transitioning into the state.
     const ticks_in_state = 0
-    var params = [owner, input, ticks_in_state]
+    var params = [owner, input_buffer, ticks_in_state]
     _execute_effects(params, transition_in_effects)
     
     if owner.animation.current_animation != animation_key and not animation_key.is_empty():
@@ -25,15 +27,15 @@ func transition_in(owner: Player, input: Dictionary) -> void:
     
     owner.status = phases[0].player_status
 
-func transition_out(owner: Player, input: Dictionary, ticks_in_state: int) -> void:
+func transition_out(owner: Player, input_buffer: ActionBuffer, ticks_in_state: int) -> void:
     # apply al one-time phase effects to do when transitioning out of this state.
-    var params = [owner, input, ticks_in_state]
+    var params = [owner, input_buffer, ticks_in_state]
     _execute_effects(params, transition_out_effects)
 
 # Override this in child classes. Should consider input to decide how states
 #  may transition into each other. Returns the next state to transition to, or NONE to keep this 
 #  active
-func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.State:
+func process(owner: Player, input_buffer: ActionBuffer, ticks_in_state: int) -> Player.State:
     # Determine Current Phase & Expiration
     var current_phase: Phase
     var phase_just_started := false
@@ -56,12 +58,12 @@ func process(owner: Player, input: Dictionary, ticks_in_state: int) -> Player.St
             "b": Player.State.B,
             "c": Player.State.C,
         }
-        var next_state = EffectLib.start_action(owner, input, ticks_in_state, idle_actions, false)
+        var next_state = EffectLib.start_action(owner, input_buffer, ticks_in_state, idle_actions, false)
         if next_state != Player.State.NONE:
             return next_state
     
     # Apply all phase effects
-    var default_params = [owner, input, ticks_in_state]
+    var default_params = [owner, input_buffer, ticks_in_state]
     for effect in current_phase.effects:
         if (not effect.once_at_start or phase_just_started) and _check_effect_conditions(default_params, effect.conditions):
                 var params = default_params.duplicate()

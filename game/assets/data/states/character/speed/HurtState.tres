@@ -1,8 +1,9 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=10 format=3 uid="uid://dgxhlme3uf7jt"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=11 format=3 uid="uid://dgxhlme3uf7jt"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_twd7v"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_0s1qv"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_gdwtd"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="3_uvibj"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_1fmlf"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="5_20bvh"]
 
@@ -10,12 +11,14 @@
 script = ExtResource("2_0s1qv")
 typeId = 7
 once_at_start = false
+conditions = Array[ExtResource("3_uvibj")]([])
 params = []
 
 [sub_resource type="Resource" id="Resource_e03oo"]
 script = ExtResource("2_0s1qv")
 typeId = 6
 once_at_start = false
+conditions = Array[ExtResource("3_uvibj")]([])
 params = []
 
 [sub_resource type="Resource" id="Resource_706cg"]
@@ -32,6 +35,7 @@ effects = Array[ExtResource("2_0s1qv")]([SubResource("Resource_st5vw"), SubResou
 script = ExtResource("2_0s1qv")
 typeId = 5
 once_at_start = false
+conditions = Array[ExtResource("3_uvibj")]([])
 params = [0]
 
 [resource]
@@ -42,3 +46,5 @@ phases = Array[ExtResource("1_twd7v")]([SubResource("Resource_706cg")])
 transition_in_effects = Array[ExtResource("2_0s1qv")]([SubResource("Resource_2oujd")])
 transition_out_effects = Array[ExtResource("2_0s1qv")]([])
 animation_key = "hurt"
+button_buffer_lookback = 8
+consumes_button_buffer = false

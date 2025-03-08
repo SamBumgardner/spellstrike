@@ -68,10 +68,10 @@ func _network_process(input: Dictionary):
     # need to execute game logic here.
     # p1 and p2 apply inputs to state machine
     animation.play()
-    fsm.process(input)
+    fsm.process(action_buffer)
     position.x += velocity
     
-func _network_postprocess(_input: Dictionary):    
+func _network_postprocess(_input: Dictionary):
     if status in [Status.STARTUP, Status.ACTIVE]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:

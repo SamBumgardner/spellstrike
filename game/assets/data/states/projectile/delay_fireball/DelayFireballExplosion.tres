@@ -1,10 +1,11 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=13 format=3 uid="uid://coai4cjw4ontv"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=14 format=3 uid="uid://coai4cjw4ontv"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_n303d"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="2_0ku8o"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5uhsn"]
 [ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="3_be8xt"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_d0qcm"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_8flue"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="4_by0ri"]
 
 [sub_resource type="Resource" id="Resource_fxmds"]
@@ -18,6 +19,7 @@ pushback = 15
 script = ExtResource("2_5uhsn")
 typeId = 9
 once_at_start = true
+conditions = Array[ExtResource("4_8flue")]([])
 params = [ExtResource("3_be8xt")]
 
 [sub_resource type="Resource" id="Resource_mmwji"]
@@ -52,6 +54,7 @@ effects = Array[ExtResource("2_5uhsn")]([])
 script = ExtResource("2_5uhsn")
 typeId = 11
 once_at_start = false
+conditions = Array[ExtResource("4_8flue")]([])
 params = []
 
 [resource]
@@ -62,3 +65,5 @@ phases = Array[ExtResource("1_n303d")]([SubResource("Resource_8miwm"), SubResour
 transition_in_effects = Array[ExtResource("2_5uhsn")]([])
 transition_out_effects = Array[ExtResource("2_5uhsn")]([SubResource("Resource_hurb6")])
 animation_key = "delay_fireball/explosion"
+button_buffer_lookback = 1
+consumes_button_buffer = true

@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=9 format=3 uid="uid://cm4bgxkcu16vg"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=10 format=3 uid="uid://cm4bgxkcu16vg"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_1jnfw"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_5sam6"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_3gd6q"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_meo85"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_x8o5b"]
 [ext_resource type="Resource" uid="uid://by7bh3s7xipoc" path="res://assets/data/states/character/SpendCancelSpecialEffect.tres" id="5_b0f0b"]
 
 [sub_resource type="Resource" id="Resource_f5fw5"]
@@ -20,6 +21,7 @@ effects = Array[ExtResource("3_meo85")]([])
 script = ExtResource("3_meo85")
 typeId = 12
 once_at_start = true
+conditions = Array[ExtResource("4_x8o5b")]([])
 params = [0]
 
 [sub_resource type="Resource" id="Resource_g3a7y"]
@@ -40,3 +42,5 @@ phases = Array[ExtResource("1_1jnfw")]([SubResource("Resource_f5fw5"), SubResour
 transition_in_effects = Array[ExtResource("3_meo85")]([ExtResource("5_b0f0b")])
 transition_out_effects = Array[ExtResource("3_meo85")]([])
 animation_key = "delayed_fireball_cast"
+button_buffer_lookback = 1
+consumes_button_buffer = true

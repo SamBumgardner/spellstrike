@@ -40,18 +40,18 @@ static var methods := {
 
 
 # HELPER #
-static func _get_move_direction(input: Dictionary) -> int:
+static func _get_move_direction(input_buffer: ActionBuffer) -> int:
     var movement_direction: int = 0
-    if input["l"]:
+    if input_buffer.is_pressed("l"):
         movement_direction -= 1
-    if input["r"]:
+    if input_buffer.is_pressed("r"):
         movement_direction += 1
     
     return movement_direction
 
 # EFFECT #
-static func walk(owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    var movement_direction = _get_move_direction(input)
+static func walk(owner: Player, input_buffer: ActionBuffer, _ticks_in_state: int) -> Player.State:
+    var movement_direction = _get_move_direction(input_buffer)
 
     owner.velocity = clamp(
         owner.velocity + owner.walk_accel * movement_direction,
@@ -60,8 +60,8 @@ static func walk(owner: Player, input: Dictionary, _ticks_in_state: int) -> Play
     
     return Player.State.NONE
 
-static func stopped_to_idle(owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    var movement_direction = _get_move_direction(input)
+static func stopped_to_idle(owner: Player, input_buffer: ActionBuffer, _ticks_in_state: int) -> Player.State:
+    var movement_direction = _get_move_direction(input_buffer)
     
     if movement_direction == 0:
         if owner.velocity > 0:
@@ -71,38 +71,37 @@ static func stopped_to_idle(owner: Player, input: Dictionary, _ticks_in_state: i
     
     return Player.State.IDLE if owner.velocity == 0 else Player.State.NONE
 
-static func start_walk(_owner: Player, input: Dictionary, _ticks_in_state: int) -> Player.State:
-    var movement_direction = _get_move_direction(input)
+static func start_walk(_owner: Player, input_buffer: ActionBuffer, _ticks_in_state: int) -> Player.State:
+    var movement_direction = _get_move_direction(input_buffer)
     
     return Player.State.WALK if movement_direction != 0 else Player.State.NONE
 
-static func start_action(owner: Player, input: Dictionary, _ticks_in_state: int, input_to_state_mapping: Dictionary, attack_hit_required: bool) -> Player.State:
+static func start_action(owner: Player, input_buffer: ActionBuffer, _ticks_in_state: int, input_to_state_mapping: Dictionary, attack_hit_required: bool) -> Player.State:
     if attack_hit_required and not owner.attack_hit:
         return Player.State.NONE
-    
     for key in input_to_state_mapping.keys():
-        if input[key]:
+        if input_buffer.is_pressed(key):
             return input_to_state_mapping[key]
     
     return Player.State.NONE
 
-static func debug_log(_owner: Player, _input: Dictionary, _ticks_in_state: int, message: String) -> Player.State:
+static func debug_log(_owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, message: String) -> Player.State:
     print_debug(message)
     return Player.State.NONE
 
-static func set_velocity(owner: Player, input: Dictionary, _ticks_in_state: int, new_velocity: int = 0, consider_input: bool = false) -> Player.State:
-    var movement_direction = owner.scale.x if not consider_input else _get_move_direction(input)
+static func set_velocity(owner: Player, input_buffer: ActionBuffer, _ticks_in_state: int, new_velocity: int = 0, consider_input: bool = false) -> Player.State:
+    var movement_direction = int(owner.scale.x) if not consider_input else _get_move_direction(input_buffer)
     
     owner.velocity = new_velocity * movement_direction
     return Player.State.NONE
 
-static func check_hitstun_over(owner: Player, _input: Dictionary, ticks_in_state: int) -> Player.State:
+static func check_hitstun_over(owner: Player, _input_buffer: ActionBuffer, ticks_in_state: int) -> Player.State:
     if owner.hitstun_duration < ticks_in_state:
         return Player.State.IDLE
     else:
         return Player.State.NONE
 
-static func decaying_pushback(owner: Player, _input: Dictionary, ticks_in_state: int) -> Player.State:
+static func decaying_pushback(owner: Player, _input_buffer: ActionBuffer, ticks_in_state: int) -> Player.State:
     var base_decay = (owner.pushback / min(owner.hitstun_duration, 10) * ticks_in_state)
     var remainder = owner.pushback % min(owner.hitstun_duration, 10)
     base_decay += min(ticks_in_state, remainder)
@@ -113,7 +112,7 @@ static func decaying_pushback(owner: Player, _input: Dictionary, ticks_in_state:
         
     return Player.State.NONE
 
-static func velocity_decay_natural(owner: Player, _input: Dictionary, _ticks_in_state: int, rate: int) -> Player.State:
+static func velocity_decay_natural(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, rate: int) -> Player.State:
     if owner.velocity > 0:
         owner.velocity = max(0, owner.velocity - rate)
     elif owner.velocity < 0:
@@ -121,27 +120,27 @@ static func velocity_decay_natural(owner: Player, _input: Dictionary, _ticks_in_
 
     return Player.State.NONE
 
-static func play_sound(owner: Player, _input: Dictionary, _ticks_in_state: int, sound_effect: AudioStream) -> Player.State:
+static func play_sound(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, sound_effect: AudioStream) -> Player.State:
     SyncManager.play_sound("%s_effectLib_%s" % [owner.name, sound_effect.resource_name], sound_effect)
 
     return Player.State.NONE
 
-static func match_scale_to_facing(owner: Player, _input: Dictionary, _ticks_in_state: int) -> Player.State:
+static func match_scale_to_facing(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int) -> Player.State:
     owner.scale.x = Player.get_side_scale(owner.facing_direction)
 
     return Player.State.NONE
 
-static func expire_owner(owner: Player, _input: Dictionary, _ticks_in_state: int) -> Player.State:
+static func expire_owner(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int) -> Player.State:
     owner.expire()
 
     return Player.State.NONE
 
-static func request_projectile(owner: Player, _input: Dictionary, _ticks_in_state: int, projectile_type: int) -> Player.State:
+static func request_projectile(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, projectile_type: int) -> Player.State:
     owner.request_projectile.emit(projectile_type, owner)
 
     return Player.State.NONE
 
-static func modify_special_stock(owner: Player, _input: Dictionary, _ticks_in_state: int, special_change_amt: int) -> Player.State:
+static func modify_special_stock(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, special_change_amt: int) -> Player.State:
     owner.special_uses += special_change_amt
 
     return Player.State.NONE
