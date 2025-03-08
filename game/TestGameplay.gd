@@ -9,6 +9,11 @@ var client_side := Side.P2
 
 var match_options: MatchOptions
 
+# non-gameplay UI
+@onready var notification_window: Notification = $UI/Notification
+const NETWORK_ERROR_TYPE: String = "NETWORK"
+const DESYNC_ERROR_FORMAT: String = "Desync ocurred. Match has been cancelled.\rReturning to the network menu..."
+
 # handle game ending
 @onready var confirm_defeat_timer: NetworkTimer = $ConfirmDefeatTimer
 @onready var start_new_round_timer: NetworkTimer = $StartNewRoundTimer
@@ -35,6 +40,7 @@ func init_options(options: MatchOptions) -> void:
 func _ready():
     SyncManager.sync_started.connect(_on_sync_started)
     SyncManager.sync_stopped.connect(_on_sync_stopped)
+    SyncManager.sync_error.connect(_on_sync_error)
 
     if p1_network_id != p2_network_id:
         SyncManager.set_network_adaptor(preload("res://addons/godot-rollback-netcode/RPCNetworkAdaptor.gd").new())
@@ -95,6 +101,18 @@ func _on_sync_started():
     $AudioStreamPlayer.play()
     $UI/BattleHUD.show()
     
+
+func _on_sync_error(_msg: String):
+    # communicate that a fatal state mismatch occurred. 
+    var closed_signal: Signal = notification_window.notify_error(NETWORK_ERROR_TYPE, DESYNC_ERROR_FORMAT)
+    closed_signal.connect(_return_to_network_menu, CONNECT_ONE_SHOT)
+    SyncManager.stop()
+    SyncManager.clear_peers()
+    # Leaves godot high-level multiplayer connection intact.
+
+func _return_to_network_menu() -> void:
+    print_debug("I'm returning to the network menu!")
+    pass # return to network menu
 
 func _on_sync_stopped():
     SyncManager.stop_logging()

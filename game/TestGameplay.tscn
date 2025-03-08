@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=14 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
 [ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]
 [ext_resource type="PackedScene" uid="uid://cnrgtvljl7jnx" path="res://ui/SpecialCounter.tscn" id="8_iinh3"]
+[ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="9_rb1s8"]
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -121,6 +122,20 @@ offset_top = 0.0
 offset_bottom = 34.0
 grow_vertical = 1
 
+[node name="Notification" parent="UI" instance=ExtResource("9_rb1s8")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -177.0
+offset_top = -63.5
+offset_right = 177.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+
 [node name="ConfirmDefeatTimer" type="Node" parent="."]
 script = ExtResource("3_7unwa")
 one_shot = true
@@ -138,7 +153,7 @@ parameters/looping = true
 [node name="CameraControl" type="Node2D" parent="."]
 script = ExtResource("7_1ckhu")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Background" type="Sprite2D" parent="."]
 z_index = -100
 position = Vector2(0, 300)
 texture = ExtResource("8_7iqk1")

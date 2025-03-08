@@ -101,11 +101,13 @@ func add_player_and_start_game(id):
 
 @rpc("any_peer")
 func remove_player(id):
-    %Menu.show()
-    if %MapInstance.get_child(0):
-        %MapInstance.get_child(0).queue_free()
+    #%Menu.show()
+    #if %MapInstance.get_child(0):
+        #%MapInstance.get_child(0).queue_free()
+    pass
 
 func server_offline():
-    %Menu.show()
-    if %MapInstance.get_child(0):
-        %MapInstance.get_child(0).queue_free()
+    #%Menu.show()
+    #if %MapInstance.get_child(0):
+        #%MapInstance.get_child(0).queue_free()
+    pass
