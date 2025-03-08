@@ -102,11 +102,12 @@ static func check_hitstun_over(owner: Player, _input_buffer: ActionBuffer, ticks
         return Player.State.NONE
 
 static func decaying_pushback(owner: Player, _input_buffer: ActionBuffer, ticks_in_state: int) -> Player.State:
-    var base_decay = (owner.pushback / min(owner.hitstun_duration, 10) * ticks_in_state)
-    var remainder = owner.pushback % min(owner.hitstun_duration, 10)
-    base_decay += min(ticks_in_state, remainder)
+    if owner.status == Player.Status.HITSTUN:
+        var base_decay = (owner.pushback / min(owner.hitstun_duration, 10) * ticks_in_state)
+        var remainder = owner.pushback % min(owner.hitstun_duration, 10)
+        base_decay += min(ticks_in_state, remainder)
 
-    owner.pushback_velocity = owner.scale.x * -1 * max(owner.pushback - base_decay, 0)
+        owner.pushback_velocity = owner.scale.x * -1 * max(owner.pushback - base_decay, 0)
     #if ticks_in_state % 3 != 0:
         #owner.pushback = max(owner.pushback - 2, 0)
         

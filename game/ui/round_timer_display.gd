@@ -17,7 +17,7 @@ func update_seconds_remaining_display() -> void:
             seconds_remaining_label.text = str(seconds_remaining)
 
 func ticks_to_seconds(ticks: int) -> int:
-    return ticks / MatchOptions.ticks_per_second
+    return ceili(ticks / float(MatchOptions.ticks_per_second))
         
 func _process(_delta: float) -> void:
     update_seconds_remaining_display()
