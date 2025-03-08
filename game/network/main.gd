@@ -6,6 +6,8 @@ var player_2_id: int
 
 # Port mapping for online multiplayer
 func _ready():
+    InputMappingManager.load_all_mappings(_load_local_data("input_mapping.dat"))
+    
     $InputRemapperDisplay.confirmed.connect(_on_remapper_display_confirmed)
     $InputRemapperDisplay.redo.connect(_on_remap_button_pressed)
     
@@ -61,9 +63,23 @@ func _on_remap_button_pressed(side: Player.Side):
         InputMappingManager.p2_input_mapping = await $InputMapperLogic.collect_input_mapping()
 
 func _on_remapper_display_confirmed():
+    # save input config locally
+    _save_local_data(InputMappingManager.get_all_mappings(), "input_mapping.dat")
     $InputRemapperDisplay.hide()
     $Menu.show()
     $"Menu/MarginContainer/VBoxContainer/Remap P1 Input".grab_focus.call_deferred()
+
+func _save_local_data(data, filepath: String) -> void:
+    var file = FileAccess.open("user://%s" % filepath, FileAccess.WRITE)
+    file.store_buffer(var_to_bytes(data))
+    file.close()
+
+func _load_local_data(filepath: String):
+    var raw_bytes = FileAccess.get_file_as_bytes("user://%s" % filepath)
+    if not raw_bytes.is_empty():
+        return bytes_to_var(raw_bytes)
+    else:
+        return null
 
 # Server
 func _on_host_button_pressed():
