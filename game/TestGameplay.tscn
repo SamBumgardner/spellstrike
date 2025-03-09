@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=18 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
@@ -7,12 +7,26 @@
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="3_7unwa"]
 [ext_resource type="PackedScene" uid="uid://bwc0dw853pipg" path="res://ui/WinTracker.tscn" id="3_nhsyv"]
 [ext_resource type="Script" path="res://ui/match_over.gd" id="3_qj1xu"]
+[ext_resource type="PackedScene" uid="uid://dtt77h6lbqwi4" path="res://ui/RoundsTracker.tscn" id="4_p4lva"]
 [ext_resource type="PackedScene" uid="uid://d23c1is7wr3gs" path="res://ui/ComboCounter.tscn" id="6_5bdtu"]
 [ext_resource type="AudioStream" uid="uid://b8l368ifqnna4" path="res://assets/music/battle_bgm.ogg" id="6_nwacf"]
 [ext_resource type="Script" path="res://resolver/CameraControl.gd" id="7_1ckhu"]
 [ext_resource type="Texture2D" uid="uid://c3l0vjui7midg" path="res://assets/art/background.png" id="8_7iqk1"]
 [ext_resource type="PackedScene" uid="uid://cnrgtvljl7jnx" path="res://ui/SpecialCounter.tscn" id="8_iinh3"]
+[ext_resource type="PackedScene" uid="uid://b31xd5gmlo6uy" path="res://ui/RoundTimerDisplay.tscn" id="9_cdte3"]
 [ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="9_rb1s8"]
+[ext_resource type="Script" path="res://WinsManager.gd" id="16_y2clw"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ustvg"]
+bg_color = Color(0.517184, 0.517184, 0.517184, 1)
+skew = Vector2(0.5, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.286275)
+shadow_size = 1
+shadow_offset = Vector2(2, 2)
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -30,22 +44,51 @@ offset_right = 800.0
 offset_bottom = 600.0
 theme = ExtResource("2_mo6pi")
 
+[node name="RoundsTracker" parent="UI/BattleHUD" node_paths=PackedStringArray("wins_manager") instance=ExtResource("4_p4lva")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_top = 5.0
+offset_right = -456.0
+offset_bottom = 37.0
+grow_vertical = 1
+wins_manager = NodePath("../../../WinsManager")
+
+[node name="RoundsTracker2" parent="UI/BattleHUD" node_paths=PackedStringArray("wins_manager") instance=ExtResource("4_p4lva")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 0.0
+anchor_bottom = 0.0
+offset_left = -344.0
+offset_top = 5.0
+offset_right = -312.0
+offset_bottom = 37.0
+grow_horizontal = 1
+grow_vertical = 1
+theme_override_styles/panel = SubResource("StyleBoxFlat_ustvg")
+wins_manager = NodePath("../../../WinsManager")
+tracking_side = 1
+
 [node name="HealthTracker" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
 custom_minimum_size = Vector2(335, 0)
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 0.0
 offset_left = 25.0
-offset_top = 10.0
-offset_bottom = 8.0
+offset_top = 43.0
+offset_right = 360.0
+offset_bottom = 75.0
 grow_horizontal = 1
 
-[node name="WinTracker" parent="UI/BattleHUD" instance=ExtResource("3_nhsyv")]
+[node name="WinTracker" parent="UI/BattleHUD" node_paths=PackedStringArray("wins_manager") instance=ExtResource("3_nhsyv")]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 50.0
-offset_top = 45.0
-offset_right = 60.0
+offset_top = 9.0
+offset_right = 137.0
+offset_bottom = 43.0
+wins_manager = NodePath("../../../WinsManager")
 
 [node name="HealthTracker2" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
 custom_minimum_size = Vector2(335, 0)
@@ -54,34 +97,37 @@ layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 offset_left = -25.0
-offset_top = 10.0
+offset_top = 43.0
+offset_right = 310.0
+offset_bottom = 75.0
 grow_horizontal = 1
 scale = Vector2(-1, 1)
 
-[node name="WinTracker2" parent="UI/BattleHUD" instance=ExtResource("3_nhsyv")]
+[node name="WinTracker2" parent="UI/BattleHUD" node_paths=PackedStringArray("wins_manager") instance=ExtResource("3_nhsyv")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_top = 50.0
+offset_left = -132.0
+offset_top = 9.0
 offset_right = -45.0
-offset_bottom = 0.0
+offset_bottom = 43.0
 grow_horizontal = 0
+wins_manager = NodePath("../../../WinsManager")
+tracking_side = 1
 
 [node name="MatchOver" type="Label" parent="UI/BattleHUD" groups=["network_sync"]]
 visible = false
 layout_mode = 1
-anchors_preset = 8
+anchors_preset = -1
 anchor_left = 0.5
-anchor_top = 0.5
+anchor_top = 0.2
 anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -51.5
-offset_top = -11.5
-offset_right = 51.5
-offset_bottom = 11.5
+anchor_bottom = 0.2
+offset_left = -77.0
+offset_right = 77.0
+offset_bottom = 34.0
 grow_horizontal = 2
-grow_vertical = 2
 text = "MATCH OVER"
 horizontal_alignment = 1
 script = ExtResource("3_qj1xu")
@@ -107,8 +153,8 @@ anchor_left = 0.3
 anchor_top = 0.08
 anchor_right = 0.3
 anchor_bottom = 0.08
-offset_top = 0.0
-offset_bottom = 34.0
+offset_top = 33.0
+offset_bottom = 69.0
 grow_vertical = 1
 
 [node name="SpecialCounter2" parent="UI/BattleHUD" instance=ExtResource("8_iinh3")]
@@ -118,9 +164,16 @@ anchor_left = 0.7
 anchor_top = 0.08
 anchor_right = 0.7
 anchor_bottom = 0.08
-offset_top = 0.0
-offset_bottom = 34.0
+offset_top = 33.0
+offset_bottom = 69.0
 grow_vertical = 1
+
+[node name="RoundTimerDisplay" parent="UI/BattleHUD" node_paths=PackedStringArray("tracked_timer") instance=ExtResource("9_cdte3")]
+layout_mode = 1
+anchors_preset = -1
+offset_top = 6.0
+offset_bottom = 73.0
+tracked_timer = NodePath("../../../RoundTimer")
 
 [node name="Notification" parent="UI" instance=ExtResource("9_rb1s8")]
 visible = false
@@ -160,3 +213,12 @@ texture = ExtResource("8_7iqk1")
 
 [node name="StartMatchTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="RoundTimer" type="Node" parent="."]
+script = ExtResource("3_7unwa")
+one_shot = true
+wait_ticks = 3600
+hash_state = false
+
+[node name="WinsManager" type="Node" parent="."]
+script = ExtResource("16_y2clw")

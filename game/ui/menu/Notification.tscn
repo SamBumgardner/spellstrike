@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdy1yk1bvbqwg"]
+[gd_scene load_steps=4 format=3 uid="uid://bdy1yk1bvbqwg"]
 
 [ext_resource type="Theme" uid="uid://djk0g414gh3b4" path="res://ui/themes/NotificationTheme.tres" id="1_3bsv4"]
 [ext_resource type="Script" path="res://ui/menu/Notification.gd" id="2_wtulu"]
+[ext_resource type="StyleBox" uid="uid://fgvqlh3yi015" path="res://ui/themes/inner_panel.tres" id="3_q3u1m"]
 
 [node name="Notification" type="PanelContainer"]
 theme = ExtResource("1_3bsv4")
@@ -20,6 +21,7 @@ horizontal_alignment = 1
 
 [node name="PC" type="PanelContainer" parent="MC/VB"]
 layout_mode = 2
+theme_override_styles/panel = ExtResource("3_q3u1m")
 
 [node name="MC" type="MarginContainer" parent="MC/VB/PC"]
 layout_mode = 2

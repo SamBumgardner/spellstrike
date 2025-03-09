@@ -2,6 +2,12 @@ class_name MatchOptions extends RefCounted
 
 const separate_distance: int = 10
 
+const ticks_per_second: int = 60
+const default_seconds_per_round: int = 60
+const default_ticks_per_round: int = 60 * ticks_per_second # ticks_per_second * default_seconds_per_round
+
+const default_rounds_to_win: int = 4
+
 var input_retrievers: Array
 
 func _init(new_input_retrievers):

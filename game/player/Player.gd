@@ -225,15 +225,22 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     if health > 0:
         # force player to jump to hurt state.
         fsm.force_change_state(State.HITSTUN)
-    else:
+    elif status not in [Status.DEFEATED, Status.VICTORY]:
         handle_defeat()
 
 func handle_defeat() -> void:
     # stop all control
     # play defeat animation
-    fsm.force_change_state(State.DEFEATED)
+    receive_defeat()
     defeated.emit()
     
+func receive_victory() -> void:
+    #TODO: have some logic here to do timeout win instead of normal win.
+    fsm.force_change_state(State.VICTORY)
+
+func receive_defeat() -> void:
+    #TODO: add logic here to do timeout loss instead of normal loss.
+    fsm.force_change_state(State.DEFEATED)
 
 ##########################
 # ROLLBACK IMPLEMNTATION #
@@ -421,6 +428,7 @@ enum Status {
     RECOVERY = 3,
     HITSTUN = 4,
     DEFEATED = 5,
+    VICTORY = 6,
 }
 
 enum State {

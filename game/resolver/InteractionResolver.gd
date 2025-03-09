@@ -35,7 +35,7 @@ func register_new_projectile(new_projectile: Projectile) -> void:
 func _network_postprocess(_input: Dictionary) -> void:
         _resolve_player_movement()
         # Get list of results
-        _adjudicate_interactions(registered_actors)  
+        _adjudicate_interactions(registered_actors)
 
 func _resolve_player_movement() -> void:
     var players = [p1, p2]
@@ -160,6 +160,19 @@ func _adjudicate_interactions(actors: Array) -> void:
 func _has_successful_attack(attacker: Player) -> bool:
     return attacker.active_hitbox_hit()
 
+func decide_timeout_results() -> TimeoutResult:
+    var result = TimeoutResult.new()
+    if p1.health > p2.health:
+        result.winning_player = p1
+        result.losing_player = p2
+    elif p1.health < p2.health:
+        result.winning_player = p2
+        result.losing_player = p1
+    else:
+        result.tie_players = [p1, p2]
+    
+    return result
+
 enum ResultType {
     NEUTRAL = 0,
     HIT_OTHER = 1,
@@ -171,3 +184,8 @@ class AdjudicationResult:
     var result: ResultType = ResultType.NEUTRAL
     var hurt_by_details # need to do some kind of tracking to make sure a character doesn't get double-hit by a single action.
     var natural_pushback
+
+class TimeoutResult:
+    var winning_player: Player
+    var losing_player: Player
+    var tie_players: Array
