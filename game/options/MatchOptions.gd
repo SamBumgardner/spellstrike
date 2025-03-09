@@ -4,7 +4,9 @@ const separate_distance: int = 10
 
 const ticks_per_second: int = 60
 const default_seconds_per_round: int = 60
-const default_ticks_per_round: int = 5 * ticks_per_second #ticks_per_second * default_seconds_per_round 
+const default_ticks_per_round: int = 5 * ticks_per_second # ticks_per_second * default_seconds_per_round
+
+const default_rounds_to_win: int = 3
 
 var input_retrievers: Array
 

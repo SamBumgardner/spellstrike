@@ -32,6 +32,9 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 @onready var camera_control: CameraControl = $CameraControl
 @onready var round_timer: NetworkTimer = $RoundTimer
 
+var wins_manager: WinsManager = WinsManager.new()
+var players: Array = []
+
 enum Side {
     P1 = 0,
     P2 = 1,
@@ -67,6 +70,14 @@ func _ready():
 
     round_timer.timeout.connect(_on_round_timer_timeout)
 
+    wins_manager.round_won.connect(_on_round_won)
+    wins_manager.round_tied.connect(_on_round_tied)
+    wins_manager.game_won.connect(_on_game_won)
+    wins_manager.play_next_round.connect(_on_play_next_round)
+    wins_manager.game_won.connect(win_tracker_1._on_game_won)
+    wins_manager.game_won.connect(win_tracker_2._on_game_won)
+    # TODO: connect wins_manager to round display
+
 func _on_sync_started():
     if match_options == null:
         push_error("Match Options is unset. Falling back to default options...")
@@ -96,13 +107,15 @@ func _on_sync_started():
     special_counter_2.tracked_player = fighterP2
     fighterP2.defeated.connect(_on_player_defeated)
     fighterP2.request_projectile.connect(_on_player_requested_projectile)
+
+    players = [fighterP1, fighterP2]
     
     interaction_resolver._setup_players(fighterP1, fighterP2)
     interaction_resolver.camera_control = camera_control
     camera_control._sync_start_initialize([fighterP1, fighterP2])
 
-    confirm_defeat_timer.timeout.connect(_on_confirm_defeat_timer_timeout.bind([fighterP1, fighterP2]))
-    start_new_round_timer.timeout.connect(_on_start_new_round_timer_timeout.bind([fighterP1, fighterP2]))
+    confirm_defeat_timer.timeout.connect(_on_confirm_defeat_timer_timeout)
+    start_new_round_timer.timeout.connect(_on_start_new_round_timer_timeout)
     
     $AudioStreamPlayer.play()
     $UI/BattleHUD.show()
@@ -150,7 +163,7 @@ func _on_player_defeated():
         round_timer.stop()
         confirm_defeat_timer.start(SyncManager.max_buffer_size)
 
-func _on_confirm_defeat_timer_timeout(players: Array):
+func _on_confirm_defeat_timer_timeout():
     var winning_player: Player = null
     var defeated_players: Array = []
     for player in players:
@@ -162,29 +175,34 @@ func _on_confirm_defeat_timer_timeout(players: Array):
     _end_round(winning_player, defeated_players)
 
 func _end_round(winning_player: Player, defeated_players: Array):
-    if winning_player != null:
-        winning_player.receive_victory()
-        #TODO: use a smarter method to tell which player is which:
-        if winning_player.team == Player.Side.P1:
-            win_tracker_1.increment_wins()
-        else:
-            win_tracker_2.increment_wins()
-      
-    for loser in defeated_players:
-        loser.receive_defeat()
-    
-    if winning_player != null:
-        $UI/BattleHUD/MatchOver.visible = true
-        $UI/BattleHUD/MatchOver.text = "PLAYER %s WINS!" % (winning_player.team + 1)
-        #TODO: Trigger more exciting end of round effects
-    else:
-        $UI/BattleHUD/MatchOver.visible = true
-        $UI/BattleHUD/MatchOver.text = "TIE ROUND\rGO AGAIN!"
-    
-    # wait for some time, then do setup necessary to set up next round.
-    const ticks_per_sec := 60
-    start_new_round_timer.start(ticks_per_sec)
-    # call reset on both players
+    wins_manager.round_completed(winning_player, defeated_players)
+    start_new_round_timer.start(MatchOptions.ticks_per_second)
+
+func _on_round_won(winning_side: Player.Side, losing_sides: Array) -> void:
+    players[winning_side].receive_victory()
+    for side in losing_sides:
+        players[side].receive_defeat()
+
+    $UI/BattleHUD/MatchOver.visible = true
+    $UI/BattleHUD/MatchOver.text = "PLAYER %s WINS!" % (winning_side + 1)
+    #TODO: Trigger more exciting end of round effects
+
+func _on_round_tied() -> void:
+    for player in players:
+        player.receive_defeat()
+
+    $UI/BattleHUD/MatchOver.visible = true
+    $UI/BattleHUD/MatchOver.text = "TIE ROUND!"
+
+func _on_play_next_round(new_round_number: int) -> void:
+    for player in players:
+        player.reset()
+    $UI/BattleHUD/MatchOver.visible = false
+    print_debug("starting round %s" % new_round_number)
+    round_timer.start(match_options.default_ticks_per_round)
+
+func _on_game_won(side: Player.Side) -> void:
+    print_debug("game is over, P%s won, should pop up some kind of post-game menu" % (side + 1))
 
 # MISC.
 
@@ -192,11 +210,8 @@ func _on_player_requested_projectile(projectile_type: Projectile.ProjectileType,
     var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x})
     interaction_resolver.register_new_projectile(new_projectile)
 
-func _on_start_new_round_timer_timeout(players: Array):
-    for player in players:
-        player.reset()
-    $UI/BattleHUD/MatchOver.visible = false
-    round_timer.start(match_options.default_ticks_per_round)
+func _on_start_new_round_timer_timeout():
+    wins_manager.check_game_finished()
 
 func _process(_delta: float) -> void:
     if Input.is_action_just_pressed("ui_cancel"):
