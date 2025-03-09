@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bqflbbnh7mpr4"]
+[gd_scene load_steps=17 format=3 uid="uid://bqflbbnh7mpr4"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_477q8"]
 [ext_resource type="Script" path="res://player/input/ActionBuffer.gd" id="2_77wru"]
@@ -142,9 +142,26 @@ tracks/0/keys = {
 "values": [0, 0, 2, 2, 0, 0, 3]
 }
 
+[sub_resource type="Animation" id="Animation_bfte8"]
+resource_name = "defensive_special"
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.166667, 0.216667, 0.233333, 0.583333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 5, 5, 6, 6]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2kyqy"]
 _data = {
 "RESET": SubResource("Animation_i4rnd"),
+"defensive_special": SubResource("Animation_bfte8"),
 "delayed_fireball_cast": SubResource("Animation_4eiy3"),
 "heavy_attack": SubResource("Animation_1q78x"),
 "hurt": SubResource("Animation_n5ldy"),
