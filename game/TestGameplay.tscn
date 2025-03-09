@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=18 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://cnrgtvljl7jnx" path="res://ui/SpecialCounter.tscn" id="8_iinh3"]
 [ext_resource type="PackedScene" uid="uid://b31xd5gmlo6uy" path="res://ui/RoundTimerDisplay.tscn" id="9_cdte3"]
 [ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="9_rb1s8"]
+[ext_resource type="Script" path="res://WinsManager.gd" id="16_y2clw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ustvg"]
 bg_color = Color(0.517184, 0.517184, 0.517184, 1)
@@ -43,7 +44,7 @@ offset_right = 800.0
 offset_bottom = 600.0
 theme = ExtResource("2_mo6pi")
 
-[node name="RoundsTracker" parent="UI/BattleHUD" instance=ExtResource("4_p4lva")]
+[node name="RoundsTracker" parent="UI/BattleHUD" node_paths=PackedStringArray("wins_manager") instance=ExtResource("4_p4lva")]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.0
@@ -52,8 +53,9 @@ offset_top = 5.0
 offset_right = -456.0
 offset_bottom = 37.0
 grow_vertical = 1
+wins_manager = NodePath("../../../WinsManager")
 
-[node name="RoundsTracker2" parent="UI/BattleHUD" instance=ExtResource("4_p4lva")]
+[node name="RoundsTracker2" parent="UI/BattleHUD" node_paths=PackedStringArray("wins_manager") instance=ExtResource("4_p4lva")]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.0
@@ -65,6 +67,8 @@ offset_bottom = 37.0
 grow_horizontal = 1
 grow_vertical = 1
 theme_override_styles/panel = SubResource("StyleBoxFlat_ustvg")
+wins_manager = NodePath("../../../WinsManager")
+tracking_side = 1
 
 [node name="HealthTracker" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
 custom_minimum_size = Vector2(335, 0)
@@ -213,3 +217,6 @@ script = ExtResource("3_7unwa")
 one_shot = true
 wait_ticks = 3600
 hash_state = false
+
+[node name="WinsManager" type="Node" parent="."]
+script = ExtResource("16_y2clw")

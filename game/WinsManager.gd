@@ -1,4 +1,4 @@
-class_name WinsManager extends RefCounted
+class_name WinsManager extends Node
 
 signal round_won(side: Player.Side)
 signal round_tied()
@@ -18,6 +18,19 @@ func _initialize_tracking_array() -> Array[int]:
     result.resize(Player.Side.size())
     result.fill(0)
     return result
+
+func _ready() -> void:
+    add_to_group("network_sync")
+
+func _save_state() -> Dictionary:
+    return {
+        '_rw': _rounds_won.duplicate(),
+        '_gw': _games_won.duplicate(),
+    }
+
+func _load_state(state: Dictionary) -> void:
+    _rounds_won = state['_rw']
+    _games_won = state['_gw']
 
 func round_completed(winning_player: Player, defeated_players: Array):
     if winning_player != null:

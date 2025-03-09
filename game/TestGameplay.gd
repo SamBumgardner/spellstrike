@@ -28,11 +28,11 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 @onready var special_counter_2: SpecialCounter = $UI/BattleHUD/SpecialCounter2
 @onready var round_timer_display: RoundTimerDisplay = $UI/BattleHUD/RoundTimerDisplay
 
+@onready var wins_manager: WinsManager = $WinsManager
 @onready var interaction_resolver: InteractionResolver = $InteractionResolver
 @onready var camera_control: CameraControl = $CameraControl
 @onready var round_timer: NetworkTimer = $RoundTimer
 
-var wins_manager: WinsManager = WinsManager.new()
 var players: Array = []
 
 enum Side {
@@ -76,7 +76,9 @@ func _ready():
     wins_manager.play_next_round.connect(_on_play_next_round)
     wins_manager.game_won.connect(win_tracker_1._on_game_won)
     wins_manager.game_won.connect(win_tracker_2._on_game_won)
-    # TODO: connect wins_manager to round display
+    
+    for tracker in [$UI/BattleHUD/RoundsTracker, $UI/BattleHUD/RoundsTracker2]:
+        tracker.initialize_rounds(0, MatchOptions.default_rounds_to_win)
 
 func _on_sync_started():
     if match_options == null:

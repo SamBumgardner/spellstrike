@@ -27,7 +27,7 @@ layout_mode = 2
 [node name="EmptySlots" type="HBoxContainer" parent="Panel"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Panel/EmptySlots"]
+[node name="EmptySlot" type="TextureRect" parent="Panel/EmptySlots"]
 layout_mode = 2
 texture = ExtResource("2_e0gkk")
 expand_mode = 3
@@ -36,7 +36,7 @@ stretch_mode = 4
 [node name="RoundWinIcons" type="HBoxContainer" parent="Panel"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="Panel/RoundWinIcons"]
+[node name="WinIcon" type="TextureRect" parent="Panel/RoundWinIcons"]
 layout_mode = 2
 texture = ExtResource("3_uoe8w")
 expand_mode = 3
