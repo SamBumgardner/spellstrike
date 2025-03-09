@@ -1,23 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://dtt77h6lbqwi4"]
+[gd_scene load_steps=5 format=3 uid="uid://dtt77h6lbqwi4"]
 
 [ext_resource type="Theme" uid="uid://g81jjwbmr34u" path="res://ui/themes/RoundsTrackerTheme.tres" id="1_gkewk"]
 [ext_resource type="Texture2D" uid="uid://pb4t6emhw3h4" path="res://assets/art/empty_round_marker.png" id="2_e0gkk"]
+[ext_resource type="Script" path="res://ui/rounds_tracker.gd" id="2_lkxq1"]
 [ext_resource type="Texture2D" uid="uid://c5jq2q3emgwqk" path="res://assets/art/victory_round_marker.png" id="3_uoe8w"]
 
 [node name="RoundsTracker" type="PanelContainer"]
 custom_minimum_size = Vector2(0, 32)
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 6
+anchor_left = 1.0
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -62.0
-offset_top = -48.0
-offset_right = -20.0
-offset_bottom = -22.0
-grow_horizontal = 2
+offset_left = -84.0
+offset_top = -16.0
+offset_right = -52.0
+offset_bottom = 16.0
+grow_horizontal = 0
 grow_vertical = 2
 theme = ExtResource("1_gkewk")
+script = ExtResource("2_lkxq1")
 
 [node name="Panel" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -31,34 +33,10 @@ texture = ExtResource("2_e0gkk")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="TextureRect2" type="TextureRect" parent="Panel/EmptySlots"]
-layout_mode = 2
-texture = ExtResource("2_e0gkk")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="Panel/EmptySlots"]
-layout_mode = 2
-texture = ExtResource("2_e0gkk")
-expand_mode = 3
-stretch_mode = 4
-
 [node name="RoundWinIcons" type="HBoxContainer" parent="Panel"]
 layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="Panel/RoundWinIcons"]
-layout_mode = 2
-texture = ExtResource("3_uoe8w")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="TextureRect2" type="TextureRect" parent="Panel/RoundWinIcons"]
-layout_mode = 2
-texture = ExtResource("3_uoe8w")
-expand_mode = 3
-stretch_mode = 4
-
-[node name="TextureRect3" type="TextureRect" parent="Panel/RoundWinIcons"]
 layout_mode = 2
 texture = ExtResource("3_uoe8w")
 expand_mode = 3

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bmufwtv6hw8ys"]
+[gd_scene load_steps=17 format=3 uid="uid://bmufwtv6hw8ys"]
 
 [ext_resource type="Script" path="res://TestGameplay.gd" id="1_hel5h"]
 [ext_resource type="PackedScene" uid="uid://dv55emdwbx4m0" path="res://ui/HealthTracker.tscn" id="2_cvjpa"]
@@ -15,6 +15,17 @@
 [ext_resource type="PackedScene" uid="uid://cnrgtvljl7jnx" path="res://ui/SpecialCounter.tscn" id="8_iinh3"]
 [ext_resource type="PackedScene" uid="uid://b31xd5gmlo6uy" path="res://ui/RoundTimerDisplay.tscn" id="9_cdte3"]
 [ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="9_rb1s8"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ustvg"]
+bg_color = Color(0.517184, 0.517184, 0.517184, 1)
+skew = Vector2(0.5, 0)
+corner_radius_top_left = 5
+corner_radius_top_right = 5
+corner_radius_bottom_right = 5
+corner_radius_bottom_left = 5
+shadow_color = Color(0, 0, 0, 0.286275)
+shadow_size = 1
+shadow_offset = Vector2(2, 2)
 
 [node name="TestGameplay" type="Node2D"]
 script = ExtResource("1_hel5h")
@@ -33,33 +44,27 @@ offset_bottom = 600.0
 theme = ExtResource("2_mo6pi")
 
 [node name="RoundsTracker" parent="UI/BattleHUD" instance=ExtResource("4_p4lva")]
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 0.0
-anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 252.0
 offset_top = 5.0
-offset_right = 336.0
+offset_right = -456.0
 offset_bottom = 37.0
-grow_horizontal = 1
 grow_vertical = 1
 
 [node name="RoundsTracker2" parent="UI/BattleHUD" instance=ExtResource("4_p4lva")]
-layout_mode = 0
-anchors_preset = 0
-anchor_left = 0.0
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 0.0
-anchor_right = 0.0
 anchor_bottom = 0.0
-offset_left = 548.0
+offset_left = -344.0
 offset_top = 5.0
-offset_right = 632.0
+offset_right = -312.0
 offset_bottom = 37.0
 grow_horizontal = 1
 grow_vertical = 1
-scale = Vector2(-1, 1)
+theme_override_styles/panel = SubResource("StyleBoxFlat_ustvg")
 
 [node name="HealthTracker" parent="UI/BattleHUD" instance=ExtResource("2_cvjpa")]
 custom_minimum_size = Vector2(335, 0)
@@ -103,6 +108,7 @@ offset_top = 9.0
 offset_right = -45.0
 offset_bottom = 43.0
 grow_horizontal = 0
+tracking_side = 1
 
 [node name="MatchOver" type="Label" parent="UI/BattleHUD" groups=["network_sync"]]
 visible = false

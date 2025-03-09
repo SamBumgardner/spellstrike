@@ -1,19 +1,10 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://g81jjwbmr34u"]
 
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_jslwh"]
-bg_color = Color(0.517184, 0.517184, 0.517184, 1)
-skew = Vector2(-0.5, 0)
-corner_radius_top_left = 5
-corner_radius_top_right = 5
-corner_radius_bottom_right = 5
-corner_radius_bottom_left = 5
-shadow_color = Color(0, 0, 0, 0.286275)
-shadow_size = 1
-shadow_offset = Vector2(2, 2)
+[ext_resource type="StyleBox" uid="uid://dl1m2lm887myq" path="res://ui/themes/round_tracker_panel.tres" id="1_cuvvo"]
 
 [resource]
 MarginContainer/constants/margin_bottom = 5
 MarginContainer/constants/margin_left = 5
 MarginContainer/constants/margin_right = 5
 MarginContainer/constants/margin_top = 5
-PanelContainer/styles/panel = SubResource("StyleBoxFlat_jslwh")
+PanelContainer/styles/panel = ExtResource("1_cuvvo")
