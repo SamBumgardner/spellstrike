@@ -225,7 +225,7 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     if health > 0:
         # force player to jump to hurt state.
         fsm.force_change_state(State.HITSTUN)
-    else:
+    elif status not in [Status.DEFEATED, Status.VICTORY]:
         handle_defeat()
 
 func handle_defeat() -> void:
@@ -428,6 +428,7 @@ enum Status {
     RECOVERY = 3,
     HITSTUN = 4,
     DEFEATED = 5,
+    VICTORY = 6,
 }
 
 enum State {

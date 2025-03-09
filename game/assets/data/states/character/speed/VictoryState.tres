@@ -11,7 +11,7 @@
 script = ExtResource("1_nvg1a")
 duration = 0
 endless = true
-player_status = 3
+player_status = 6
 hitboxes = Array[ExtResource("3_u8yrc")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_u8yrc")]([ExtResource("4_nm05p")])
