@@ -10,7 +10,7 @@ class_name RoundTimerDisplay extends Control
 var seconds_remaining: int = 0
         
 func update_seconds_remaining_display() -> void:
-    if tracked_timer != null:
+    if tracked_timer != null and not tracked_timer.is_stopped():
         var actual_seconds_remaining: int = ticks_to_seconds(tracked_timer.ticks_left)
         if seconds_remaining != actual_seconds_remaining:
             seconds_remaining = actual_seconds_remaining
