@@ -12,9 +12,13 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 var match_options: MatchOptions
 var p1_network_id: int = 1
 var p2_network_id: int = 1
+var player_wins: Array[int] = [0, 0]
 
 func init_options(new_options: MatchOptions) -> void:
     match_options = new_options
+
+func init_wins_record(starting_wins: Array[int]) -> void:
+    player_wins = starting_wins
 
 func _ready() -> void:
     # Error handling signals:
@@ -35,6 +39,7 @@ func _start_new_game():
     var gameplay = load("res://TestGameplay.tscn")
     var instantiated_map = gameplay.instantiate()
     instantiated_map.init_options(match_options)
+    instantiated_map.init_wins_record(player_wins)
     instantiated_map.p1_network_id = p1_network_id
     instantiated_map.p2_network_id = p2_network_id
     SceneSwitchUtil.change_scene(get_tree(), instantiated_map)

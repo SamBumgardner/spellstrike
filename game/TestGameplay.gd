@@ -9,6 +9,8 @@ var client_side := Side.P2
 
 var match_options: MatchOptions
 
+var player_wins: Array[int] = [0, 0]
+
 # non-gameplay UI
 @onready var notification_window: Notification = $UI/Notification
 const NETWORK_ERROR_TYPE: String = "NETWORK"
@@ -43,7 +45,12 @@ enum Side {
 func init_options(options: MatchOptions) -> void:
     match_options = options
 
+func init_wins_record(starting_wins: Array[int]) -> void:
+    player_wins = starting_wins
+
 func _ready():
+    wins_manager.initialize_records(player_wins)
+    
     SyncManager.sync_started.connect(_on_sync_started)
     SyncManager.sync_stopped.connect(_on_sync_stopped)
     SyncManager.sync_error.connect(_on_sync_error)
@@ -74,8 +81,6 @@ func _ready():
     wins_manager.round_tied.connect(_on_round_tied)
     wins_manager.game_won.connect(_on_game_won)
     wins_manager.play_next_round.connect(_on_play_next_round)
-    wins_manager.game_won.connect(win_tracker_1._on_game_won)
-    wins_manager.game_won.connect(win_tracker_2._on_game_won)
     
     for tracker in [$UI/BattleHUD/RoundsTracker, $UI/BattleHUD/RoundsTracker2]:
         tracker.initialize_rounds(0, MatchOptions.default_rounds_to_win)
@@ -210,6 +215,7 @@ func _on_game_won(side: Player.Side) -> void:
     var rematch_screen_packed = preload("res://network/postgame.tscn")
     var rematch_screen = rematch_screen_packed.instantiate()
     rematch_screen.init_options(match_options)
+    rematch_screen.init_wins_record(wins_manager.get_game_win_counts())
     rematch_screen.p1_network_id = p1_network_id
     rematch_screen.p2_network_id = p2_network_id
     SceneSwitchUtil.change_scene(get_tree(), rematch_screen)

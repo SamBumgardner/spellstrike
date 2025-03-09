@@ -9,7 +9,7 @@ signal play_next_round(new_round_number: int)
 var _rounds_won: Array[int]
 var _games_won: Array[int]
 
-func _init(initial_games_won: Array[int] = [], initial_rounds_won: Array[int] = []):
+func initialize_records(initial_games_won: Array[int] = [], initial_rounds_won: Array[int] = []):
     _games_won = _initialize_tracking_array() if initial_games_won.is_empty() else initial_games_won
     _rounds_won = _initialize_tracking_array() if initial_rounds_won.is_empty() else initial_rounds_won
 
@@ -50,8 +50,12 @@ func check_game_finished():
     
     if winners.size() == 1:
         game_won.emit(winners[0])
+        _games_won[winners[0]] += 1
     elif winners.size() == 0:
         play_next_round.emit(total_round_count + 1)
     else: # somehow multiple players won???
         push_error("ERROR: had multiple winners after round completed")
         game_won.emit(winners[0])
+
+func get_game_win_counts() -> Array[int]:
+    return _games_won
