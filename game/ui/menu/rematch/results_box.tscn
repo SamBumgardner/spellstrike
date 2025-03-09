@@ -1,0 +1,42 @@
+[gd_scene load_steps=4 format=3 uid="uid://d4diaye70i2xp"]
+
+[ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="1_vxr4q"]
+[ext_resource type="Theme" uid="uid://he5jt3v25c4b" path="res://ui/themes/menu_header.tres" id="2_woxx8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4krev"]
+atlas = ExtResource("1_vxr4q")
+region = Rect2(0, 0, 128, 128)
+
+[node name="ResultsBox" type="PanelContainer"]
+custom_minimum_size = Vector2(364, 128)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -302.5
+offset_top = -64.0
+offset_right = 61.5
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+
+[node name="PanelContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer"]
+layout_mode = 2
+
+[node name="CharacterPortrait" type="TextureRect" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+texture = SubResource("AtlasTexture_4krev")
+expand_mode = 3
+stretch_mode = 4
+
+[node name="ResultsLabel" type="Label" parent="PanelContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 6
+theme = ExtResource("2_woxx8")
+text = "WIN!"
+horizontal_alignment = 1

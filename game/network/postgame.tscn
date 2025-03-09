@@ -1,0 +1,80 @@
+[gd_scene load_steps=8 format=3 uid="uid://byt5p2d7vf75g"]
+
+[ext_resource type="Theme" uid="uid://1m0q2nll6ojc" path="res://ui/themes/MatchTheme.tres" id="1_48pc7"]
+[ext_resource type="Script" path="res://network/postgame.gd" id="2_hjpyk"]
+[ext_resource type="PackedScene" uid="uid://cffstvx1jin8d" path="res://ui/menu/rematch/RematchMenu.tscn" id="2_peg4y"]
+[ext_resource type="Theme" uid="uid://he5jt3v25c4b" path="res://ui/themes/menu_header.tres" id="2_raf7p"]
+[ext_resource type="PackedScene" uid="uid://d4diaye70i2xp" path="res://ui/menu/rematch/results_box.tscn" id="4_4xdjw"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="6_p08nw"]
+[ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="6_xnq3y"]
+
+[node name="Postgame" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_48pc7")
+script = ExtResource("2_hjpyk")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="UI"]
+offset_right = 800.0
+offset_bottom = 88.0
+theme = ExtResource("2_raf7p")
+text = "Victory!"
+horizontal_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -95.0
+offset_bottom = 95.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="ResultsBox" parent="UI/VBoxContainer/HBoxContainer2" instance=ExtResource("4_4xdjw")]
+layout_mode = 2
+
+[node name="ResultsBox2" parent="UI/VBoxContainer/HBoxContainer2" instance=ExtResource("4_4xdjw")]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer"]
+layout_mode = 2
+
+[node name="RematchMenu" parent="UI/VBoxContainer/HBoxContainer" instance=ExtResource("2_peg4y")]
+layout_mode = 2
+
+[node name="RematchMenu2" parent="UI/VBoxContainer/HBoxContainer" instance=ExtResource("2_peg4y")]
+layout_mode = 2
+
+[node name="Notification" parent="UI" instance=ExtResource("6_xnq3y")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -177.0
+offset_top = -63.5
+offset_right = 177.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostSelectionDelay" type="Node" parent="."]
+script = ExtResource("6_p08nw")

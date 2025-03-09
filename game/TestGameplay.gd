@@ -57,7 +57,7 @@ func _ready():
         SyncManager.message_serializer.produce_input_path = "%s/fighter%s" % [get_path(), producer_side]
         SyncManager.message_serializer.receive_input_path = "%s/fighter%s" % [get_path(), receiver_side]
         for id in [p1_network_id, p2_network_id]:
-            if id != multiplayer.get_unique_id():
+            if id != multiplayer.get_unique_id() and id not in SyncManager.peers:
                 SyncManager.add_peer(id)
     else:
         SyncManager.set_network_adaptor(preload("res://addons/godot-rollback-netcode/DummyNetworkAdaptor.gd").new())
@@ -205,6 +205,14 @@ func _on_play_next_round(new_round_number: int) -> void:
 
 func _on_game_won(side: Player.Side) -> void:
     print_debug("game is over, P%s won, should pop up some kind of post-game menu" % (side + 1))
+    SyncManager.stop()
+    # initialize 
+    var rematch_screen_packed = preload("res://network/postgame.tscn")
+    var rematch_screen = rematch_screen_packed.instantiate()
+    rematch_screen.init_options(match_options)
+    rematch_screen.p1_network_id = p1_network_id
+    rematch_screen.p2_network_id = p2_network_id
+    SceneSwitchUtil.change_scene(get_tree(), rematch_screen)
 
 # MISC.
 
