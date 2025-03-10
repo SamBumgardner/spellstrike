@@ -398,9 +398,6 @@ func _network_spawn(data: Dictionary) -> void:
 #func _network_despawn() -> void:
     #pass
 
-func _process(delta: float) -> void:
-    input_retriever._process(delta)
-
 ###############
 # PLAYER ENUM #
 ###############

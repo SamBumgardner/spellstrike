@@ -46,7 +46,7 @@ func _init_display():
     _set_results_box_display()
 
 func _is_winner_local() -> bool:
-    var is_player_local = player_informations.filter(func(x): return x.network_id == multiplayer.get_unique_id())
+    var is_player_local = player_informations.map(func(x): return x.network_id == multiplayer.get_unique_id())
     var is_winner_local: bool = false
     for i in is_player_local.size():
         if is_player_local[i] and i == winning_side:
