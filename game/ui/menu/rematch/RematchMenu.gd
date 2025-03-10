@@ -60,12 +60,12 @@ func _change_selected_target(new_selected_index) -> void:
 
 func _move_selection(_action_buffer: ActionBuffer) -> void:
     #TODO: abstract this away by making ui_targets accept buffer & decide what the new target is.
-    var backward_inputs = ['l', 'u']
+    var backward_inputs = ['u']
     for input_key in backward_inputs:
         if _action_buffer.consume_just_pressed(input_key):
             targeted_ui_index -= 1
     
-    var forward_inputs = ['r', 'd']
+    var forward_inputs = ['d']
     for input_key in forward_inputs:
         if _action_buffer.consume_just_pressed(input_key):
             targeted_ui_index += 1
@@ -117,8 +117,12 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 
 func _save_state() -> Dictionary:
     return {
-        'tui': targeted_ui_index
+        'tui': targeted_ui_index,
+        'sui': selected_ui_index,
+        'npe': network_process_enabled,
     }
 
 func _load_state(state: Dictionary) -> void:
     targeted_ui_index = state['tui']
+    selected_ui_index = state['sui']
+    network_process_enabled = state['npe']

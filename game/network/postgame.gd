@@ -110,6 +110,7 @@ func _on_rematch_menu_quit():
 
 func _on_rematch_menu_rematch():
     number_of_rematches_requested += 1
+    print_debug("num_rematches changed! %s" % number_of_rematches_requested)
     if number_of_rematches_requested >= player_informations.size():
         post_selection_delay_timer.start(POST_SELECTION_DURATION)
         _set_rematch_menu_processing(false)
