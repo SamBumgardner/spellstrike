@@ -1,6 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://cffstvx1jin8d"]
+[gd_scene load_steps=4 format=3 uid="uid://cffstvx1jin8d"]
 
 [ext_resource type="Script" path="res://ui/menu/rematch/RematchMenu.gd" id="1_lrg8c"]
+[ext_resource type="PackedScene" uid="uid://obl0hj8k6qmr" path="res://ui/menu/text_menu_option.tscn" id="2_l23q0"]
+[ext_resource type="Script" path="res://player/input/ActionBuffer.gd" id="3_iy82x"]
 
 [node name="RematchMenu" type="PanelContainer"]
 anchors_preset = 8
@@ -26,23 +28,21 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "Rematch?"
+text = "Fight Again?"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
+[node name="HBoxContainer" type="VBoxContainer" parent="MarginContainer/VBoxContainer"]
 layout_mode = 2
 
-[node name="RematchOption" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="RematchOption" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_l23q0")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-text = "Rematch"
+option_text = "Rematch"
 
-[node name="QuitOption" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+[node name="QuitOption" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_l23q0")]
 unique_name_in_owner = true
 layout_mode = 2
-size_flags_horizontal = 3
-mouse_filter = 2
-text = "Quit
-"
+option_text = "Quit"
+
+[node name="ActionBuffer" type="Node" parent="."]
+script = ExtResource("3_iy82x")

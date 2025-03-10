@@ -5,7 +5,7 @@ static var EMPTY = 0
 static func to_int(input_dict: Dictionary) -> int:
     # assumes all input dict fields are populated.
     var result = 0b00000000
-    for key in Player.input_dict_keys:
+    for key in InputRetriever.INPUT_KEYS:
         result = result << 1
         result = (result | input_dict[key])
     
@@ -13,7 +13,7 @@ static func to_int(input_dict: Dictionary) -> int:
 
 static func to_dict(input_int: int) -> Dictionary:
     var result = {}
-    var inverted_keys = Player.input_dict_keys.duplicate()
+    var inverted_keys = InputRetriever.INPUT_KEYS.duplicate()
     inverted_keys.reverse()
     for key in inverted_keys:
         result[key] = input_int & 0b00000001

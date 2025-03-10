@@ -29,9 +29,6 @@ signal defeated
     # su - special uses available
     # 
 
-const input_dict_keys = ['l', 'r', 'a', 'b', 'c', 's']
-const input_action_keys = ['a', 'b', 'c', 's']
-
 @onready var hurtbox_pool: Area2D = $HurtboxPool
 @onready var hurtboxes := hurtbox_pool.get_children()
 @onready var hitbox_pool: Area2D = $HitboxPool
@@ -400,9 +397,6 @@ func _network_spawn(data: Dictionary) -> void:
 
 #func _network_despawn() -> void:
     #pass
-
-func _process(delta: float) -> void:
-    input_retriever._process(delta)
 
 ###############
 # PLAYER ENUM #

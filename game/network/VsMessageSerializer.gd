@@ -5,7 +5,7 @@ var receive_input_path := ""
 
 func serialize_input(all_input: Dictionary) -> PackedByteArray:
     var buffer := StreamPeerBuffer.new()
-    buffer.resize(5)
+    buffer.resize(8)
     
     buffer.put_u32(all_input['$'])
     if (produce_input_path in all_input.keys()):

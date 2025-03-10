@@ -113,9 +113,6 @@ func _adjudicate_interactions(actors: Array) -> void:
         if not attack_shape.is_empty():
             allied_attack_shapes.append(attack_shape)
     
-    if p1_attack_shapes.size() > 1:
-        pass
-
     # store 'true' for each actor path if they had an attack that succeeded.
     var attacker_hit := []
     var defender_hit_by_dict := {}

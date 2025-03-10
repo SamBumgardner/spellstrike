@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://bru2qmscncwic"]
+
+[ext_resource type="Theme" uid="uid://6reybym5jb8p" path="res://ui/themes/menu_option_theme.tres" id="1_qvxc1"]
+[ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="2_am0li"]
+[ext_resource type="Script" path="res://ui/menu/menu_option.gd" id="2_efllc"]
+
+[node name="PictureMenuOption" type="PanelContainer"]
+theme = ExtResource("1_qvxc1")
+script = ExtResource("2_efllc")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_am0li")
