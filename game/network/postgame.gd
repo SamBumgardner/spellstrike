@@ -1,6 +1,6 @@
 class_name Postgame extends Control
 
-const POST_SELECTION_DURATION: int = MatchOptions.ticks_per_second * 10
+const POST_SELECTION_DURATION: int = MatchOptions.ticks_per_second * .5
 const POST_QUIT_DURATION: int = MatchOptions.ticks_per_second * .5
 
 @onready var notification_window: Notification = $UI/Notification
@@ -17,6 +17,19 @@ var match_options: MatchOptions
 var player_informations: Array[PlayerInformation]
 var winning_side: Player.Side = Player.Side.P1
 
+# Stateful variables
+var number_of_rematches_requested: int = 0
+
+# ROLLBACK #
+func _save_state() -> Dictionary:
+    return {
+        'nrr': number_of_rematches_requested
+    }
+
+func _load_state(state: Dictionary) -> void:
+    number_of_rematches_requested = state['nrr']
+
+# INITIALIZAION #
 func init_options(new_options: MatchOptions) -> void:
     match_options = new_options
 
@@ -29,12 +42,14 @@ func init(new_options: MatchOptions,
     winning_side = new_winning_side
 
 func _ready() -> void:
+    add_to_group("network_sync")
+    
     # Error handling signals:
     SyncManager.sync_stopped.connect(_on_sync_stopped)
     SyncManager.sync_error.connect(_on_sync_error)
     multiplayer.multiplayer_peer.peer_disconnected.connect(_on_broken_connection)
     
-    if player_informations[0].network_id != player_informations[1].network_id:        
+    if player_informations[0].network_id != player_informations[1].network_id:
         var producer_side = rematch_menus[0].get_path() if multiplayer.is_server() else rematch_menus[1].get_path()
         var receiver_side = rematch_menus[1].get_path() if multiplayer.is_server() else rematch_menus[0].get_path()
         SyncManager.message_serializer.produce_input_path = producer_side
@@ -86,12 +101,28 @@ func _init_rematch_menu():
         rematch_menus[i].init_input_mapping(player_informations[i].input_mapping)
         rematch_menus[i].set_multiplayer_authority(player_informations[i].network_id)
         rematch_menus[i].quit.connect(_on_rematch_menu_quit)
+        rematch_menus[i].rematch.connect(_on_rematch_menu_rematch)
         
 func _on_rematch_menu_quit():
-    for rematch_menu in rematch_menus:
-        rematch_menu.network_process_enabled = false
+    _set_rematch_menu_processing(false)
     quit_delay_timer.start(POST_QUIT_DURATION)
     # TODO: fade out screen
+
+func _on_rematch_menu_rematch():
+    number_of_rematches_requested += 1
+    if number_of_rematches_requested >= player_informations.size():
+        post_selection_delay_timer.start(POST_SELECTION_DURATION)
+        _set_rematch_menu_processing(false)
+
+func _set_rematch_menu_processing(processing_enabled: bool) -> void:
+    for rematch_menu in rematch_menus:
+        rematch_menu.network_process_enabled = processing_enabled
+
+func _on_rematch_menu_rematch_cancel():
+    number_of_rematches_requested -= 1
+    if number_of_rematches_requested < player_informations.size():
+        post_selection_delay_timer.stop()
+        _set_rematch_menu_processing(true)
 
 func _start_new_game():
     SyncManager.stop()
