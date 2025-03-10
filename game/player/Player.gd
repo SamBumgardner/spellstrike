@@ -216,9 +216,9 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     hitstun_duration = attack_data.hitstun
     hitstop_duration = attack_data.hitstop
     current_hitstop_tick = 0
-    pushback = attack_data.pushback
+    pushback = scale_incoming_pushback(attack_data.pushback)
     pushback_from = attack_owner.name
-    health -= attack_data.damage
+    health -= scale_incoming_damage(attack_data.damage)
     received_combo_count += attack_data.num_hits
     SyncManager.play_sound("%s_%s" % [name, attack_owner.attack_id], attack_data.sound_effect)
     
@@ -231,7 +231,7 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
 func scale_incoming_damage(unscaled_damage: int) -> int:
     return max(unscaled_damage - received_combo_count * 2, 2)
 
-func scale_pushback(unscaled_pushback: int) -> int:
+func scale_incoming_pushback(unscaled_pushback: int) -> int:
     return unscaled_pushback + max(0, (received_combo_count - 3) * 2)
 
 func handle_defeat() -> void:
