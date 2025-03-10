@@ -1,7 +1,7 @@
 class_name InputRetriever extends RefCounted
 
 const INPUT_KEYS = ["l", "r", "u", "d", "a", "b", "c", "s"]
-const INPUT_FRIENDLY_NAMES = ["Left", "Right", "Up", "Down", "A", "B", "C", "Special"]
+const INPUT_FRIENDLY_NAMES = ["Left", "Right", "Up", "Down", "A / Confirm", "B / Cancel", "C", "Special"]
 
 var control_type: ControlType = ControlType.KEYBOARD;
 var device_id: int = 0;

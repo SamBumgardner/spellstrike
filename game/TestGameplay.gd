@@ -82,8 +82,11 @@ func _ready():
     wins_manager.game_won.connect(_on_game_won)
     wins_manager.play_next_round.connect(_on_play_next_round)
     
+    round_timer_display.set_initial_display(match_options.default_ticks_per_round)
     for tracker in [$UI/BattleHUD/RoundsTracker, $UI/BattleHUD/RoundsTracker2]:
         tracker.initialize_rounds(0, MatchOptions.default_rounds_to_win)
+    for counter in [special_counter_1, special_counter_2]:
+        counter.num_specials = 5 # TODO: this will depend on character choice.
 
 func _on_sync_started():
     if match_options == null:

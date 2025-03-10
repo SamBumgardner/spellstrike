@@ -29,7 +29,7 @@ self_modulate = Color(1, 0.811765, 0, 1)
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 theme = ExtResource("2_rl4ad")
-value = 50.0
+value = 100.0
 fill_mode = 1
 show_percentage = false
 
@@ -43,7 +43,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 theme = ExtResource("3_jgjos")
-value = 70.0
+value = 100.0
 fill_mode = 1
 show_percentage = false
 

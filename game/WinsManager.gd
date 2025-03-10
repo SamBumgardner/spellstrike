@@ -49,8 +49,8 @@ func check_game_finished():
             winners.append(i)
     
     if winners.size() == 1:
-        game_won.emit(winners[0])
         _games_won[winners[0]] += 1
+        game_won.emit(winners[0])
     elif winners.size() == 0:
         play_next_round.emit(total_round_count + 1)
     else: # somehow multiple players won???
