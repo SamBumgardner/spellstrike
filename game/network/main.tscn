@@ -16,6 +16,20 @@ script = ExtResource("3_tjof3")
 [node name="MapInstance" type="Node" parent="."]
 unique_name_in_owner = true
 
+[node name="Controller Tip" type="Label" parent="."]
+clip_contents = true
+offset_left = 10.0
+offset_top = 129.0
+offset_right = 310.0
+offset_bottom = 334.0
+text = "Quick Tip:
+Inputs bound for gameplay don't affect this menu yet. Sorry!
+
+Default controller directional inputs & confirm button should work here. Keyboard users will probably need to use mouse to pick buttons.
+
+Input mappings will be saved locally, so you shouldn't have to re-make them every time you boot the game."
+autowrap_mode = 2
+
 [node name="Menu" type="PanelContainer" parent="."]
 unique_name_in_owner = true
 anchors_preset = 8
