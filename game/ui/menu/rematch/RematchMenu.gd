@@ -2,11 +2,15 @@ extends PanelContainer
 
 const NO_SELECTION: int = -1
 
+signal rematch
+signal quit
+
 @onready var rematch_button = $"%RematchOption"
 @onready var quit_button = $"%QuitOption"
 @onready var action_buffer = $ActionBuffer
 
 @onready var ui_targets: Array = [rematch_button, quit_button]
+var ui_signals: Array[Signal] = [rematch, quit]
 
 #@onready var rematch_pressed: Signal = rematch_button.pressed
 #@onready var quit_pressed: Signal = quit_button.pressed
@@ -34,6 +38,7 @@ var selected_ui_target: MenuOption = null:
 # Stateful variables
 var targeted_ui_index: int = 0
 var selected_ui_index: int = NO_SELECTION
+var network_process_enabled: bool = true
 
 # INIT #
 func init_input_mapping(new_input_mapping: Dictionary):
@@ -78,9 +83,13 @@ func _check_selection(_action_buffer: ActionBuffer) -> bool:
 
 func _make_selection() -> void:
     selected_ui_index = targeted_ui_index
+    ui_signals[selected_ui_index].emit()
 
 # PROCESS #
 func _network_process(input: Dictionary) -> void:
+    if not network_process_enabled:
+        return
+    
     if input.is_empty():
         input = InputRetriever.EMPTY
     

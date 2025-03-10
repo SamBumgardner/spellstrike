@@ -1,6 +1,7 @@
 class_name Postgame extends Control
 
-const POST_SELECTION_DURATION = MatchOptions.ticks_per_second * 10
+const POST_SELECTION_DURATION: int = MatchOptions.ticks_per_second * 10
+const POST_QUIT_DURATION: int = MatchOptions.ticks_per_second * .5
 
 @onready var notification_window: Notification = $UI/Notification
 const NETWORK_ERROR_TYPE: String = "NETWORK"
@@ -10,6 +11,7 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 @onready var results_boxes: Array = [$"%ResultsBox", $"%ResultsBox2"]
 @onready var rematch_menus: Array = [$"%RematchMenu", $"%RematchMenu2"]
 @onready var post_selection_delay_timer: NetworkTimer = $PostSelectionDelay
+@onready var quit_delay_timer: NetworkTimer = $QuitDelay
 
 var match_options: MatchOptions
 var player_informations: Array[PlayerInformation]
@@ -41,6 +43,7 @@ func _ready() -> void:
     # Normal behavior signals:
     #SyncManager.sync_started.connect(post_selection_delay_timer.start.bind(POST_SELECTION_DURATION), CONNECT_ONE_SHOT)
     post_selection_delay_timer.timeout.connect(_start_new_game)
+    quit_delay_timer.timeout.connect(_return_to_network_menu)
     
     if multiplayer.is_server():
         SyncManager.start()
@@ -72,8 +75,6 @@ func _decorate_for_win_or_loss(winner_local: bool) -> void:
         $UI/Title.text = defeat_title_display
 
 func _set_results_box_display() -> void:
-    # character portrait thingy should do the heavy lifting of selecting the picture
-    # should pass in a character spec & whether that player won or lost.
     assert(player_informations.size() == results_boxes.size())
     for i in player_informations.size():
         results_boxes[i].set_results(i == winning_side, player_informations[i])
@@ -84,6 +85,13 @@ func _init_rematch_menu():
     for i in player_informations.size():
         rematch_menus[i].init_input_mapping(player_informations[i].input_mapping)
         rematch_menus[i].set_multiplayer_authority(player_informations[i].network_id)
+        rematch_menus[i].quit.connect(_on_rematch_menu_quit)
+        
+func _on_rematch_menu_quit():
+    for rematch_menu in rematch_menus:
+        rematch_menu.network_process_enabled = false
+    quit_delay_timer.start(POST_QUIT_DURATION)
+    # TODO: fade out screen
 
 func _start_new_game():
     SyncManager.stop()
@@ -111,10 +119,12 @@ func _on_broken_connection(disconnected_peer_id: int):
 
 func _close_rollback_networking():
     $PostSelectionDelay.stop()
+    SyncManager.stop()
     SyncManager.clear_peers()
     # Leaves godot high-level multiplayer connection intact.
 
 func _return_to_network_menu() -> void:
+    _close_rollback_networking()
     var main_menu_scene = SceneSwitchUtil.main_menu_scene.instantiate()
     SceneSwitchUtil.change_scene(get_tree(), main_menu_scene)
 
