@@ -36,6 +36,8 @@ var actual_health_stable: int = 0
     set(x):
         tracked_player = x
         actual_health = tracked_player.health
+        health_bar.max_value = tracked_player.health
+        health_follow.max_value = tracked_player.health
         health_bar.value = tracked_player.health
         health_follow.value = tracked_player.health
 

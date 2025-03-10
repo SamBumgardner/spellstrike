@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5tlun"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_gewd5"]
 [ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_h6ifd"]
+[ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="4_mq2sv"]
 [ext_resource type="Resource" uid="uid://b882y4r2cdik4" path="res://assets/data/collision/hitbox/StandardHitbox.tres" id="5_8jkpt"]
 [ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="5_kjf7r"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_ksfka"]
@@ -29,13 +30,6 @@ new_attack = false
 hurtboxes = Array[ExtResource("3_gewd5")]([SubResource("Resource_87e8y")])
 effects = Array[ExtResource("2_5tlun")]([])
 
-[sub_resource type="Resource" id="Resource_eaoet"]
-script = ExtResource("2_5tlun")
-typeId = 8
-once_at_start = false
-conditions = Array[ExtResource("4_h6ifd")]([])
-params = [1]
-
 [sub_resource type="Resource" id="Resource_vdygf"]
 script = ExtResource("1_ffoxh")
 duration = 5
@@ -44,7 +38,7 @@ player_status = 1
 hitboxes = Array[ExtResource("3_gewd5")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_gewd5")]([SubResource("Resource_87e8y")])
-effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet")])
+effects = Array[ExtResource("2_5tlun")]([ExtResource("4_mq2sv")])
 
 [sub_resource type="Resource" id="Resource_qmmfu"]
 script = ExtResource("5_ksfka")
@@ -70,7 +64,7 @@ hitboxes = Array[ExtResource("3_gewd5")]([ExtResource("5_8jkpt")])
 new_attack = true
 attack_data = SubResource("Resource_qmmfu")
 hurtboxes = Array[ExtResource("3_gewd5")]([SubResource("Resource_87e8y"), SubResource("Resource_ai28f")])
-effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet"), ExtResource("6_30n4e"), ExtResource("6_q78fj")])
+effects = Array[ExtResource("2_5tlun")]([ExtResource("4_mq2sv"), ExtResource("6_30n4e"), ExtResource("6_q78fj")])
 
 [sub_resource type="Resource" id="Resource_a7mce"]
 script = ExtResource("1_ffoxh")
@@ -80,7 +74,7 @@ player_status = 3
 hitboxes = Array[ExtResource("3_gewd5")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_gewd5")]([SubResource("Resource_87e8y"), SubResource("Resource_ai28f")])
-effects = Array[ExtResource("2_5tlun")]([SubResource("Resource_eaoet"), ExtResource("6_30n4e"), ExtResource("6_q78fj")])
+effects = Array[ExtResource("2_5tlun")]([ExtResource("4_mq2sv"), ExtResource("6_30n4e"), ExtResource("6_q78fj")])
 
 [sub_resource type="Resource" id="Resource_v8mpq"]
 script = ExtResource("2_5tlun")

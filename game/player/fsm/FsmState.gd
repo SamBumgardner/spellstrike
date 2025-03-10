@@ -50,6 +50,17 @@ func process(owner: Player, input_buffer: ActionBuffer, ticks_in_state: int) -> 
     if current_phase == null:
         return expirationStateId
     
+    # Apply all phase effects
+    var default_params = [owner, input_buffer, ticks_in_state]
+    for effect in current_phase.effects:
+        if (not effect.once_at_start or phase_just_started) and _check_effect_conditions(default_params, effect.conditions):
+                var params = default_params.duplicate()
+                params.append_array(effect.params)
+                var next_state = (EffectLib.methods[effect.typeId] as Callable).callv(params)
+
+                if next_state != Player.State.NONE:
+                    return next_state
+    
     # Common Status Behavior (Neutral)
     owner.status = current_phase.player_status
     if owner.status == Player.Status.NEUTRAL:
@@ -61,17 +72,6 @@ func process(owner: Player, input_buffer: ActionBuffer, ticks_in_state: int) -> 
         var next_state = EffectLib.start_action(owner, input_buffer, ticks_in_state, idle_actions, false)
         if next_state != Player.State.NONE:
             return next_state
-    
-    # Apply all phase effects
-    var default_params = [owner, input_buffer, ticks_in_state]
-    for effect in current_phase.effects:
-        if (not effect.once_at_start or phase_just_started) and _check_effect_conditions(default_params, effect.conditions):
-                var params = default_params.duplicate()
-                params.append_array(effect.params)
-                var next_state = (EffectLib.methods[effect.typeId] as Callable).callv(params)
-
-                if next_state != Player.State.NONE:
-                    return next_state
     
     # If we got here, no change to player's state.
     # Set collision according to current phase
