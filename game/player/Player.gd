@@ -16,6 +16,7 @@ signal defeated
     # ft - number of ticks spent in current fsm state
     # hs - total hitstop duration (usually 0)
     # hst - current hitstop tick
+    # cs - counterhit starter
     # rcc - received combo count
     # hsu - hitstun duration
     # pb - pushback
@@ -63,6 +64,7 @@ var status: Status
 
 var hitstop_duration: int
 var current_hitstop_tick: int
+var counterhit_starter: bool
 var received_combo_count: int
 
 var hitstun_duration: int
@@ -214,12 +216,18 @@ func perform_hit(attack_data: AttackData) -> void:
 func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     # do whatever steps are neeed to apply attack data (damage received, add hitstop, change state)
     # add attacker id to map of things you've been hit by, value is attack's numeric id.
-    hitstun_duration = attack_data.hitstun
+    var counterhit: bool = status in [Status.STARTUP, Status.ACTIVE]
+    if received_combo_count == 0:
+        counterhit_starter = counterhit
+    const counterhit_damage_bonus: float = 1.5
+    const counterhit_bonus_hitstun: int = 2
+
+    hitstun_duration = attack_data.hitstun + (counterhit_bonus_hitstun if counterhit else 0)
     hitstop_duration = attack_data.hitstop
     current_hitstop_tick = 0
     pushback = scale_incoming_pushback(attack_data.pushback)
     pushback_from = attack_owner.name
-    health -= scale_incoming_damage(attack_data.damage)
+    health -= int(scale_incoming_damage(attack_data.damage) * (counterhit_damage_bonus if counterhit else 1.0))
     received_combo_count += attack_data.num_hits
     SyncManager.play_sound("%s_%s" % [name, attack_owner.attack_id], attack_data.sound_effect)
     
@@ -350,6 +358,7 @@ func _network_process(input: Dictionary):
     
     if status != Player.Status.HITSTUN and status != Player.Status.DEFEATED:
         received_combo_count = 0
+        counterhit_starter = false
 
 func _network_postprocess(input: Dictionary):
     if status in [Status.STARTUP, Status.ACTIVE]:

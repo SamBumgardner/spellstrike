@@ -7,7 +7,14 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_ajei2")
 
-[node name="Title" type="Label" parent="."]
+[node name="HitsContainer" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="Label" parent="HitsContainer"]
 layout_mode = 0
 offset_left = 10.3299
 offset_top = 6.0
@@ -15,7 +22,7 @@ offset_right = 70.3299
 offset_bottom = 29.0
 text = "Combo!"
 
-[node name="HitsCounter" type="Label" parent="."]
+[node name="HitsCounter" type="Label" parent="HitsContainer"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = -1
@@ -30,10 +37,20 @@ theme_override_font_sizes/font_size = 48
 text = "2"
 horizontal_alignment = 2
 
-[node name="units" type="Label" parent="."]
+[node name="units" type="Label" parent="HitsContainer"]
 layout_mode = 0
 offset_left = 59.3299
 offset_top = 49.0
 offset_right = 99.3299
 offset_bottom = 72.0
 text = "Hit"
+
+[node name="CounterhitIndicator" type="Label" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 0
+offset_left = 1.0
+offset_top = 85.0
+offset_right = 81.0
+offset_bottom = 108.0
+text = "COUNTER!"

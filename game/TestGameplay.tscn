@@ -133,17 +133,15 @@ horizontal_alignment = 1
 script = ExtResource("3_qj1xu")
 
 [node name="ComboCounter" parent="UI/BattleHUD" instance=ExtResource("6_5bdtu")]
-visible = false
 offset_left = 10.0
 offset_top = 94.0
 offset_right = 10.0
 offset_bottom = 94.0
 
 [node name="ComboCounter2" parent="UI/BattleHUD" instance=ExtResource("6_5bdtu")]
-visible = false
-offset_left = 690.0
+offset_left = 670.0
 offset_top = 94.0
-offset_right = 690.0
+offset_right = 670.0
 offset_bottom = 94.0
 
 [node name="SpecialCounter" parent="UI/BattleHUD" instance=ExtResource("8_iinh3")]
