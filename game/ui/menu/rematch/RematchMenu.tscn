@@ -37,10 +37,12 @@ layout_mode = 2
 [node name="RematchOption" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_l23q0")]
 unique_name_in_owner = true
 layout_mode = 2
+option_text = "Rematch"
 
 [node name="QuitOption" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_l23q0")]
 unique_name_in_owner = true
 layout_mode = 2
+option_text = "Quit"
 
 [node name="ActionBuffer" type="Node" parent="."]
 script = ExtResource("3_iy82x")

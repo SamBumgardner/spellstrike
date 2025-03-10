@@ -1,12 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://obl0hj8k6qmr"]
 
 [ext_resource type="Theme" uid="uid://6reybym5jb8p" path="res://ui/themes/menu_option_theme.tres" id="1_pyqgl"]
-[ext_resource type="Script" path="res://ui/menu/menu_option.gd" id="2_yy53o"]
+[ext_resource type="Script" path="res://ui/menu/text_menu_option.gd" id="2_atvh8"]
 
 [node name="TextMenuOption" type="PanelContainer"]
 theme = ExtResource("1_pyqgl")
-script = ExtResource("2_yy53o")
-selected_color = Color(1, 0.843137, 0, 1)
+script = ExtResource("2_atvh8")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
