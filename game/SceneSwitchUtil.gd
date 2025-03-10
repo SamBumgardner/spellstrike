@@ -1,6 +1,6 @@
 class_name SceneSwitchUtil
 
-static var main_menu_scene: PackedScene = load("res://network/main.tscn")
+static var main_menu_scene: PackedScene = preload("res://network/main.tscn")
 
 static func change_scene(tree: SceneTree, new_root: Node) -> void:
     var old_root = tree.current_scene

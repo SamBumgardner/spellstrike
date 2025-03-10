@@ -32,7 +32,7 @@ static var DEFAULT_P2 = {
 static var DEFAULT_CONTROLLER = {
     "l": [0, 13], # Z
     "r": [0, 14], # C
-    "u": [0, 11], 
+    "u": [0, 11],
     "d": [0, 12],
     "a": [0, 2], # N
     "b": [0, 3], # M
@@ -43,7 +43,7 @@ static var DEFAULT_CONTROLLER = {
 static var DEFAULT_CONTROLLER_2 = {
     "l": [1, 13], # Z
     "r": [1, 14], # C
-    "u": [0, 11], 
+    "u": [0, 11],
     "d": [0, 12],
     "a": [1, 2], # N
     "b": [1, 3], # M
@@ -87,9 +87,6 @@ func retrieve_input() -> Dictionary:
             result[key] = 1 if sign(axis_value) == sign(input_ids[key][2]) and abs(axis_value) >= abs(input_ids[key][2]) else 0
     
     return result
-
-func _process(_delta):
-    pass
 
 enum ControlType {
     KEYBOARD = 0,
