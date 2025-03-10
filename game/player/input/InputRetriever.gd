@@ -1,7 +1,7 @@
 class_name InputRetriever extends RefCounted
 
-const INPUT_KEYS = ["l", "r", "a", "b", "c", "s"]
-const INPUT_FRIENDLY_NAMES = ["Left", "Right", "A", "B", "C", "Special"]
+const INPUT_KEYS = ["l", "r", "u", "d", "a", "b", "c", "s"]
+const INPUT_FRIENDLY_NAMES = ["Left", "Right", "Up", "Down", "A", "B", "C", "Special"]
 
 var control_type: ControlType = ControlType.KEYBOARD;
 var device_id: int = 0;
@@ -10,6 +10,8 @@ var input_ids: Dictionary = DEFAULT_P1 # could store a dictionary of callables i
 static var DEFAULT_P1 = {
     "l": [65], # A
     "r": [68], # D
+    "u": [87], # W
+    "d": [83], # S
     "a": [74], # J
     "b": [75], # K
     "c": [76], # L
@@ -19,6 +21,8 @@ static var DEFAULT_P1 = {
 static var DEFAULT_P2 = {
     "l": [90], # Z
     "r": [67], # C
+    "u": [86], # V
+    "d": [88], # X
     "a": [78], # N
     "b": [77], # M
     "c": [188], # ,
@@ -28,6 +32,8 @@ static var DEFAULT_P2 = {
 static var DEFAULT_CONTROLLER = {
     "l": [0, 13], # Z
     "r": [0, 14], # C
+    "u": [0, 11], 
+    "d": [0, 12],
     "a": [0, 2], # N
     "b": [0, 3], # M
     "c": [0, 10], # ,
@@ -37,6 +43,8 @@ static var DEFAULT_CONTROLLER = {
 static var DEFAULT_CONTROLLER_2 = {
     "l": [1, 13], # Z
     "r": [1, 14], # C
+    "u": [0, 11], 
+    "d": [0, 12],
     "a": [1, 2], # N
     "b": [1, 3], # M
     "c": [1, 10], # ,
@@ -46,6 +54,8 @@ static var DEFAULT_CONTROLLER_2 = {
 const EMPTY := {
     "l": 0,
     "r": 0,
+    "u": 0,
+    "d": 0,
     "a": 0,
     "b": 0,
     "c": 0,

@@ -36,6 +36,12 @@ layout_mode = 2
 [node name="ActionInputPair6" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
 layout_mode = 2
 
+[node name="ActionInputPair7" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
+[node name="ActionInputPair8" parent="VBoxContainer" groups=["action_input_pair"] instance=ExtResource("1_wkbd2")]
+layout_mode = 2
+
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4

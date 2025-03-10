@@ -8,7 +8,6 @@ signal defeated
     # x
     # y
     # t - team (Side enum)
-    # pi - previous input (int, bitwise flags)
     # c - character (int, corresponds to enum)
     # hp - remaining health (int)
     # s - status (int, corresponds to enum)
@@ -59,7 +58,6 @@ var health: int
 var velocity: int
 var facing_direction: Side
 
-var previous_input: int
 var status: Status
 
 var hitstop_duration: int
@@ -265,7 +263,6 @@ func _save_state() -> Dictionary:
         'x': position.x,
         'y': position.y,
         't': team,
-        'pi': previous_input,
         'c': character,
         'hp': health,
         's': status,
@@ -290,7 +287,6 @@ func _load_state(state: Dictionary) -> void:
     position.x = state['x']
     position.y = state['y']
     team = state['t']
-    previous_input = state['pi']
     health = state['hp']
     status = state['s']
     hitstop_duration = state['hs']
@@ -318,16 +314,6 @@ func _load_state(state: Dictionary) -> void:
 func _get_local_input() -> Dictionary:
     return input_retriever.retrieve_input()
 
-func _process_input(new_input: Dictionary) -> Dictionary:
-    new_input = new_input.duplicate()
-    var previous_dict = InputHelper.to_dict(previous_input)
-    previous_input = InputHelper.to_int(new_input)
-    
-    # Turn actions in dictionary to "just pressed" values (will be 0 if held)
-    for input_key in input_action_keys:
-        new_input[input_key] = new_input[input_key] & (new_input[input_key] ^ previous_dict[input_key])
-    return new_input
-
 func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
     if ticks_since_real_input >= 5:
         return InputRetriever.EMPTY
@@ -336,8 +322,6 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 func _network_process(input: Dictionary):
     if input.is_empty():
         input = InputRetriever.EMPTY
-
-    input = _process_input(input)
 
     # add data to input buffer.
     action_buffer.push_frame(input)
@@ -361,7 +345,7 @@ func _network_process(input: Dictionary):
         counterhit_starter = false
 
 func _network_postprocess(input: Dictionary):
-    if status in [Status.STARTUP, Status.ACTIVE]:
+    if status in [Status.STARTUP, Status.ACTIVE, Status.VICTORY]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:
         z_index = -1
@@ -387,7 +371,6 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     const spawn_combo_size = 0
     const spawn_velocity = 0
     const initial_attack_id = 0
-    data['pi'] = previous_input
     data['s'] = Status.NEUTRAL
     data['fs'] = State.IDLE
     data['ft'] = spawn_num_ticks_in_state

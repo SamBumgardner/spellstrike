@@ -12,6 +12,10 @@ const action_indices: Dictionary = {
     'b' = 1,
     'c' = 2,
     's' = 3,
+    'l' = 4,
+    'r' = 5,
+    'u' = 6,
+    'd' = 7
 }
 
 const QUEUE_LENGTH: int = 8
@@ -20,6 +24,7 @@ const NOT_PRESSED_INDEX: int = QUEUE_LENGTH
 # stateful variables, must be tracked for rollback
 var last_pressed_indexes: Array
 var head: int = 0
+var previous_frame_inputs: Dictionary = InputRetriever.EMPTY
 
 # refreshed every frame, should be safe to leave untracked.
 var current_frame_inputs: Dictionary
@@ -42,14 +47,24 @@ func _ready():
 # TODO: Keep in mind this will probably need to refactor if the actions we want to track grows more complex.
 func push_frame(new_input: Dictionary) -> void:
     current_frame_inputs = new_input
+    var just_pressed_inputs = generate_just_pressed_input(previous_frame_inputs, current_frame_inputs)
 
     head = (head + 1) % QUEUE_LENGTH
     # overwrite newly entered buffered input information with newly identified state.
-    for input_key in Player.input_action_keys:
-        if new_input[input_key] == 1:
+    for input_key in action_indices:
+        if just_pressed_inputs[input_key] == 1:
             last_pressed_indexes[action_indices[input_key]] = head
         elif last_pressed_indexes[action_indices[input_key]] == head:
             last_pressed_indexes[action_indices[input_key]] = NOT_PRESSED_INDEX
+    
+    previous_frame_inputs = new_input
+
+static func generate_just_pressed_input(previous_input: Dictionary, new_input: Dictionary) -> Dictionary:
+    var result = {}
+    # Turn actions in dictionary to "just pressed" values (will be 0 if held)
+    for input_key in new_input.keys():
+        result[input_key] = new_input[input_key] & (new_input[input_key] ^ previous_input[input_key])
+    return result
 
 func set_lookback_distance(lookback_distance: int = 0) -> void:
     # figure out which indices should be "on" based on lookback distance.
@@ -60,26 +75,23 @@ func set_lookback_distance(lookback_distance: int = 0) -> void:
         current_distance += 1
 
 func is_pressed(input_key: String) -> int:
+    return current_frame_inputs[input_key]
+
+func consume_just_pressed(input_key: String) -> int:
     var result: int = 0
-    if input_key in action_indices.keys():
-        # if the last time this button was pressed is a '1' in valid lookbacks, we return 1
-        var action_index = action_indices[input_key]
-        result = valid_lookback_indices[last_pressed_indexes[action_index]]
-        
-        # Clear the input from the buffer now that it's been consumed.
-        last_pressed_indexes[action_index] = NOT_PRESSED_INDEX
-    else:
-        # a little hacky, but anything not part of our actions list just returns the value from this frame.
-        # movement, held buttons, etc. are examples of things we don't buffer.
-        result = current_frame_inputs[input_key]
+    var action_index = action_indices[input_key]
+    result = valid_lookback_indices[last_pressed_indexes[action_index]]
+    last_pressed_indexes[action_index] = NOT_PRESSED_INDEX
     return result
 
 func _save_state() -> Dictionary:
     return {
         'lpi': last_pressed_indexes.duplicate(),
         'h': head,
+        'pfi': InputHelper.to_int(previous_frame_inputs)
     }
 
 func _load_state(state: Dictionary) -> void:
     last_pressed_indexes = state['lpi']
     head = state['h']
+    previous_frame_inputs = InputHelper.to_dict(state['pfi'])
