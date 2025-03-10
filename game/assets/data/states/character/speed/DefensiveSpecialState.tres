@@ -9,7 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="5_qaitd"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="6_k1kta"]
 [ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="8_8hlte"]
-[ext_resource type="Resource" uid="uid://by7bh3s7xipoc" path="res://assets/data/states/character/SpendCancelSpecialEffect.tres" id="10_cugrg"]
 [ext_resource type="AudioStream" uid="uid://8kcsq3alq1j" path="res://assets/sound/charge.wav" id="10_deaw0"]
 
 [sub_resource type="Resource" id="Resource_h1l05"]
@@ -65,12 +64,19 @@ once_at_start = true
 conditions = Array[ExtResource("8_8hlte")]([])
 params = [ExtResource("10_deaw0")]
 
+[sub_resource type="Resource" id="Resource_whh3p"]
+script = ExtResource("3_7qvra")
+typeId = 13
+once_at_start = true
+conditions = Array[ExtResource("8_8hlte")]([])
+params = [-1]
+
 [resource]
 script = ExtResource("2_xhf6g")
 stateId = 6
 expirationStateId = 0
 phases = Array[ExtResource("1_l740v")]([SubResource("Resource_h1l05"), SubResource("Resource_xcrav"), SubResource("Resource_6xk2b")])
-transition_in_effects = Array[ExtResource("3_7qvra")]([SubResource("Resource_ajn8x"), ExtResource("10_cugrg")])
+transition_in_effects = Array[ExtResource("3_7qvra")]([SubResource("Resource_ajn8x"), SubResource("Resource_whh3p")])
 transition_out_effects = Array[ExtResource("3_7qvra")]([])
 animation_key = "defensive_special"
 button_buffer_lookback = 8

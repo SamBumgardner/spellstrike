@@ -218,8 +218,8 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
     current_hitstop_tick = 0
     pushback = attack_data.pushback
     pushback_from = attack_owner.name
-    received_combo_count += attack_data.num_hits
     health -= attack_data.damage
+    received_combo_count += attack_data.num_hits
     SyncManager.play_sound("%s_%s" % [name, attack_owner.attack_id], attack_data.sound_effect)
     
     if health > 0:
@@ -227,6 +227,12 @@ func receive_hit(attack_data: AttackData, attack_owner: Object) -> void:
         fsm.force_change_state(State.HITSTUN)
     elif status not in [Status.DEFEATED, Status.VICTORY]:
         handle_defeat()
+
+func scale_incoming_damage(unscaled_damage: int) -> int:
+    return max(unscaled_damage - received_combo_count * 2, 2)
+
+func scale_pushback(unscaled_pushback: int) -> int:
+    return unscaled_pushback + max(0, (received_combo_count - 3) * 2)
 
 func handle_defeat() -> void:
     # stop all control
@@ -362,7 +368,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
             Input data:%s" % [essential_param, data])
 
     # look up hp value for character:
-    data['hp'] = 200 # placeholder logic for now
+    data['hp'] = 150 # placeholder logic for now
     data['su'] = 5 # placeholder logic
 
     # overwrite other params with default values
