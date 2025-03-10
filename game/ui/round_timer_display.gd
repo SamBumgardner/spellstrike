@@ -8,6 +8,9 @@ class_name RoundTimerDisplay extends Control
         update_seconds_remaining_display()
 
 var seconds_remaining: int = 0
+
+func set_initial_display(ticks_per_round: int) -> void:
+    seconds_remaining_label.text = str(ticks_to_seconds(ticks_per_round))
         
 func update_seconds_remaining_display() -> void:
     if tracked_timer != null and not tracked_timer.is_stopped():
