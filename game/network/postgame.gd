@@ -8,6 +8,7 @@ const DESYNC_ERROR_FORMAT: String = "Desync ocurred. Match has been cancelled.\r
 const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been cancelled.\rReturning to the network menu..."
 
 @onready var results_boxes: Array = [$"%ResultsBox", $"%ResultsBox2"]
+@onready var rematch_menus: Array = [$"%RematchMenu", $"%RematchMenu2"]
 @onready var post_selection_delay_timer: NetworkTimer = $PostSelectionDelay
 
 var match_options: MatchOptions
@@ -31,14 +32,22 @@ func _ready() -> void:
     SyncManager.sync_error.connect(_on_sync_error)
     multiplayer.multiplayer_peer.peer_disconnected.connect(_on_broken_connection)
     
+    if player_informations[0].network_id != player_informations[1].network_id:        
+        var producer_side = rematch_menus[0].get_path() if multiplayer.is_server() else rematch_menus[1].get_path()
+        var receiver_side = rematch_menus[1].get_path() if multiplayer.is_server() else rematch_menus[0].get_path()
+        SyncManager.message_serializer.produce_input_path = producer_side
+        SyncManager.message_serializer.receive_input_path = receiver_side
+    
     # Normal behavior signals:
-    SyncManager.sync_started.connect(post_selection_delay_timer.start.bind(POST_SELECTION_DURATION), CONNECT_ONE_SHOT)
+    #SyncManager.sync_started.connect(post_selection_delay_timer.start.bind(POST_SELECTION_DURATION), CONNECT_ONE_SHOT)
     post_selection_delay_timer.timeout.connect(_start_new_game)
     
     if multiplayer.is_server():
         SyncManager.start()
         
     _init_display()
+    _init_rematch_menu()
+
 
 # INITIAL DISPLAY #
 func _init_display():
@@ -70,6 +79,12 @@ func _set_results_box_display() -> void:
         results_boxes[i].set_results(i == winning_side, player_informations[i])
 
 # REMATCH LOGIC #
+func _init_rematch_menu():
+    assert(player_informations.size() == rematch_menus.size())
+    for i in player_informations.size():
+        rematch_menus[i].init_input_mapping(player_informations[i].input_mapping)
+        rematch_menus[i].set_multiplayer_authority(player_informations[i].network_id)
+
 func _start_new_game():
     SyncManager.stop()
     

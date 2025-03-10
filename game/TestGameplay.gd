@@ -149,7 +149,6 @@ func _return_to_network_menu() -> void:
     print_debug("I'm returning to the network menu!")
     var main_menu_scene = SceneSwitchUtil.main_menu_scene.instantiate()
     SceneSwitchUtil.change_scene(get_tree(), main_menu_scene)
-    pass # return to network menu
 
 func _on_sync_stopped(reason: Disconnect.Reason):
     SyncManager.stop_logging()
@@ -215,18 +214,23 @@ func _on_game_won(winning_side: Player.Side) -> void:
     var rematch_screen = rematch_screen_packed.instantiate()
     
     # TODO: remove temp player information setup here:
+    var p2_input_retriever: InputRetriever
+    if p2_network_id == multiplayer.get_unique_id() and p1_network_id != p2_network_id:
+        p2_input_retriever = match_options.input_retrievers[0]
+    else:
+        p2_input_retriever = match_options.input_retrievers[1]
     var temp_informations: Array[PlayerInformation] = [
         PlayerInformation.new(
             p1_network_id,
             Side.P1,
-            InputMappingManager.p1_input_mapping if p1_network_id != p2_network_id else InputMappingManager.p1_input_mapping,
+            match_options.input_retrievers[0].input_ids, 
             CharacterSpec.new(),
             wins_manager.get_game_win_counts()[Side.P1]
         ),
         PlayerInformation.new(
             p2_network_id,
             Side.P2,
-            InputMappingManager.p1_input_mapping if p1_network_id != p2_network_id else InputMappingManager.p2_input_mapping,
+            p2_input_retriever.input_ids, 
             CharacterSpec.new(),
             wins_manager.get_game_win_counts()[Side.P2]
         )
