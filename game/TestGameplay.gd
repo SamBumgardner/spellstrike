@@ -208,16 +208,34 @@ func _on_play_next_round(new_round_number: int) -> void:
     print_debug("starting round %s" % new_round_number)
     round_timer.start(match_options.default_ticks_per_round)
 
-func _on_game_won(side: Player.Side) -> void:
-    print_debug("game is over, P%s won, should pop up some kind of post-game menu" % (side + 1))
+func _on_game_won(winning_side: Player.Side) -> void:
     SyncManager.stop()
     # initialize 
     var rematch_screen_packed = preload("res://network/postgame.tscn")
     var rematch_screen = rematch_screen_packed.instantiate()
-    rematch_screen.init_options(match_options)
-    rematch_screen.init_wins_record(wins_manager.get_game_win_counts())
-    rematch_screen.p1_network_id = p1_network_id
-    rematch_screen.p2_network_id = p2_network_id
+    
+    # TODO: remove temp player information setup here:
+    var temp_informations: Array[PlayerInformation] = [
+        PlayerInformation.new(
+            p1_network_id,
+            Side.P1,
+            InputMappingManager.p1_input_mapping if p1_network_id != p2_network_id else InputMappingManager.p1_input_mapping,
+            CharacterSpec.new(),
+            wins_manager.get_game_win_counts()[Side.P1]
+        ),
+        PlayerInformation.new(
+            p2_network_id,
+            Side.P2,
+            InputMappingManager.p1_input_mapping if p1_network_id != p2_network_id else InputMappingManager.p2_input_mapping,
+            CharacterSpec.new(),
+            wins_manager.get_game_win_counts()[Side.P2]
+        )
+    ]
+    rematch_screen.init(
+        match_options,
+        temp_informations,
+        winning_side,
+    )
     SceneSwitchUtil.change_scene(get_tree(), rematch_screen)
 
 # MISC.

@@ -48,9 +48,11 @@ grow_vertical = 2
 layout_mode = 2
 
 [node name="ResultsBox" parent="UI/VBoxContainer/HBoxContainer2" instance=ExtResource("4_4xdjw")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="ResultsBox2" parent="UI/VBoxContainer/HBoxContainer2" instance=ExtResource("4_4xdjw")]
+unique_name_in_owner = true
 layout_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="UI/VBoxContainer"]
