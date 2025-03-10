@@ -8,7 +8,6 @@ signal defeated
     # x
     # y
     # t - team (Side enum)
-    # pi - previous input (int, bitwise flags)
     # c - character (int, corresponds to enum)
     # hp - remaining health (int)
     # s - status (int, corresponds to enum)
@@ -59,7 +58,6 @@ var health: int
 var velocity: int
 var facing_direction: Side
 
-var previous_input: int
 var status: Status
 
 var hitstop_duration: int
@@ -265,7 +263,6 @@ func _save_state() -> Dictionary:
         'x': position.x,
         'y': position.y,
         't': team,
-        'pi': previous_input,
         'c': character,
         'hp': health,
         's': status,
@@ -290,7 +287,6 @@ func _load_state(state: Dictionary) -> void:
     position.x = state['x']
     position.y = state['y']
     team = state['t']
-    previous_input = state['pi']
     health = state['hp']
     status = state['s']
     hitstop_duration = state['hs']
@@ -375,7 +371,6 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     const spawn_combo_size = 0
     const spawn_velocity = 0
     const initial_attack_id = 0
-    data['pi'] = previous_input
     data['s'] = Status.NEUTRAL
     data['fs'] = State.IDLE
     data['ft'] = spawn_num_ticks_in_state
