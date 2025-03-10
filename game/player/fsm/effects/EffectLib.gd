@@ -52,11 +52,13 @@ static func _get_move_direction(input_buffer: ActionBuffer) -> int:
 # EFFECT #
 static func walk(owner: Player, input_buffer: ActionBuffer, _ticks_in_state: int) -> Player.State:
     var movement_direction = _get_move_direction(input_buffer)
+    var walking_forward = Player.get_side_scale(owner.facing_direction) == movement_direction
+    var current_top_speed = owner.walk_speed if walking_forward else owner.back_walk_speed
 
     owner.velocity = clamp(
         owner.velocity + owner.walk_accel * movement_direction,
-        - owner.walk_speed,
-        owner.walk_speed)
+        -1 * (current_top_speed),
+        current_top_speed)
     
     return Player.State.NONE
 

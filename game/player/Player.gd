@@ -46,6 +46,7 @@ var fsm: Fsm
 
 # TODO: move these to character spec
 const walk_speed: int = 5
+const back_walk_speed: int = 3
 const walk_accel: int = 5
 const walk_drag: int = 2
 const width: int = 128
