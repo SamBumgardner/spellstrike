@@ -1,6 +1,9 @@
 extends PanelContainer
 
 const NO_SELECTION: int = -1
+const UI_MOVE_SOUND: AudioStream = preload("res://assets/sound/ui_boop.wav")
+const UI_SELECT_SOUND: AudioStream = preload("res://assets/sound/ui_blip.wav")
+const UI_CANCEL_SOUND: AudioStream = preload("res://assets/sound/ui_cancel.wav")
 
 signal rematch
 signal rematch_cancel
@@ -53,11 +56,16 @@ func _ready() -> void:
 
 # ACTIONS #
 func _change_displayed_target(new_target_index) -> void:
+    if display_targeted_ui_index != NO_SELECTION and new_target_index != NO_SELECTION:
+        SyncManager.play_sound("%s_%s" % [get_path(), "move"], UI_MOVE_SOUND)
     display_targeted_ui_index = new_target_index
     hovered_ui_target = ui_targets[display_targeted_ui_index] if new_target_index != NO_SELECTION else null
-    # TODO: Play sound effect
-
+    
 func _change_selected_target(new_selected_index) -> void:
+    if new_selected_index != NO_SELECTION:
+        SyncManager.play_sound("%s_%s" % [get_path(), "select"], UI_SELECT_SOUND)
+    elif display_selected_ui_index != NO_SELECTION:
+        SyncManager.play_sound("%s_%s" % [get_path(), "cancel"], UI_CANCEL_SOUND)
     display_selected_ui_index = new_selected_index
     selected_ui_target = ui_targets[display_selected_ui_index] if new_selected_index != NO_SELECTION else null
 
