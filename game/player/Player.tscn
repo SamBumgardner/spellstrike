@@ -21,6 +21,22 @@ tracks/0/keys = {
 "values": [0]
 }
 
+[sub_resource type="Animation" id="Animation_bfte8"]
+resource_name = "defensive_special"
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.166667, 0.216667, 0.233333, 0.583333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 5, 5, 6, 6]
+}
+
 [sub_resource type="Animation" id="Animation_4eiy3"]
 resource_name = "delayed_fireball_cast"
 length = 0.0666683
@@ -140,22 +156,6 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 0, 2, 2, 0, 0, 3]
-}
-
-[sub_resource type="Animation" id="Animation_bfte8"]
-resource_name = "defensive_special"
-step = 0.0166667
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.166667, 0.216667, 0.233333, 0.583333),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
-"update": 1,
-"values": [4, 4, 5, 5, 6, 6]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_2kyqy"]
