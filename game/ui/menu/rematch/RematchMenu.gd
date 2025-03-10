@@ -3,7 +3,9 @@ extends PanelContainer
 const NO_SELECTION: int = -1
 
 signal rematch
+signal rematch_cancel
 signal quit
+signal _none
 
 @onready var rematch_button = $"%RematchOption"
 @onready var quit_button = $"%QuitOption"
@@ -11,6 +13,7 @@ signal quit
 
 @onready var ui_targets: Array = [rematch_button, quit_button]
 var ui_signals: Array[Signal] = [rematch, quit]
+var cancel_signals: Array[Signal] = [rematch_cancel, _none]
 
 #@onready var rematch_pressed: Signal = rematch_button.pressed
 #@onready var quit_pressed: Signal = quit_button.pressed
@@ -51,12 +54,12 @@ func _ready() -> void:
 # ACTIONS #
 func _change_displayed_target(new_target_index) -> void:
     display_targeted_ui_index = new_target_index
-    hovered_ui_target = ui_targets[display_targeted_ui_index]
+    hovered_ui_target = ui_targets[display_targeted_ui_index] if new_target_index != NO_SELECTION else null
     # TODO: Play sound effect
 
 func _change_selected_target(new_selected_index) -> void:
     display_selected_ui_index = new_selected_index
-    selected_ui_target = ui_targets[display_selected_ui_index]
+    selected_ui_target = ui_targets[display_selected_ui_index] if new_selected_index != NO_SELECTION else null
 
 func _move_selection(_action_buffer: ActionBuffer) -> void:
     #TODO: abstract this away by making ui_targets accept buffer & decide what the new target is.
@@ -73,9 +76,14 @@ func _move_selection(_action_buffer: ActionBuffer) -> void:
     targeted_ui_index = clampi(targeted_ui_index, 0, ui_targets.size() - 1)
 
 func _check_selection(_action_buffer: ActionBuffer) -> bool:
+    return _check_input(_action_buffer, ['a'])
+
+func _check_cancel(_aciton_buffer: ActionBuffer) -> bool:
+    return _check_input(_aciton_buffer, ['b'])
+    
+func _check_input(_action_buffer: ActionBuffer, input_keys: Array) -> bool:
     var selection_made: bool = false
-    var confirm_inputs = ['a', 'b', 'c', 's']
-    for input_key in confirm_inputs:
+    for input_key in input_keys:
         if _action_buffer.consume_just_pressed(input_key):
             selection_made = true
             break
@@ -83,7 +91,14 @@ func _check_selection(_action_buffer: ActionBuffer) -> bool:
 
 func _make_selection() -> void:
     selected_ui_index = targeted_ui_index
+    targeted_ui_index = NO_SELECTION
     ui_signals[selected_ui_index].emit()
+
+func _cancel_selection() -> void:
+    cancel_signals[selected_ui_index].emit()
+    var tmp = selected_ui_index
+    selected_ui_index = NO_SELECTION
+    targeted_ui_index = tmp
 
 # PROCESS #
 func _network_process(input: Dictionary) -> void:
@@ -99,6 +114,9 @@ func _network_process(input: Dictionary) -> void:
         _move_selection(action_buffer)
         if _check_selection(action_buffer):
             _make_selection()
+    else:
+        if _check_cancel(action_buffer):
+            _cancel_selection()
 
 func _process(_delta: float) -> void:
     if targeted_ui_index != display_targeted_ui_index:

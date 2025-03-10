@@ -102,6 +102,7 @@ func _init_rematch_menu():
         rematch_menus[i].set_multiplayer_authority(player_informations[i].network_id)
         rematch_menus[i].quit.connect(_on_rematch_menu_quit)
         rematch_menus[i].rematch.connect(_on_rematch_menu_rematch)
+        rematch_menus[i].rematch_cancel.connect(_on_rematch_menu_rematch_cancel)
         
 func _on_rematch_menu_quit():
     _set_rematch_menu_processing(false)
