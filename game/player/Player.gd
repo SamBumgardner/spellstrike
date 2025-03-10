@@ -318,16 +318,6 @@ func _load_state(state: Dictionary) -> void:
 func _get_local_input() -> Dictionary:
     return input_retriever.retrieve_input()
 
-func _process_input(new_input: Dictionary) -> Dictionary:
-    new_input = new_input.duplicate()
-    var previous_dict = InputHelper.to_dict(previous_input)
-    previous_input = InputHelper.to_int(new_input)
-    
-    # Turn actions in dictionary to "just pressed" values (will be 0 if held)
-    for input_key in input_action_keys:
-        new_input[input_key] = new_input[input_key] & (new_input[input_key] ^ previous_dict[input_key])
-    return new_input
-
 func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -> Dictionary:
     if ticks_since_real_input >= 5:
         return InputRetriever.EMPTY
@@ -336,8 +326,6 @@ func _predict_remote_input(old_input: Dictionary, ticks_since_real_input: int) -
 func _network_process(input: Dictionary):
     if input.is_empty():
         input = InputRetriever.EMPTY
-
-    input = _process_input(input)
 
     # add data to input buffer.
     action_buffer.push_frame(input)
@@ -361,7 +349,7 @@ func _network_process(input: Dictionary):
         counterhit_starter = false
 
 func _network_postprocess(input: Dictionary):
-    if status in [Status.STARTUP, Status.ACTIVE]:
+    if status in [Status.STARTUP, Status.ACTIVE, Status.VICTORY]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:
         z_index = -1
