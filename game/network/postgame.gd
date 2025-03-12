@@ -59,14 +59,18 @@ func _ready() -> void:
     #SyncManager.sync_started.connect(post_selection_delay_timer.start.bind(POST_SELECTION_DURATION), CONNECT_ONE_SHOT)
     post_selection_delay_timer.timeout.connect(_start_new_game)
     quit_delay_timer.timeout.connect(_return_to_network_menu)
-    
-    if multiplayer.is_server():
-        SyncManager.start()
         
     _init_display()
     _init_rematch_menu()
+    
+    # TODO: figure out if there's a definitive way to confirm both peers are ready to start.
+    # Could probably do it with RPC, but it'd be nice to have some abstraction at a high level.
+    if multiplayer.is_server():
+        get_tree().create_timer(.5).timeout.connect(SyncManager.start, CONNECT_ONE_SHOT)
+    
+    # SyncManager.start_logging("user://rollback_logfile_%s" % randi())
 
-
+        
 # INITIAL DISPLAY #
 func _init_display():
     _decorate_for_win_or_loss(_is_winner_local())
@@ -127,6 +131,7 @@ func _on_rematch_menu_rematch_cancel():
         _set_rematch_menu_processing(true)
 
 func _start_new_game():
+    SyncManager.stop_logging()
     SyncManager.stop()
     
     var gameplay = load("res://TestGameplay.tscn")
@@ -152,6 +157,7 @@ func _on_broken_connection(disconnected_peer_id: int):
 
 func _close_rollback_networking():
     $PostSelectionDelay.stop()
+    SyncManager.stop_logging()
     SyncManager.stop()
     SyncManager.clear_peers()
     # Leaves godot high-level multiplayer connection intact.
