@@ -63,14 +63,14 @@ func _ready() -> void:
     _init_display()
     _init_rematch_menu()
     
+    # TODO: figure out if there's a definitive way to confirm both peers are ready to start.
+    # Could probably do it with RPC, but it'd be nice to have some abstraction at a high level.
     if multiplayer.is_server():
         get_tree().create_timer(.5).timeout.connect(SyncManager.start, CONNECT_ONE_SHOT)
     
-    SyncManager.start_logging("user://rollback_logfile_%s" % randi())
+    # SyncManager.start_logging("user://rollback_logfile_%s" % randi())
 
         
-
-
 # INITIAL DISPLAY #
 func _init_display():
     _decorate_for_win_or_loss(_is_winner_local())
