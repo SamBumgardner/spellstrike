@@ -15,7 +15,7 @@ class_name CharacterSpec extends Resource
 
 @export var max_hp: int = 150
 @export var special_uses: int = 5
-@export var states: Array[FsmState]
+@export var states: Dictionary
 
 func _init() -> void:
     name = "placeholder_name"

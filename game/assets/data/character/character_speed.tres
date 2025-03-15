@@ -1,9 +1,20 @@
-[gd_resource type="Resource" script_class="CharacterSpec" load_steps=6 format=3 uid="uid://duvyv5kkvijjh"]
+[gd_resource type="Resource" script_class="CharacterSpec" load_steps=17 format=3 uid="uid://duvyv5kkvijjh"]
 
 [ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="1_10gw3"]
 [ext_resource type="Script" path="res://player/character_spec.gd" id="1_ay1rm"]
 [ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_jpsq6"]
 [ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_4ax38"]
+[ext_resource type="Resource" uid="uid://co8nnxi0rj0m5" path="res://assets/data/states/character/speed/IdleState.tres" id="6_pfqtc"]
+[ext_resource type="Resource" uid="uid://71tfhe4l4xal" path="res://assets/data/states/character/speed/WalkState.tres" id="7_ffkam"]
+[ext_resource type="Resource" uid="uid://b1ogno7xi50fe" path="res://assets/data/states/character/speed/LightAttackState.tres" id="8_atejh"]
+[ext_resource type="Resource" uid="uid://ct6y8ttfvxha1" path="res://assets/data/states/character/speed/MediumAttackState.tres" id="9_7otao"]
+[ext_resource type="Resource" uid="uid://y6085lvsh3c" path="res://assets/data/states/character/speed/HeavyAttackState.tres" id="10_2popw"]
+[ext_resource type="Resource" uid="uid://cm4bgxkcu16vg" path="res://assets/data/states/character/speed/DelayedFireballCast.tres" id="11_mqyv5"]
+[ext_resource type="Resource" uid="uid://ba6nwbud5jl1u" path="res://assets/data/states/character/speed/DefensiveSpecialState.tres" id="12_lcm3j"]
+[ext_resource type="Resource" uid="uid://dgxhlme3uf7jt" path="res://assets/data/states/character/speed/HurtState.tres" id="13_pcvrb"]
+[ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="14_t3g0u"]
+[ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="15_n2cck"]
+[ext_resource type="Resource" uid="uid://4va3vpwoielf" path="res://assets/data/states/character/speed/LightAttackChainState.tres" id="16_3aj0r"]
 [ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="17_7kd3u"]
 
 [resource]
@@ -20,4 +31,16 @@ walk_drag = 2
 width = 128
 max_hp = 150
 special_uses = 5
-state_names = Array[String]([])
+states = {
+0: ExtResource("6_pfqtc"),
+1: ExtResource("7_ffkam"),
+2: ExtResource("8_atejh"),
+3: ExtResource("9_7otao"),
+4: ExtResource("10_2popw"),
+5: ExtResource("11_mqyv5"),
+6: ExtResource("12_lcm3j"),
+8: ExtResource("13_pcvrb"),
+9: ExtResource("14_t3g0u"),
+10: ExtResource("15_n2cck"),
+11: ExtResource("16_3aj0r")
+}
