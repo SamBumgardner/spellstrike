@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg06044hy8aq1"]
+
+[ext_resource type="Script" path="res://ui/menu/character_select/frame_cursor/frame_cursor.gd" id="1_l8xo5"]
+[ext_resource type="Script" path="res://ui/menu/character_select/frame_cursor/foreground_frame.gd" id="2_rkiw0"]
+
+[node name="FrameCursor" type="Control"]
+clip_contents = true
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_l8xo5")
+nametag = "P1"
+
+[node name="ForegroundHalf" type="Control" parent="."]
+z_index = 2
+clip_contents = true
+anchors_preset = 0
+script = ExtResource("2_rkiw0")
+
+[node name="Nametag" type="Label" parent="."]
+visible = false
+z_index = 2
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_right = 1.0
+offset_bottom = 23.0
+grow_horizontal = 0

@@ -1,0 +1,85 @@
+[gd_scene load_steps=2 format=3 uid="uid://xjhlmqubcnen"]
+
+[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="1_saxei"]
+
+[node name="PlayerSelection" type="Control"]
+custom_minimum_size = Vector2(375, 400)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -177.0
+offset_right = 150.0
+offset_bottom = 177.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="CharacterNameBanner" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="MC" type="MarginContainer" parent="VBoxContainer/CharacterNameBanner"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_right = 10
+
+[node name="CharacterName" type="Label" parent="VBoxContainer/CharacterNameBanner/MC"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Character Name"
+horizontal_alignment = 1
+
+[node name="CharacterSpriteSpace" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(300, 300)
+layout_mode = 2
+
+[node name="CharacterSpotlight" type="ColorRect" parent="VBoxContainer/CharacterSpriteSpace"]
+custom_minimum_size = Vector2(148, 20)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 0.431373)
+
+[node name="CharacterSpriteAnchor" type="Control" parent="VBoxContainer/CharacterSpriteSpace"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/CharacterSpriteSpace/CharacterSpriteAnchor"]
+texture = ExtResource("1_saxei")
+
+[node name="PlayerNameBanner" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="MC" type="MarginContainer" parent="VBoxContainer/PlayerNameBanner"]
+layout_mode = 2
+
+[node name="PlayerName" type="Label" parent="VBoxContainer/PlayerNameBanner/MC"]
+layout_mode = 2
+theme_type_variation = &"HeaderMedium"
+text = "Player Name"
+horizontal_alignment = 1

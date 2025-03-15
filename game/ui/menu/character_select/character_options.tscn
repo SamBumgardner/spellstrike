@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dt8p1a1fjv2p8"]
+
+[ext_resource type="Theme" uid="uid://dd7bec7ncfw7d" path="res://ui/themes/character_options_theme.tres" id="1_opaft"]
+[ext_resource type="PackedScene" uid="uid://bru2qmscncwic" path="res://ui/menu/picture_menu_option.tscn" id="2_77hhw"]
+
+[node name="CharacterOptions" type="PanelContainer"]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -150.0
+offset_right = 150.0
+offset_bottom = 158.0
+grow_horizontal = 2
+theme = ExtResource("1_opaft")
+
+[node name="MC" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="GC" type="GridContainer" parent="MC"]
+layout_mode = 2
+columns = 4
+
+[node name="PictureMenuOption" parent="MC/GC" instance=ExtResource("2_77hhw")]
+layout_mode = 2
+
+[node name="PictureMenuOption2" parent="MC/GC" instance=ExtResource("2_77hhw")]
+layout_mode = 2
+
+[node name="PictureMenuOption3" parent="MC/GC" instance=ExtResource("2_77hhw")]
+layout_mode = 2
+
+[node name="PictureMenuOption4" parent="MC/GC" instance=ExtResource("2_77hhw")]
+layout_mode = 2
