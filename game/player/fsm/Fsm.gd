@@ -2,7 +2,7 @@
 # Used by player class to handle transition between various states
 class_name Fsm extends RefCounted
 
-var states: Array[FsmState]
+var states := {}
 var owner: Player
 var state := Player.State.IDLE
 var ticks_in_state := 0
@@ -21,20 +21,13 @@ static var player_states := {
     Player.State.CHARACTER_0: preload("res://assets/data/states/character/speed/LightAttackChainState.tres"),
 }
 
-static var projectile_states := [
-    preload("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    preload("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
-    preload("res://assets/data/states/projectile/ExpiredState.tres")
-]
+static var projectile_states := {
+    Player.State.IDLE: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
+    Player.State.CHARACTER_0: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
+    Player.State.DEFEATED: preload("res://assets/data/states/projectile/ExpiredState.tres")
+}
 
-func prepare_states(provided_states: Array[FsmState]) -> void:
+func prepare_states(provided_states: Dictionary) -> void:
     # need to take character spec as an input, then populate the `states` dict with their state objects
     states = provided_states
 

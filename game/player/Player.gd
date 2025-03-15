@@ -139,7 +139,7 @@ func initialize_character_data(new_character_spec: CharacterSpec) -> void:
     health = new_character_spec.max_hp
     special_uses = new_character_spec.special_uses
 
-    fsm.prepare_states(new_character_spec.states)
+    fsm.prepare_states(Fsm.player_states)
 
     sprite.texture = new_character_spec.animation_sprite
     
