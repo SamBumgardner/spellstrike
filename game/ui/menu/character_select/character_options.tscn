@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://dt8p1a1fjv2p8"]
+[gd_scene load_steps=4 format=3 uid="uid://dt8p1a1fjv2p8"]
 
 [ext_resource type="Theme" uid="uid://dd7bec7ncfw7d" path="res://ui/themes/character_options_theme.tres" id="1_opaft"]
 [ext_resource type="PackedScene" uid="uid://bru2qmscncwic" path="res://ui/menu/picture_menu_option.tscn" id="2_77hhw"]
+[ext_resource type="Script" path="res://ui/menu/character_select/character_options.gd" id="2_thccb"]
 
 [node name="CharacterOptions" type="PanelContainer"]
 anchors_preset = 5
@@ -12,6 +13,7 @@ offset_right = 150.0
 offset_bottom = 158.0
 grow_horizontal = 2
 theme = ExtResource("1_opaft")
+script = ExtResource("2_thccb")
 
 [node name="MC" type="MarginContainer" parent="."]
 layout_mode = 2
