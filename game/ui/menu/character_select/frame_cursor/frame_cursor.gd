@@ -1,6 +1,6 @@
 class_name FrameCursor extends Control
 
-const border_width = 10
+const border_width = 2
 
 @export var primary_corner: Corner = CORNER_TOP_LEFT
 @export var frame_color: Color = Color.RED

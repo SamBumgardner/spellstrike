@@ -4,7 +4,6 @@
 [ext_resource type="Script" path="res://ui/menu/character_select/frame_cursor/foreground_frame.gd" id="2_rkiw0"]
 
 [node name="FrameCursor" type="Control"]
-clip_contents = true
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_l8xo5")
@@ -12,7 +11,6 @@ nametag = "P1"
 
 [node name="ForegroundHalf" type="Control" parent="."]
 z_index = 2
-clip_contents = true
 anchors_preset = 0
 script = ExtResource("2_rkiw0")
 
