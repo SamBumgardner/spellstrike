@@ -93,7 +93,7 @@ func _on_sync_started():
         push_error("Match Options is unset. Falling back to default options...")
         match_options = MatchOptions.generate_default()
 
-    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': - 200, 'y': 420, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
+    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': - 200, 'y': 420, 'character_spec': load("res://assets/data/character/character_speed.tres"), 't': Player.Side.P1}, false);
     fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
     fighterP1.input_retriever = match_options.input_retrievers[0]
     health_tracker_1.tracked_player = fighterP1
@@ -103,7 +103,7 @@ func _on_sync_started():
     fighterP1.defeated.connect(_on_player_defeated)
     fighterP1.request_projectile.connect(_on_player_requested_projectile)
 
-    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 420, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
+    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 420, 'character_spec': load("res://assets/data/character/character_speed.tres"), 't': Player.Side.P2}, false);
     fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
 
     # when playing online as p2, use the "normal" p1 mapping the player set up.
@@ -226,14 +226,14 @@ func _on_game_won(winning_side: Player.Side) -> void:
         PlayerInformation.new(
             p1_network_id,
             Side.P1,
-            match_options.input_retrievers[0].input_ids, 
+            match_options.input_retrievers[0].input_ids,
             CharacterSpec.new(),
             wins_manager.get_game_win_counts()[Side.P1]
         ),
         PlayerInformation.new(
             p2_network_id,
             Side.P2,
-            p2_input_retriever.input_ids, 
+            p2_input_retriever.input_ids,
             CharacterSpec.new(),
             wins_manager.get_game_win_counts()[Side.P2]
         )

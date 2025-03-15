@@ -12,7 +12,6 @@ class_name CharacterSpec extends Resource
 @export var walk_accel: int = 5
 @export var walk_drag: int = 2
 @export var width: int = 128
-@export var pushbox_width: int = 64
 
 @export var max_hp: int = 150
 @export var special_uses: int = 5

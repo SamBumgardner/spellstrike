@@ -30,7 +30,6 @@ back_walk_speed = 3
 walk_accel = 5
 walk_drag = 2
 width = 128
-pushbox_width = 64
 max_hp = 150
 special_uses = 5
 states = Array[ExtResource("5_fwqim")]([ExtResource("6_pfqtc"), ExtResource("7_ffkam"), ExtResource("8_atejh"), ExtResource("9_7otao"), ExtResource("10_2popw"), ExtResource("11_mqyv5"), ExtResource("12_lcm3j"), null, ExtResource("13_pcvrb"), ExtResource("14_t3g0u"), ExtResource("15_n2cck"), ExtResource("16_3aj0r")])

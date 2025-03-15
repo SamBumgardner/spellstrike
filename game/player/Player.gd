@@ -33,6 +33,7 @@ signal defeated
 @onready var hurtboxes := hurtbox_pool.get_children()
 @onready var hitbox_pool: Area2D = $HitboxPool
 @onready var hitboxes := hitbox_pool.get_children()
+@onready var sprite: Sprite2D = $Sprite2D
 @onready var animation: NetworkAnimationPlayer = $Animation
 @onready var pushbox: CollisionShape2D = $Pushbox
 
@@ -42,15 +43,14 @@ var fsm: Fsm
 @onready var action_buffer: ActionBuffer = $ActionBuffer
 
 # TODO: move these to character spec
-const walk_speed: int = 5
-const back_walk_speed: int = 3
-const walk_accel: int = 5
-const walk_drag: int = 2
-const width: int = 128
+var walk_speed: int = 5
+var back_walk_speed: int = 3
+var walk_accel: int = 5
+var walk_drag: int = 2
+var width: int = 128
 
 # Custom state variables
 var team: Side
-var character: Characters
 var health: int
 var velocity: int
 var facing_direction: Side
@@ -128,6 +128,21 @@ func _set_collision_boxes(collisionBoxes: Array, rectangleSpecs: Array[Rectangle
 func reset() -> void:
     _load_state(initial_spawn_state)
     fsm.force_change_state(State.IDLE)
+
+func initialize_character_data(new_character_spec: CharacterSpec) -> void:
+    walk_speed = new_character_spec.walk_speed
+    back_walk_speed = new_character_spec.walk_speed
+    walk_accel = new_character_spec.walk_accel
+    walk_drag = new_character_spec.walk_drag
+    width = new_character_spec.width
+
+    health = new_character_spec.max_hp
+    special_uses = new_character_spec.special_uses
+
+    fsm.prepare_states(new_character_spec.states)
+
+    sprite.texture = new_character_spec.animation_sprite
+    
     
 ########################
 # RESOLVE INTERACTIONS #
@@ -260,7 +275,6 @@ func _save_state() -> Dictionary:
         'x': position.x,
         'y': position.y,
         't': team,
-        'c': character,
         'hp': health,
         's': status,
         'fs': fsm.state,
@@ -304,10 +318,6 @@ func _load_state(state: Dictionary) -> void:
     var fsm_ticks_in_state = state['ft']
     fsm.load(fsm_state, fsm_ticks_in_state)
 
-    if character != state['c']:
-        push_error('''DESYNC: character in loaded state & memory do not match. 
-        state:%s, mem: %s''' % [state['c'], character])
-
 func _get_local_input() -> Dictionary:
     return input_retriever.retrieve_input()
 
@@ -341,7 +351,7 @@ func _network_process(input: Dictionary):
         received_combo_count = 0
         counterhit_starter = false
 
-func _network_postprocess(input: Dictionary):
+func _network_postprocess(_input: Dictionary):
     if status in [Status.STARTUP, Status.ACTIVE, Status.VICTORY]:
         z_index = 1
     elif status in [Status.HITSTUN, Status.DEFEATED]:
@@ -352,15 +362,16 @@ func _network_postprocess(input: Dictionary):
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     # check required parameters are provided
-    const essential_spawn_params = ['x', 'y', 'c', 't']
+    const essential_spawn_params = ['x', 'y', 'character_spec', 't']
     var keys = data.keys()
     for essential_param in essential_spawn_params:
         assert(essential_param in keys, "ERROR: spawn method not called with essential input '%s'. 
             Input data:%s" % [essential_param, data])
 
-    # look up hp value for character:
-    data['hp'] = 150 # placeholder logic for now
-    data['su'] = 5 # placeholder logic
+    initialize_character_data(data['character_spec'])
+    data['hp'] = health
+    data['su'] = special_uses
+    data.erase('character_spec')
 
     # overwrite other params with default values
     const spawn_num_ticks_in_state = 0
@@ -388,10 +399,8 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
 func _network_spawn(data: Dictionary) -> void:
     initial_spawn_state = data
     # need to do first time setup (based on character selection, etc.)
-    character = data['c']
-    health = data['hp']
     team = data['t']
-    fsm.prepare_states(Fsm.player_states)
+
     # remaining setup is identical to any ordinary load state
     _load_state(data)
 
@@ -408,11 +417,6 @@ enum Side {
 
 static func get_side_scale(side: Side) -> int:
     return 1 if side == Side.P1 else -1
-
-enum Characters {
-    SPEED = 0,
-    REACH = 1,
-}
 
 enum Status {
     NEUTRAL = 0,
