@@ -30,9 +30,6 @@ func _load_state(state: Dictionary) -> void:
     number_of_rematches_requested = state['nrr']
 
 # INITIALIZAION #
-func init_options(new_options: MatchOptions) -> void:
-    match_options = new_options
-
 func init(new_options: MatchOptions,
     new_player_informations: Array[PlayerInformation],
     new_winning_side: Player.Side
@@ -102,7 +99,7 @@ func _set_results_box_display() -> void:
 func _init_rematch_menu():
     assert(player_informations.size() == rematch_menus.size())
     for i in player_informations.size():
-        rematch_menus[i].init_input_mapping(player_informations[i].input_mapping)
+        rematch_menus[i].init_input_retriever(player_informations[i].input_retriever)
         rematch_menus[i].set_multiplayer_authority(player_informations[i].network_id)
         rematch_menus[i].quit.connect(_on_rematch_menu_quit)
         rematch_menus[i].rematch.connect(_on_rematch_menu_rematch)
@@ -136,11 +133,7 @@ func _start_new_game():
     
     var gameplay = load("res://TestGameplay.tscn")
     var instantiated_map = gameplay.instantiate()
-    instantiated_map.init_options(match_options)
-    var win_records: Array[int] = [player_informations[0].number_of_wins, player_informations[1].number_of_wins]
-    instantiated_map.init_wins_record(win_records)
-    instantiated_map.p1_network_id = player_informations[0].network_id
-    instantiated_map.p2_network_id = player_informations[1].network_id
+    instantiated_map.init(match_options, player_informations)
     SceneSwitchUtil.change_scene(get_tree(), instantiated_map)
 
 # NETWORK ISSUE HANDLING #
@@ -164,7 +157,7 @@ func _close_rollback_networking():
 
 func _return_to_network_menu() -> void:
     _close_rollback_networking()
-    var main_menu_scene = SceneSwitchUtil.main_menu_scene.instantiate()
+    var main_menu_scene = load("res://network/main.tscn").instantiate()
     SceneSwitchUtil.change_scene(get_tree(), main_menu_scene)
 
 func _on_sync_stopped(reason: Disconnect.Reason):

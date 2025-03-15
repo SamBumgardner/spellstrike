@@ -47,8 +47,8 @@ var selected_ui_index: int = NO_SELECTION
 var network_process_enabled: bool = true
 
 # INIT #
-func init_input_mapping(new_input_mapping: Dictionary):
-    input_retriever.input_ids = new_input_mapping
+func init_input_retriever(new_input_retriever: InputRetriever):
+    input_retriever = new_input_retriever
 
 func _ready() -> void:
     add_to_group("network_sync")
