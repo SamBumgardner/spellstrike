@@ -1,0 +1,46 @@
+[gd_resource type="Resource" script_class="CharacterSpec" load_steps=17 format=3 uid="uid://r3plnq5yuj2h"]
+
+[ext_resource type="Texture2D" uid="uid://cgrgw14ugq182" path="res://assets/art/placeholder_character_sheet_2.png" id="1_3m0e7"]
+[ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_ccven"]
+[ext_resource type="Script" path="res://player/character_spec.gd" id="3_o65xs"]
+[ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_bclvp"]
+[ext_resource type="Resource" uid="uid://co8nnxi0rj0m5" path="res://assets/data/states/character/speed/IdleState.tres" id="5_rj71r"]
+[ext_resource type="Resource" uid="uid://71tfhe4l4xal" path="res://assets/data/states/character/speed/WalkState.tres" id="6_jhfi7"]
+[ext_resource type="Resource" uid="uid://b1ogno7xi50fe" path="res://assets/data/states/character/speed/LightAttackState.tres" id="7_qe5p3"]
+[ext_resource type="Resource" uid="uid://ct6y8ttfvxha1" path="res://assets/data/states/character/speed/MediumAttackState.tres" id="8_ayaq5"]
+[ext_resource type="Resource" uid="uid://y6085lvsh3c" path="res://assets/data/states/character/speed/HeavyAttackState.tres" id="9_46fa8"]
+[ext_resource type="Resource" uid="uid://cm4bgxkcu16vg" path="res://assets/data/states/character/speed/DelayedFireballCast.tres" id="10_quoaj"]
+[ext_resource type="Resource" uid="uid://ba6nwbud5jl1u" path="res://assets/data/states/character/speed/DefensiveSpecialState.tres" id="11_n6mkn"]
+[ext_resource type="Resource" uid="uid://dgxhlme3uf7jt" path="res://assets/data/states/character/speed/HurtState.tres" id="12_kh5xx"]
+[ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_nf5jv"]
+[ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="14_3ck0o"]
+[ext_resource type="Resource" uid="uid://4va3vpwoielf" path="res://assets/data/states/character/speed/LightAttackChainState.tres" id="15_5j6rf"]
+[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="16_d44ds"]
+
+[resource]
+script = ExtResource("3_o65xs")
+name = "Reach"
+victory_portrait = ExtResource("16_d44ds")
+defeat_portrait = ExtResource("2_ccven")
+animation_sprite = ExtResource("1_3m0e7")
+special_icon = ExtResource("4_bclvp")
+walk_speed = 5
+back_walk_speed = 3
+walk_accel = 5
+walk_drag = 2
+width = 128
+max_hp = 150
+special_uses = 5
+states = {
+0: ExtResource("5_rj71r"),
+1: ExtResource("6_jhfi7"),
+2: ExtResource("7_qe5p3"),
+3: ExtResource("8_ayaq5"),
+4: ExtResource("9_46fa8"),
+5: ExtResource("10_quoaj"),
+6: ExtResource("11_n6mkn"),
+8: ExtResource("12_kh5xx"),
+9: ExtResource("13_nf5jv"),
+10: ExtResource("14_3ck0o"),
+11: ExtResource("15_5j6rf")
+}

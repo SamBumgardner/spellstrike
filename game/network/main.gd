@@ -125,7 +125,7 @@ func generate_player_informations(options: MatchOptions, p1_id: int, p2_id: int)
             p2_id,
             Player.Side.P2,
             p2_input_retriever,
-            load("res://assets/data/character/character_speed.tres"),
+            load("res://assets/data/character/character_reach.tres"),
             0
         )
     ]
