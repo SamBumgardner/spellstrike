@@ -42,6 +42,9 @@ func _ready() -> void:
 func _network_process(input: Dictionary) -> void:
     if not network_process_enabled:
         return
+    
+    if input.is_empty():
+        input = InputRetriever.EMPTY
 
     action_buffer.push_frame(input)
     action_buffer.set_lookback_distance(ActionBuffer.QUEUE_LENGTH)
@@ -61,13 +64,13 @@ func _predict_remote_input(_old_input: Dictionary, _ticks_since_real_input: int)
 func _save_state() -> Dictionary:
     return {
         'npe': network_process_enabled,
-        'acm': attached_controller_menu,
+        'acm': attached_controller_menu.get_path(),
         'cs': cursor_status,
-        'cti': current_target_ui.get_path(),
+        'ctu': current_target_ui.get_path(),
     }
 
 func _load_state(state: Dictionary) -> void:
     network_process_enabled = state['npe']
-    attached_controller_menu = state['acm']
+    attached_controller_menu = get_node(state['acm'])
     cursor_status = state['cs']
     current_target_ui = get_node(state['ctu'])

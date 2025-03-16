@@ -35,6 +35,7 @@ func _ready() -> void:
         cursor_logics[i].selection_changed.connect(frame_cursors[i]._on_selection_changed)
         cursor_logics[i].status_changed.connect(frame_cursors[i]._on_status_changed)
         cursor_logics[i].initialize(character_options, player_informations[i].input_retriever, CursorLogic.Status.ACTIVE, i)
+        cursor_logics[i].set_multiplayer_authority(player_informations[i].network_id)
     
     character_options.character_selected.connect(_on_character_selected)
     character_options.selection_canceled.connect(_on_selection_cancelled)
@@ -49,6 +50,9 @@ func _ready() -> void:
 
     if multiplayer.is_server():
         get_tree().create_timer(.5).timeout.connect(SyncManager.start, CONNECT_ONE_SHOT)
+    
+    SyncManager.start_logging("user://rollback_logfile_%s" % randi())
+
 
 func _network_setup():
     if player_informations[0].network_id != player_informations[1].network_id:
@@ -62,6 +66,9 @@ func _network_setup():
         var receiver_side = cursor_logics[1].get_path() if multiplayer.is_server() else cursor_logics[0].get_path()
         SyncManager.message_serializer.produce_input_path = producer_side
         SyncManager.message_serializer.receive_input_path = receiver_side
+        
+        SyncManager.sync_stopped.connect(_on_sync_stopped)
+        SyncManager.sync_error.connect(_on_sync_error)
     
     else:
         SyncManager.set_network_adaptor(preload("res://addons/godot-rollback-netcode/DummyNetworkAdaptor.gd").new())
