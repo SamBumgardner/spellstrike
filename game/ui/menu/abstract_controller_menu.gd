@@ -37,11 +37,11 @@ func try_get_node(nodepath: NodePath, default: Control) -> Control:
     else:
         return default
 
-func act_on_selection(starting_ui_element: Control, action_buffer: ActionBuffer) -> void:
+func act_on_selection(starting_ui_element: Control, action_buffer: ActionBuffer, cursor_side: Player.Side) -> void:
     const action_inputs = ['a', 'b', 'c', 's']
     var ui_element_name = starting_ui_element.name
     for action in action_inputs:
         if action_buffer.consume_just_pressed(action):
             action = actions_map.get("%s.%s" % [ui_element_name, action])
             if action != null:
-                action.call()
+                action.call(cursor_side)

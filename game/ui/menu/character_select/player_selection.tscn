@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://xjhlmqubcnen"]
+[gd_scene load_steps=3 format=3 uid="uid://xjhlmqubcnen"]
 
-[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="1_saxei"]
+[ext_resource type="Script" path="res://ui/menu/character_select/player_selection.gd" id="1_rq54x"]
+[ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="2_bbbvh"]
 
 [node name="PlayerSelection" type="Control"]
 custom_minimum_size = Vector2(375, 400)
@@ -10,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_rq54x")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -35,6 +37,7 @@ theme_override_constants/margin_left = 10
 theme_override_constants/margin_right = 10
 
 [node name="CharacterName" type="Label" parent="VBoxContainer/CharacterNameBanner/MC"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "Character Name"
@@ -69,8 +72,11 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="VBoxContainer/CharacterSpriteSpace/CharacterSpriteAnchor"]
-texture = ExtResource("1_saxei")
+[node name="CharacterSprite" type="Sprite2D" parent="VBoxContainer/CharacterSpriteSpace/CharacterSpriteAnchor"]
+unique_name_in_owner = true
+texture = ExtResource("2_bbbvh")
+hframes = 4
+vframes = 2
 
 [node name="PlayerNameBanner" type="PanelContainer" parent="VBoxContainer"]
 layout_mode = 2

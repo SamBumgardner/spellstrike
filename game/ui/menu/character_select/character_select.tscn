@@ -27,7 +27,8 @@ layout_mode = 2
 [node name="FrameCursor2" parent="UI/CharacterOptions" instance=ExtResource("3_3q125")]
 layout_mode = 2
 primary_corner = 1
-frame_color = Color(0, 0, 1, 1)
+active_color = Color(0, 0, 1, 1)
+selected_color = Color(0, 0, 0.545098, 1)
 nametag = "P2"
 
 [node name="CursorLogic" parent="UI/CharacterOptions" instance=ExtResource("4_xsi8s")]
