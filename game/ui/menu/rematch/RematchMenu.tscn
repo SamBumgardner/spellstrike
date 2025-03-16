@@ -39,6 +39,11 @@ unique_name_in_owner = true
 layout_mode = 2
 option_text = "Rematch"
 
+[node name="CharSelectOption" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_l23q0")]
+unique_name_in_owner = true
+layout_mode = 2
+option_text = "Return to Character Select"
+
 [node name="QuitOption" parent="MarginContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_l23q0")]
 unique_name_in_owner = true
 layout_mode = 2

@@ -11,6 +11,7 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 @onready var results_boxes: Array = [$"%ResultsBox", $"%ResultsBox2"]
 @onready var rematch_menus: Array = [$"%RematchMenu", $"%RematchMenu2"]
 @onready var post_selection_delay_timer: NetworkTimer = $PostSelectionDelay
+@onready var character_select_delay_timer: NetworkTimer = $CharacterSelectDelay
 @onready var quit_delay_timer: NetworkTimer = $QuitDelay
 
 var match_options: MatchOptions
@@ -55,6 +56,7 @@ func _ready() -> void:
     # Normal behavior signals:
     #SyncManager.sync_started.connect(post_selection_delay_timer.start.bind(POST_SELECTION_DURATION), CONNECT_ONE_SHOT)
     post_selection_delay_timer.timeout.connect(_start_new_game)
+    character_select_delay_timer.timeout.connect(_return_to_character_select)
     quit_delay_timer.timeout.connect(_return_to_network_menu)
         
     _init_display()
@@ -104,7 +106,12 @@ func _init_rematch_menu():
         rematch_menus[i].quit.connect(_on_rematch_menu_quit)
         rematch_menus[i].rematch.connect(_on_rematch_menu_rematch)
         rematch_menus[i].rematch_cancel.connect(_on_rematch_menu_rematch_cancel)
-        
+        rematch_menus[i].character_select.connect(_on_rematch_menu_character_select)
+
+func _on_rematch_menu_character_select():
+    _set_rematch_menu_processing(false)
+    character_select_delay_timer.start(POST_QUIT_DURATION)
+
 func _on_rematch_menu_quit():
     _set_rematch_menu_processing(false)
     quit_delay_timer.start(POST_QUIT_DURATION)
@@ -135,6 +142,15 @@ func _start_new_game():
     var instantiated_map = gameplay.instantiate()
     instantiated_map.init(match_options, player_informations)
     SceneSwitchUtil.change_scene(get_tree(), instantiated_map)
+
+func _return_to_character_select():
+    SyncManager.stop_logging()
+    SyncManager.stop()
+    
+    var character_select = load("res://ui/menu/character_select/character_select.tscn")
+    var instantiated_scene = character_select.instantiate()
+    instantiated_scene.init(match_options, player_informations)
+    SceneSwitchUtil.change_scene(get_tree(), instantiated_scene)
 
 # NETWORK ISSUE HANDLING #
 func _on_sync_error(_msg: String):
