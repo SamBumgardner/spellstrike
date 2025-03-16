@@ -81,10 +81,11 @@ func _on_character_selection_moved(acting_side: Player.Side, character_spec: Cha
     player_selections[acting_side].preview_character(character_spec)
 
 func _on_character_selected(acting_side: Player.Side, character_spec: CharacterSpec) -> void:
-    cursor_logics[acting_side].cursor_status = CursorLogic.Status.SELECTED
-    player_selections[acting_side].select_character(character_spec)
-    player_informations[acting_side].character_spec = character_spec
-    _on_selection_confirmed()
+    if cursor_logics[acting_side].cursor_status == CursorLogic.Status.ACTIVE:
+        cursor_logics[acting_side].cursor_status = CursorLogic.Status.SELECTED
+        player_selections[acting_side].select_character(character_spec)
+        player_informations[acting_side].character_spec = character_spec
+        _on_selection_confirmed()
     
 func _on_selection_cancelled(acting_side: Player.Side, character_spec: CharacterSpec) -> void:
     if cursor_logics[acting_side].cursor_status == CursorLogic.Status.SELECTED:

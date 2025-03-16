@@ -1,8 +1,8 @@
 class_name CursorDisplay extends Control
 
-@export var move_sound: AudioStream
-@export var selected_sound: AudioStream
-@export var cancel_sound: AudioStream
+@export var move_sound: AudioStream = load("res://assets/sound/ui_boop.wav")
+@export var selected_sound: AudioStream = load("res://assets/sound/ui_blip.wav")
+@export var cancel_sound: AudioStream = load("res://assets/sound/ui_cancel.wav")
 
 var current_target_ui: Control
 var displayed_target_ui: Control
@@ -25,8 +25,9 @@ func _process(_delta: float) -> void:
 
 # to be augmented by child classes
 func _update_displayed_target(new_target_ui: Control) -> void:
+    if displayed_target_ui != null:
+        SyncManager.play_sound("%s_move" % name, move_sound)
     displayed_target_ui = new_target_ui
-    SyncManager.play_sound("%s_move" % name, move_sound)
 
 # to be augmented by child classes
 func _update_displayed_status(new_status: CursorLogic.Status) -> void:
