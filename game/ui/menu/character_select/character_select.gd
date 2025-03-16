@@ -69,6 +69,7 @@ func _network_setup():
         
         SyncManager.sync_stopped.connect(_on_sync_stopped)
         SyncManager.sync_error.connect(_on_sync_error)
+        multiplayer.multiplayer_peer.peer_disconnected.connect(_on_broken_connection)
     
     else:
         SyncManager.set_network_adaptor(preload("res://addons/godot-rollback-netcode/DummyNetworkAdaptor.gd").new())

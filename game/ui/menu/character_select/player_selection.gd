@@ -8,13 +8,11 @@ func init(player_information: PlayerInformation) -> void:
     player_name_label.text = player_information.player_name
 
 func preview_character(new_character_spec: CharacterSpec) -> void:
-    print_debug("previewing character spec %s..." % new_character_spec.name)
     character_name_label.text = new_character_spec.name
     character_sprite.texture = new_character_spec.animation_sprite
     modulate_character_info(Color(Color.WHITE, .5))
     
 func select_character(new_character_spec: CharacterSpec) -> void:
-    print_debug("selected character spec %s!" % new_character_spec.name)
     character_name_label.text = new_character_spec.name
     character_sprite.texture = new_character_spec.animation_sprite
     modulate_character_info(Color.WHITE)
