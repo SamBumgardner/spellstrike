@@ -1,14 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://bjtha7dq81a0"]
 
 [ext_resource type="Script" path="res://network/main.gd" id="1_mcj1k"]
-[ext_resource type="PackedScene" uid="uid://bmufwtv6hw8ys" path="res://TestGameplay.tscn" id="2_agxsy"]
+[ext_resource type="PackedScene" uid="uid://cy3ysu07toal8" path="res://ui/menu/character_select/character_select.tscn" id="2_e7tu4"]
 [ext_resource type="Script" path="res://options/InputRemapperLogic.gd" id="3_tjof3"]
 [ext_resource type="PackedScene" uid="uid://ca1rtsmwjcvlc" path="res://options/InputRemapperDisplay.tscn" id="4_b3cy8"]
 [ext_resource type="PackedScene" uid="uid://dd0s2v25q8xtj" path="res://options/match/MatchOptionsMenu.tscn" id="5_4f10j"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_mcj1k")
-map = ExtResource("2_agxsy")
+map = ExtResource("2_e7tu4")
 
 [node name="InputMapperLogic" type="Node" parent="."]
 script = ExtResource("3_tjof3")

@@ -118,14 +118,14 @@ func generate_player_informations(options: MatchOptions, p1_id: int, p2_id: int)
             p1_id,
             Player.Side.P1,
             options.input_retrievers[0],
-            load("res://assets/data/character/character_speed.tres"),
+            null,
             0
         ),
         PlayerInformation.new(
             p2_id,
             Player.Side.P2,
             p2_input_retriever,
-            load("res://assets/data/character/character_reach.tres"),
+            null,
             0
         )
     ]
@@ -139,7 +139,7 @@ func load_game(p1_id = 1, p2_id = 0):
     
     %Menu.hide()
     
-    var instantiated_map = map.instantiate() as TestGameplay
+    var instantiated_map = map.instantiate() as CharacterSelect
     # TODO: fix up temporary player informations creation
     instantiated_map.init(options, generate_player_informations(options, p1_id, p2_id))
     SceneSwitchUtil.change_scene(get_tree(), instantiated_map)
