@@ -51,7 +51,7 @@ func _ready() -> void:
     if multiplayer.is_server():
         get_tree().create_timer(.5).timeout.connect(SyncManager.start, CONNECT_ONE_SHOT)
     
-    SyncManager.start_logging("user://rollback_logfile_%s" % randi())
+    # SyncManager.start_logging("user://rollback_logfile_%s" % randi())
 
 
 func _network_setup():
