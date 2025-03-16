@@ -1,7 +1,11 @@
 class_name PlayerSelection extends Control
 
+@onready var player_name_label: Label = $"%PlayerName"
 @onready var character_name_label: Label = $"%CharacterName"
 @onready var character_sprite: Sprite2D = $"%CharacterSprite"
+
+func init(player_information: PlayerInformation) -> void:
+    player_name_label.text = player_information.player_name
 
 func preview_character(new_character_spec: CharacterSpec) -> void:
     print_debug("previewing character spec %s..." % new_character_spec.name)

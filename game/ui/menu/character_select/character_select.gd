@@ -44,6 +44,7 @@ func _ready() -> void:
     # set up initial view
     for side in Player.Side.values():
         player_selections[side].preview_character(character_options.get_initial_character(side))
+        player_selections[side].init(player_informations[side])
         # TODO: if player already has a character information, find the corresponding ui element and make that the initial one.
 
     _network_setup()

@@ -116,6 +116,7 @@ func generate_player_informations(options: MatchOptions, p1_id: int, p2_id: int)
     var temp_informations: Array[PlayerInformation] = [
         PlayerInformation.new(
             p1_id,
+            "P1",
             Player.Side.P1,
             options.input_retrievers[0],
             null,
@@ -123,6 +124,7 @@ func generate_player_informations(options: MatchOptions, p1_id: int, p2_id: int)
         ),
         PlayerInformation.new(
             p2_id,
+            "P2",
             Player.Side.P2,
             p2_input_retriever,
             null,

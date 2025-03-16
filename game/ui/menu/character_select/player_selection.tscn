@@ -85,6 +85,7 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="PlayerName" type="Label" parent="VBoxContainer/PlayerNameBanner/MC"]
+unique_name_in_owner = true
 layout_mode = 2
 theme_type_variation = &"HeaderMedium"
 text = "Player Name"
