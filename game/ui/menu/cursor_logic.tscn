@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd5q2rm31p1bb"]
+
+[ext_resource type="Script" path="res://ui/menu/cursor_logic.gd" id="1_15e0p"]
+[ext_resource type="Script" path="res://player/input/ActionBuffer.gd" id="2_thsd0"]
+
+[node name="CursorLogic" type="Node"]
+script = ExtResource("1_15e0p")
+
+[node name="ActionBuffer" type="Node" parent="."]
+script = ExtResource("2_thsd0")
