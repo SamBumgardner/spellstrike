@@ -9,9 +9,14 @@ func get_initial_element() -> Control:
 # To be implemented by child
 func generate_actions_map() -> Dictionary:
     return {}
+
+# To be implemented by child
+func initialize_focus_neighbors() -> void:
+    pass
     
 func _ready() -> void:
     actions_map = generate_actions_map()
+    initialize_focus_neighbors()
 
 func move_selection(starting_ui_element: Control, action_buffer: ActionBuffer) -> Control:
     var current_ui_element: Control = starting_ui_element
