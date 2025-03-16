@@ -28,13 +28,13 @@ var current_target_ui: Control:
             current_target_ui = x
             selection_changed.emit(current_target_ui)
 
-func initialize(menu: AbstractControllerMenu, input: InputRetriever, start_status: Status, side: Player.Side) -> void:
+func initialize(menu: AbstractControllerMenu, start_status: Status, side: Player.Side, player_information: PlayerInformation) -> void:
     player_side = side
-    input_retriever = input
+    input_retriever = player_information.input_retriever
     
     attached_controller_menu = menu
     cursor_status = start_status
-    current_target_ui = attached_controller_menu.get_initial_element(side)
+    current_target_ui = attached_controller_menu.get_initial_element(side, player_information)
 
 func _ready() -> void:
     add_to_group("network_sync")

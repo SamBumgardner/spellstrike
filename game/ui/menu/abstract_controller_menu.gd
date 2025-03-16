@@ -4,7 +4,7 @@ var moved_map: Dictionary
 var actions_map: Dictionary
 
 # To be implemented by child
-func get_initial_element(_cursor_side: Player.Side) -> Control:
+func get_initial_element(_cursor_side: Player.Side, _player_information: PlayerInformation) -> Control:
     return null
 
 # To be implemented by child

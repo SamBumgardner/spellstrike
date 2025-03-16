@@ -13,19 +13,26 @@ var character_specifications: Array[CharacterSpec] = [
     load("res://assets/data/character/character_reach.tres"),
 ]
 
-func get_initial_element(cursor_side: Player.Side) -> Control:
-    var midpoint: int = (targetable_ui.size() - 1) / 2
-    var remainder: int = (targetable_ui.size() - 1) % 2
-    var extra = 0 if cursor_side == Player.Side.P1 else remainder
+func _get_initial_index(cursor_side: Player.Side, player_information: PlayerInformation) -> int:
+    var initial_index = -1
+    if player_information.character_spec != null:
+        initial_index = character_specifications.find(player_information.character_spec)    
     
-    return targetable_ui[midpoint + extra] as Control
+    if initial_index < 0:
+        var midpoint: int = (targetable_ui.size() - 1) / 2
+        var remainder: int = (targetable_ui.size() - 1) % 2
+        var extra = 0 if cursor_side == Player.Side.P1 else remainder
+        initial_index = midpoint + extra
+    
+    return initial_index
 
-func get_initial_character(cursor_side: Player.Side) -> CharacterSpec:
-    var midpoint: int = (targetable_ui.size() - 1) / 2
-    var remainder: int = (targetable_ui.size() - 1) % 2
-    var extra = 0 if cursor_side == Player.Side.P1 else remainder
-    
-    return character_specifications[midpoint + extra]
+func get_initial_element(cursor_side: Player.Side, player_information: PlayerInformation) -> Control:
+    var initial_index = _get_initial_index(cursor_side, player_information)
+    return targetable_ui[initial_index] as Control
+
+func get_initial_character(cursor_side: Player.Side, player_information: PlayerInformation) -> CharacterSpec:
+    var initial_index = _get_initial_index(cursor_side, player_information)
+    return character_specifications[initial_index]
 
 func initialize_focus_neighbors() -> void:
     for i in targetable_ui.size():

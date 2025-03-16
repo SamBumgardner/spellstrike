@@ -34,7 +34,7 @@ func _ready() -> void:
     for i in Player.Side.values():
         cursor_logics[i].selection_changed.connect(frame_cursors[i]._on_selection_changed)
         cursor_logics[i].status_changed.connect(frame_cursors[i]._on_status_changed)
-        cursor_logics[i].initialize(character_options, player_informations[i].input_retriever, CursorLogic.Status.ACTIVE, i)
+        cursor_logics[i].initialize(character_options, CursorLogic.Status.ACTIVE, i, player_informations[i])
         cursor_logics[i].set_multiplayer_authority(player_informations[i].network_id)
     
     character_options.character_selected.connect(_on_character_selected)
@@ -43,9 +43,8 @@ func _ready() -> void:
 
     # set up initial view
     for side in Player.Side.values():
-        player_selections[side].preview_character(character_options.get_initial_character(side))
+        player_selections[side].preview_character(character_options.get_initial_character(side, player_informations[side]))
         player_selections[side].init(player_informations[side])
-        # TODO: if player already has a character information, find the corresponding ui element and make that the initial one.
 
     _network_setup()
 
