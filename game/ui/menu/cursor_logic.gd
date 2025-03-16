@@ -34,7 +34,7 @@ func initialize(menu: AbstractControllerMenu, input: InputRetriever, start_statu
     
     attached_controller_menu = menu
     cursor_status = start_status
-    current_target_ui = attached_controller_menu.get_initial_element()
+    current_target_ui = attached_controller_menu.get_initial_element(side)
 
 func _ready() -> void:
     add_to_group("network_sync")
@@ -47,7 +47,7 @@ func _network_process(input: Dictionary) -> void:
     action_buffer.set_lookback_distance(ActionBuffer.QUEUE_LENGTH)
 
     if cursor_status == Status.ACTIVE:
-        current_target_ui = attached_controller_menu.move_selection(current_target_ui, action_buffer)
+        current_target_ui = attached_controller_menu.move_selection(current_target_ui, action_buffer, player_side)
     
     if cursor_status not in [Status.DISABLED, Status.GONE]:
         attached_controller_menu.act_on_selection(current_target_ui, action_buffer, player_side)

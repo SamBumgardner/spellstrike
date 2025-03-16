@@ -15,13 +15,21 @@ func _ready() -> void:
     
     character_options.character_selected.connect(_on_character_selected)
     character_options.selection_canceled.connect(_on_selection_cancelled)
+    character_options.character_selection_moved.connect(_on_character_selection_moved)
+    
+    # set up initial view
+    for side in Player.Side.values():
+        player_selections[side].preview_character(character_options.get_initial_character(side))
 
     if multiplayer.is_server():
-        SyncManager.start()
+        get_tree().create_timer(.5).timeout.connect(SyncManager.start, CONNECT_ONE_SHOT)
 
-func _on_character_selected(selecting_side: Player.Side, character_spec: CharacterSpec) -> void:
-    cursor_logics[selecting_side].cursor_status = CursorLogic.Status.SELECTED
-    player_selections[selecting_side].select_character(character_spec)
+func _on_character_selection_moved(acting_side: Player.Side, character_spec: CharacterSpec) -> void:
+    player_selections[acting_side].preview_character(character_spec)
+
+func _on_character_selected(acting_side: Player.Side, character_spec: CharacterSpec) -> void:
+    cursor_logics[acting_side].cursor_status = CursorLogic.Status.SELECTED
+    player_selections[acting_side].select_character(character_spec)
     
 func _on_selection_cancelled(acting_side: Player.Side, character_spec: CharacterSpec) -> void:
     if cursor_logics[acting_side].cursor_status == CursorLogic.Status.SELECTED:

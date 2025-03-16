@@ -1,13 +1,17 @@
 class_name AbstractControllerMenu extends Control
 
+var moved_map: Dictionary
 var actions_map: Dictionary
 
 # To be implemented by child
-func get_initial_element() -> Control:
+func get_initial_element(_cursor_side: Player.Side) -> Control:
     return null
 
 # To be implemented by child
 func generate_actions_map() -> Dictionary:
+    return {}
+
+func generate_moved_map() -> Dictionary:
     return {}
 
 # To be implemented by child
@@ -16,9 +20,10 @@ func initialize_focus_neighbors() -> void:
     
 func _ready() -> void:
     actions_map = generate_actions_map()
+    moved_map = generate_moved_map()
     initialize_focus_neighbors()
 
-func move_selection(starting_ui_element: Control, action_buffer: ActionBuffer) -> Control:
+func move_selection(starting_ui_element: Control, action_buffer: ActionBuffer, cursor_side: Player.Side) -> Control:
     var current_ui_element: Control = starting_ui_element
     if action_buffer.consume_just_pressed('l'):
         current_ui_element = try_get_node(current_ui_element.focus_neighbor_left, current_ui_element)
@@ -28,6 +33,11 @@ func move_selection(starting_ui_element: Control, action_buffer: ActionBuffer) -
         current_ui_element = try_get_node(current_ui_element.focus_neighbor_top, current_ui_element)
     if action_buffer.consume_just_pressed('d'):
         current_ui_element = try_get_node(current_ui_element.focus_neighbor_bottom, current_ui_element)
+    
+    if starting_ui_element != current_ui_element:
+        var moved = moved_map.get(current_ui_element.name)
+        if moved != null:
+            moved.call(cursor_side)
     
     return current_ui_element
 
