@@ -1,0 +1,70 @@
+[gd_scene load_steps=8 format=3 uid="uid://cy3ysu07toal8"]
+
+[ext_resource type="PackedScene" uid="uid://dt8p1a1fjv2p8" path="res://ui/menu/character_select/character_options.tscn" id="1_5poyr"]
+[ext_resource type="Script" path="res://ui/menu/character_select/character_select.gd" id="1_f68wd"]
+[ext_resource type="PackedScene" uid="uid://bg06044hy8aq1" path="res://ui/menu/character_select/frame_cursor/frame_cursor.tscn" id="3_3q125"]
+[ext_resource type="PackedScene" uid="uid://xjhlmqubcnen" path="res://ui/menu/character_select/player_selection.tscn" id="3_yel6j"]
+[ext_resource type="PackedScene" uid="uid://cd5q2rm31p1bb" path="res://ui/menu/cursor_logic.tscn" id="4_xsi8s"]
+[ext_resource type="PackedScene" uid="uid://bdy1yk1bvbqwg" path="res://ui/menu/Notification.tscn" id="6_4sdsu"]
+[ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="6_vuvhj"]
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_f68wd")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="CharacterOptions" parent="UI" instance=ExtResource("1_5poyr")]
+offset_left = -292.0
+offset_right = 292.0
+
+[node name="FrameCursor" parent="UI/CharacterOptions" instance=ExtResource("3_3q125")]
+layout_mode = 2
+
+[node name="FrameCursor2" parent="UI/CharacterOptions" instance=ExtResource("3_3q125")]
+layout_mode = 2
+primary_corner = 1
+active_color = Color(0, 0, 1, 1)
+selected_color = Color(0, 0, 0.545098, 1)
+nametag = "P2"
+
+[node name="CursorLogic" parent="UI/CharacterOptions" instance=ExtResource("4_xsi8s")]
+
+[node name="CursorLogic2" parent="UI/CharacterOptions" instance=ExtResource("4_xsi8s")]
+
+[node name="PlayerSelections" type="HBoxContainer" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -400.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="PlayerSelection" parent="UI/PlayerSelections" instance=ExtResource("3_yel6j")]
+layout_mode = 2
+
+[node name="PlayerSelection2" parent="UI/PlayerSelections" instance=ExtResource("3_yel6j")]
+layout_mode = 2
+
+[node name="Notification" parent="UI" instance=ExtResource("6_4sdsu")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -177.0
+offset_top = -63.5
+offset_right = 177.0
+offset_bottom = 63.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="PostSelectionDelay" type="Node" parent="."]
+script = ExtResource("6_vuvhj")

@@ -2,14 +2,10 @@ class_name TestGameplay extends Node2D
 
 const STAGE_WIDTH: int = 512
 
-var p1_network_id: int = 1
-var p2_network_id: int = 1
-var host_side := Side.P1
-var client_side := Side.P2
-
+var player_informations: Array[PlayerInformation]
 var match_options: MatchOptions
 
-var player_wins: Array[int] = [0, 0]
+var network_ids: Array
 
 # non-gameplay UI
 @onready var notification_window: Notification = $UI/Notification
@@ -20,14 +16,10 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 # handle game ending
 @onready var confirm_defeat_timer: NetworkTimer = $ConfirmDefeatTimer
 @onready var start_new_round_timer: NetworkTimer = $StartNewRoundTimer
-@onready var health_tracker_1: HealthTracker = $UI/BattleHUD/HealthTracker
-@onready var health_tracker_2: HealthTracker = $UI/BattleHUD/HealthTracker2
-@onready var win_tracker_1: WinTracker = $UI/BattleHUD/WinTracker
-@onready var win_tracker_2: WinTracker = $UI/BattleHUD/WinTracker2
-@onready var combo_counter_1: ComboCounter = $UI/BattleHUD/ComboCounter
-@onready var combo_counter_2: ComboCounter = $UI/BattleHUD/ComboCounter2
-@onready var special_counter_1: SpecialCounter = $UI/BattleHUD/SpecialCounter
-@onready var special_counter_2: SpecialCounter = $UI/BattleHUD/SpecialCounter2
+@onready var health_trackers: Array[HealthTracker] = [$UI/BattleHUD/HealthTracker, $UI/BattleHUD/HealthTracker2]
+@onready var win_trackers: Array[WinTracker] = [$UI/BattleHUD/WinTracker, $UI/BattleHUD/WinTracker2]
+@onready var combo_counters: Array[ComboCounter] = [$UI/BattleHUD/ComboCounter, $UI/BattleHUD/ComboCounter2]
+@onready var special_counters: Array[SpecialCounter] = [$UI/BattleHUD/SpecialCounter, $UI/BattleHUD/SpecialCounter2]
 @onready var round_timer_display: RoundTimerDisplay = $UI/BattleHUD/RoundTimerDisplay
 
 @onready var wins_manager: WinsManager = $WinsManager
@@ -42,28 +34,33 @@ enum Side {
     P2 = 1,
 }
 
-func init_options(options: MatchOptions) -> void:
-    match_options = options
-
-func init_wins_record(starting_wins: Array[int]) -> void:
-    player_wins = starting_wins
+func init(
+    new_options: MatchOptions,
+    new_player_informations: Array[PlayerInformation]
+) -> void:
+    match_options = new_options
+    player_informations = new_player_informations
+    network_ids = player_informations.map(func(x): return x.network_id)
 
 func _ready():
-    wins_manager.initialize_records(player_wins)
+    var win_records: Array[int]
+    win_records.assign(player_informations.map(func(x): return x.number_of_wins))
+    wins_manager.initialize_records(win_records)
     
     SyncManager.sync_started.connect(_on_sync_started)
     SyncManager.sync_stopped.connect(_on_sync_stopped)
     SyncManager.sync_error.connect(_on_sync_error)
 
-    if p1_network_id != p2_network_id:
+    if network_ids[Side.P1] != network_ids[Side.P2]:
         multiplayer.multiplayer_peer.peer_disconnected.connect(_on_broken_connection)
         
         SyncManager.set_network_adaptor(preload("res://addons/godot-rollback-netcode/RPCNetworkAdaptor.gd").new())
-        var producer_side = host_side if multiplayer.is_server() else client_side
-        var receiver_side = client_side if multiplayer.is_server() else host_side
+
+        var producer_side = Side.P1 if network_ids[Side.P1] == multiplayer.get_unique_id() else Side.P2
+        var receiver_side = Side.P1 if network_ids[Side.P2] == multiplayer.get_unique_id() else Side.P2
         SyncManager.message_serializer.produce_input_path = "%s/fighter%s" % [get_path(), producer_side]
         SyncManager.message_serializer.receive_input_path = "%s/fighter%s" % [get_path(), receiver_side]
-        for id in [p1_network_id, p2_network_id]:
+        for id in network_ids:
             if id != multiplayer.get_unique_id() and id not in SyncManager.peers:
                 SyncManager.add_peer(id)
     else:
@@ -85,38 +82,14 @@ func _ready():
     round_timer_display.set_initial_display(match_options.default_ticks_per_round)
     for tracker in [$UI/BattleHUD/RoundsTracker, $UI/BattleHUD/RoundsTracker2]:
         tracker.initialize_rounds(0, MatchOptions.default_rounds_to_win)
-    for counter in [special_counter_1, special_counter_2]:
-        counter.num_specials = 5 # TODO: this will depend on character choice.
 
 func _on_sync_started():
     if match_options == null:
         push_error("Match Options is unset. Falling back to default options...")
         match_options = MatchOptions.generate_default()
 
-    var fighterP1: Player = SyncManager.spawn("fighter0", self, preload("res://player/Player.tscn"), {'x': - 200, 'y': 420, 'c': Player.Characters.SPEED, 't': Player.Side.P1}, false);
-    fighterP1.set_multiplayer_authority(p1_network_id if host_side == Side.P1 else p2_network_id)
-    fighterP1.input_retriever = match_options.input_retrievers[0]
-    health_tracker_1.tracked_player = fighterP1
-    combo_counter_1.tracked_player = fighterP1
-    special_counter_1.tracked_player = fighterP1
-    
-    fighterP1.defeated.connect(_on_player_defeated)
-    fighterP1.request_projectile.connect(_on_player_requested_projectile)
-
-    var fighterP2: Player = SyncManager.spawn("fighter1", self, preload("res://player/Player.tscn"), {'x': 200, 'y': 420, 'c': Player.Characters.REACH, 't': Player.Side.P2}, false);
-    fighterP2.set_multiplayer_authority(p2_network_id if host_side == Side.P1 else p1_network_id)
-
-    # when playing online as p2, use the "normal" p1 mapping the player set up.
-    if fighterP2.is_multiplayer_authority() and p1_network_id != p2_network_id:
-        fighterP2.input_retriever = match_options.input_retrievers[0]
-    else:
-        fighterP2.input_retriever = match_options.input_retrievers[1]
-
-    health_tracker_2.tracked_player = fighterP2
-    combo_counter_2.tracked_player = fighterP2
-    special_counter_2.tracked_player = fighterP2
-    fighterP2.defeated.connect(_on_player_defeated)
-    fighterP2.request_projectile.connect(_on_player_requested_projectile)
+    var fighterP1: Player = _spawn_fighter(player_informations[Side.P1], Side.P1)
+    var fighterP2: Player = _spawn_fighter(player_informations[Side.P2], Side.P2)
 
     players = [fighterP1, fighterP2]
     
@@ -132,13 +105,35 @@ func _on_sync_started():
     
     round_timer.start(match_options.default_ticks_per_round)
 
+func _spawn_fighter(player_information: PlayerInformation, side: int) -> Player:
+    var start_position: Vector2i = Vector2i.ZERO
+    match side:
+        Side.P1:
+            start_position.x = -200
+            start_position.y = 420
+        Side.P2:
+            start_position.x = 200
+            start_position.y = 420
+    
+    var fighter: Player = SyncManager.spawn("fighter%s" % side, self, preload("res://player/Player.tscn"), {'x': start_position.x, 'y': start_position.y, 'character_spec': player_information.character_spec, 't': side}, false);
+    fighter.set_multiplayer_authority(player_information.network_id)
+    fighter.input_retriever = player_information.input_retriever
+
+    health_trackers[side].tracked_player = fighter
+    combo_counters[side].tracked_player = fighter
+    special_counters[side].tracked_player = fighter
+    fighter.defeated.connect(_on_player_defeated)
+    fighter.request_projectile.connect(_on_player_requested_projectile)
+
+    return fighter
+
 func _on_sync_error(_msg: String):
     # communicate that a fatal state mismatch occurred. 
     var closed_signal: Signal = notification_window.notify_error(NETWORK_ERROR_TYPE, DESYNC_ERROR_FORMAT)
     closed_signal.connect(_return_to_network_menu, CONNECT_ONE_SHOT)
     
 func _on_broken_connection(disconnected_peer_id: int):
-    if disconnected_peer_id in [p1_network_id, p2_network_id]:
+    if disconnected_peer_id in network_ids:
         _close_rollback_networking()
         var closed_signal: Signal = notification_window.notify_error(NETWORK_ERROR_TYPE, CONNECTION_LOST_ERROR_FORMAT)
         closed_signal.connect(_return_to_network_menu, CONNECT_ONE_SHOT)
@@ -150,7 +145,7 @@ func _close_rollback_networking():
 
 func _return_to_network_menu() -> void:
     print_debug("I'm returning to the network menu!")
-    var main_menu_scene = SceneSwitchUtil.main_menu_scene.instantiate()
+    var main_menu_scene = load("res://network/main.tscn").instantiate()
     SceneSwitchUtil.change_scene(get_tree(), main_menu_scene)
 
 func _on_sync_stopped(reason: Disconnect.Reason):
@@ -216,31 +211,9 @@ func _on_game_won(winning_side: Player.Side) -> void:
     var rematch_screen_packed = preload("res://network/postgame.tscn")
     var rematch_screen = rematch_screen_packed.instantiate()
     
-    # TODO: remove temp player information setup here:
-    var p2_input_retriever: InputRetriever
-    if p2_network_id == multiplayer.get_unique_id() and p1_network_id != p2_network_id:
-        p2_input_retriever = match_options.input_retrievers[0]
-    else:
-        p2_input_retriever = match_options.input_retrievers[1]
-    var temp_informations: Array[PlayerInformation] = [
-        PlayerInformation.new(
-            p1_network_id,
-            Side.P1,
-            match_options.input_retrievers[0].input_ids, 
-            CharacterSpec.new(),
-            wins_manager.get_game_win_counts()[Side.P1]
-        ),
-        PlayerInformation.new(
-            p2_network_id,
-            Side.P2,
-            p2_input_retriever.input_ids, 
-            CharacterSpec.new(),
-            wins_manager.get_game_win_counts()[Side.P2]
-        )
-    ]
     rematch_screen.init(
         match_options,
-        temp_informations,
+        player_informations,
         winning_side,
     )
     SceneSwitchUtil.change_scene(get_tree(), rematch_screen)

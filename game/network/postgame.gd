@@ -11,6 +11,7 @@ const CONNECTION_LOST_ERROR_FORMAT: String = "Connection lost. Match has been ca
 @onready var results_boxes: Array = [$"%ResultsBox", $"%ResultsBox2"]
 @onready var rematch_menus: Array = [$"%RematchMenu", $"%RematchMenu2"]
 @onready var post_selection_delay_timer: NetworkTimer = $PostSelectionDelay
+@onready var character_select_delay_timer: NetworkTimer = $CharacterSelectDelay
 @onready var quit_delay_timer: NetworkTimer = $QuitDelay
 
 var match_options: MatchOptions
@@ -30,9 +31,6 @@ func _load_state(state: Dictionary) -> void:
     number_of_rematches_requested = state['nrr']
 
 # INITIALIZAION #
-func init_options(new_options: MatchOptions) -> void:
-    match_options = new_options
-
 func init(new_options: MatchOptions,
     new_player_informations: Array[PlayerInformation],
     new_winning_side: Player.Side
@@ -58,6 +56,7 @@ func _ready() -> void:
     # Normal behavior signals:
     #SyncManager.sync_started.connect(post_selection_delay_timer.start.bind(POST_SELECTION_DURATION), CONNECT_ONE_SHOT)
     post_selection_delay_timer.timeout.connect(_start_new_game)
+    character_select_delay_timer.timeout.connect(_return_to_character_select)
     quit_delay_timer.timeout.connect(_return_to_network_menu)
         
     _init_display()
@@ -102,12 +101,17 @@ func _set_results_box_display() -> void:
 func _init_rematch_menu():
     assert(player_informations.size() == rematch_menus.size())
     for i in player_informations.size():
-        rematch_menus[i].init_input_mapping(player_informations[i].input_mapping)
+        rematch_menus[i].init_input_retriever(player_informations[i].input_retriever)
         rematch_menus[i].set_multiplayer_authority(player_informations[i].network_id)
         rematch_menus[i].quit.connect(_on_rematch_menu_quit)
         rematch_menus[i].rematch.connect(_on_rematch_menu_rematch)
         rematch_menus[i].rematch_cancel.connect(_on_rematch_menu_rematch_cancel)
-        
+        rematch_menus[i].character_select.connect(_on_rematch_menu_character_select)
+
+func _on_rematch_menu_character_select():
+    _set_rematch_menu_processing(false)
+    character_select_delay_timer.start(POST_QUIT_DURATION)
+
 func _on_rematch_menu_quit():
     _set_rematch_menu_processing(false)
     quit_delay_timer.start(POST_QUIT_DURATION)
@@ -136,12 +140,17 @@ func _start_new_game():
     
     var gameplay = load("res://TestGameplay.tscn")
     var instantiated_map = gameplay.instantiate()
-    instantiated_map.init_options(match_options)
-    var win_records: Array[int] = [player_informations[0].number_of_wins, player_informations[1].number_of_wins]
-    instantiated_map.init_wins_record(win_records)
-    instantiated_map.p1_network_id = player_informations[0].network_id
-    instantiated_map.p2_network_id = player_informations[1].network_id
+    instantiated_map.init(match_options, player_informations)
     SceneSwitchUtil.change_scene(get_tree(), instantiated_map)
+
+func _return_to_character_select():
+    SyncManager.stop_logging()
+    SyncManager.stop()
+    
+    var character_select = load("res://ui/menu/character_select/character_select.tscn")
+    var instantiated_scene = character_select.instantiate()
+    instantiated_scene.init(match_options, player_informations)
+    SceneSwitchUtil.change_scene(get_tree(), instantiated_scene)
 
 # NETWORK ISSUE HANDLING #
 func _on_sync_error(_msg: String):
@@ -164,7 +173,7 @@ func _close_rollback_networking():
 
 func _return_to_network_menu() -> void:
     _close_rollback_networking()
-    var main_menu_scene = SceneSwitchUtil.main_menu_scene.instantiate()
+    var main_menu_scene = load("res://network/main.tscn").instantiate()
     SceneSwitchUtil.change_scene(get_tree(), main_menu_scene)
 
 func _on_sync_stopped(reason: Disconnect.Reason):

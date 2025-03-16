@@ -106,6 +106,33 @@ func _on_join_button_pressed():
     multiplayer.connected_to_server.connect(load_game)
     multiplayer.server_disconnected.connect(server_offline)
 
+func generate_player_informations(options: MatchOptions, p1_id: int, p2_id: int) -> Array[PlayerInformation]:
+    var p2_input_retriever: InputRetriever
+    if not multiplayer.is_server():
+        p2_input_retriever = options.input_retrievers[0]
+    else:
+        p2_input_retriever = options.input_retrievers[1]
+    
+    var temp_informations: Array[PlayerInformation] = [
+        PlayerInformation.new(
+            p1_id,
+            "P1",
+            Player.Side.P1,
+            options.input_retrievers[0],
+            null,
+            0
+        ),
+        PlayerInformation.new(
+            p2_id,
+            "P2",
+            Player.Side.P2,
+            p2_input_retriever,
+            null,
+            0
+        )
+    ]
+    return temp_informations
+
 func load_game(p1_id = 1, p2_id = 0):
     var options: MatchOptions = $MatchOptionsMenu.get_match_options()
 
@@ -114,10 +141,9 @@ func load_game(p1_id = 1, p2_id = 0):
     
     %Menu.hide()
     
-    var instantiated_map = map.instantiate()
-    instantiated_map.init_options(options)
-    instantiated_map.p1_network_id = p1_id
-    instantiated_map.p2_network_id = p2_id
+    var instantiated_map = map.instantiate() as CharacterSelect
+    # TODO: fix up temporary player informations creation
+    instantiated_map.init(options, generate_player_informations(options, p1_id, p2_id))
     SceneSwitchUtil.change_scene(get_tree(), instantiated_map)
 
 func add_player_and_start_game(id):

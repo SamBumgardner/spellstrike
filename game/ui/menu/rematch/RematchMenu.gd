@@ -7,16 +7,18 @@ const UI_CANCEL_SOUND: AudioStream = preload("res://assets/sound/ui_cancel.wav")
 
 signal rematch
 signal rematch_cancel
+signal character_select
 signal quit
 signal _none
 
 @onready var rematch_button = $"%RematchOption"
+@onready var char_select_button = $"%CharSelectOption"
 @onready var quit_button = $"%QuitOption"
 @onready var action_buffer = $ActionBuffer
 
-@onready var ui_targets: Array = [rematch_button, quit_button]
-var ui_signals: Array[Signal] = [rematch, quit]
-var cancel_signals: Array[Signal] = [rematch_cancel, _none]
+@onready var ui_targets: Array = [rematch_button, char_select_button, quit_button]
+var ui_signals: Array[Signal] = [rematch, character_select, quit]
+var cancel_signals: Array[Signal] = [rematch_cancel, _none, _none]
 
 #@onready var rematch_pressed: Signal = rematch_button.pressed
 #@onready var quit_pressed: Signal = quit_button.pressed
@@ -47,8 +49,8 @@ var selected_ui_index: int = NO_SELECTION
 var network_process_enabled: bool = true
 
 # INIT #
-func init_input_mapping(new_input_mapping: Dictionary):
-    input_retriever.input_ids = new_input_mapping
+func init_input_retriever(new_input_retriever: InputRetriever):
+    input_retriever = new_input_retriever
 
 func _ready() -> void:
     add_to_group("network_sync")

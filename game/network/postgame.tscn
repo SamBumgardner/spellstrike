@@ -85,5 +85,8 @@ grow_vertical = 2
 [node name="PostSelectionDelay" type="Node" parent="."]
 script = ExtResource("6_p08nw")
 
+[node name="CharacterSelectDelay" type="Node" parent="."]
+script = ExtResource("6_p08nw")
+
 [node name="QuitDelay" type="Node" parent="."]
 script = ExtResource("6_p08nw")

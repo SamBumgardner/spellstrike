@@ -7,19 +7,19 @@ var owner: Player
 var state := Player.State.IDLE
 var ticks_in_state := 0
 
-static var player_states := {
-    Player.State.IDLE: preload("res://assets/data/states/character/speed/IdleState.tres"),
-    Player.State.WALK: preload("res://assets/data/states/character/speed/WalkState.tres"),
-    Player.State.A: preload("res://assets/data/states/character/speed/LightAttackState.tres"),
-    Player.State.B: preload("res://assets/data/states/character/speed/MediumAttackState.tres"),
-    Player.State.C: preload("res://assets/data/states/character/speed/HeavyAttackState.tres"),
-    Player.State.SPECIAL_CANCEL: preload("res://assets/data/states/character/speed/DelayedFireballCast.tres"),
-    Player.State.SPECIAL_NEUTRAL: preload("res://assets/data/states/character/speed/DefensiveSpecialState.tres"),
-    Player.State.HITSTUN: preload("res://assets/data/states/character/speed/HurtState.tres"),
-    Player.State.DEFEATED: preload("res://assets/data/states/character/speed/DefeatedState.tres"),
-    Player.State.VICTORY: preload("res://assets/data/states/character/speed/VictoryState.tres"),
-    Player.State.CHARACTER_0: preload("res://assets/data/states/character/speed/LightAttackChainState.tres"),
-}
+# static var player_states := {
+#     Player.State.IDLE: preload("res://assets/data/states/character/speed/IdleState.tres"),
+#     Player.State.WALK: preload("res://assets/data/states/character/speed/WalkState.tres"),
+#     Player.State.A: preload("res://assets/data/states/character/speed/LightAttackState.tres"),
+#     Player.State.B: preload("res://assets/data/states/character/speed/MediumAttackState.tres"),
+#     Player.State.C: preload("res://assets/data/states/character/speed/HeavyAttackState.tres"),
+#     Player.State.SPECIAL_CANCEL: preload("res://assets/data/states/character/speed/DelayedFireballCast.tres"),
+#     Player.State.SPECIAL_NEUTRAL: preload("res://assets/data/states/character/speed/DefensiveSpecialState.tres"),
+#     Player.State.HITSTUN: preload("res://assets/data/states/character/speed/HurtState.tres"),
+#     Player.State.DEFEATED: preload("res://assets/data/states/character/speed/DefeatedState.tres"),
+#     Player.State.VICTORY: preload("res://assets/data/states/character/speed/VictoryState.tres"),
+#     Player.State.CHARACTER_0: preload("res://assets/data/states/character/speed/LightAttackChainState.tres"),
+# }
 
 static var projectile_states := {
     Player.State.IDLE: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
