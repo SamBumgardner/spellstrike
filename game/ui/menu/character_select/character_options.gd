@@ -9,7 +9,7 @@ signal selection_canceled(acting_side: Player.Side)
 var character_specifications: Array[CharacterSpec] = [
     load("res://assets/data/character/character_speed.tres"),
     load("res://assets/data/character/character_reach.tres"),
-    load("res://assets/data/character/character_speed.tres"),
+    load("res://assets/data/character/character_heavy.tres"),
     load("res://assets/data/character/character_reach.tres"),
 ]
 

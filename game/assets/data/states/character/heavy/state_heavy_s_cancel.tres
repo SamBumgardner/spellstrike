@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=4 format=3 uid="uid://d3dct0u2ir4s2"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_ual2j"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_h3iw6"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_d541n"]
+
+[resource]
+script = ExtResource("2_h3iw6")
+stateId = 0
+expirationStateId = 0
+phases = Array[ExtResource("1_ual2j")]([])
+transition_in_effects = Array[ExtResource("3_d541n")]([])
+transition_out_effects = Array[ExtResource("3_d541n")]([])
+animation_key = "heavy/s_cancel"
+button_buffer_lookback = 8
+consumes_button_buffer = true
