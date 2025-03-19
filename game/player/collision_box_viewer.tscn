@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://wpsahyhayn75"]
+
+[ext_resource type="Script" path="res://player/collision_box_viewer.gd" id="1_siycv"]
+[ext_resource type="Resource" uid="uid://cj5an1oo7lwp4" path="res://assets/data/states/character/heavy/state_heavy_a.tres" id="2_07u5g"]
+
+[node name="CollisionBoxViewer" type="Node2D"]
+script = ExtResource("1_siycv")
+viewed_state = ExtResource("2_07u5g")
