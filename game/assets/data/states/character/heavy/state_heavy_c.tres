@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=22 format=3 uid="uid://row3ymu67xph"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=24 format=3 uid="uid://row3ymu67xph"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_ok5n4"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_xymn5"]
@@ -20,20 +20,40 @@ params = [ExtResource("4_l74rr")]
 
 [sub_resource type="Resource" id="Resource_rb0fo"]
 script = ExtResource("5_kilve")
-x_offset = -64
+x_offset = -32
 y_offset = -64
-width = 48
+width = 128
 height = 48
 
 [sub_resource type="Resource" id="Resource_ywfc7"]
 script = ExtResource("1_ok5n4")
-duration = 30
+duration = 20
 endless = false
 player_status = 1
 hitboxes = Array[ExtResource("5_kilve")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("5_kilve")]([ExtResource("6_kltxf"), SubResource("Resource_rb0fo")])
 effects = Array[ExtResource("3_28ljr")]([SubResource("Resource_y0mvb")])
+
+[sub_resource type="Resource" id="Resource_if8st"]
+script = ExtResource("3_28ljr")
+typeId = 3
+once_at_start = true
+conditions = Array[ExtResource("3_y8tog")]([])
+params = [{
+"a": 2,
+"b": 3
+}, false]
+
+[sub_resource type="Resource" id="Resource_gypxe"]
+script = ExtResource("1_ok5n4")
+duration = 10
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("5_kilve")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("5_kilve")]([ExtResource("6_kltxf"), SubResource("Resource_rb0fo")])
+effects = Array[ExtResource("3_28ljr")]([SubResource("Resource_if8st")])
 
 [sub_resource type="Resource" id="Resource_2w7dq"]
 script = ExtResource("7_opcto")
@@ -45,23 +65,23 @@ sound_effect = ExtResource("8_fu6y4")
 
 [sub_resource type="Resource" id="Resource_7w2el"]
 script = ExtResource("5_kilve")
-x_offset = 192
+x_offset = 128
 y_offset = -24
 width = 128
 height = 176
 
 [sub_resource type="Resource" id="Resource_80kns"]
 script = ExtResource("5_kilve")
-x_offset = 256
+x_offset = 224
 y_offset = 0
-width = 128
+width = 64
 height = 128
 
 [sub_resource type="Resource" id="Resource_8uu3k"]
 script = ExtResource("1_ok5n4")
 duration = 5
 endless = false
-player_status = 0
+player_status = 2
 hitboxes = Array[ExtResource("5_kilve")]([SubResource("Resource_7w2el"), SubResource("Resource_80kns")])
 new_attack = true
 attack_data = SubResource("Resource_2w7dq")
@@ -70,10 +90,10 @@ effects = Array[ExtResource("3_28ljr")]([])
 
 [sub_resource type="Resource" id="Resource_ytesu"]
 script = ExtResource("5_kilve")
-x_offset = 192
+x_offset = 155
 y_offset = 0
-width = 96
-height = 50
+width = 182
+height = 96
 
 [sub_resource type="Resource" id="Resource_oqwn3"]
 script = ExtResource("1_ok5n4")
@@ -110,7 +130,7 @@ effects = Array[ExtResource("3_28ljr")]([])
 script = ExtResource("2_xymn5")
 stateId = 4
 expirationStateId = 0
-phases = Array[ExtResource("1_ok5n4")]([SubResource("Resource_ywfc7"), SubResource("Resource_8uu3k"), SubResource("Resource_oqwn3"), SubResource("Resource_mkhq2"), SubResource("Resource_qgopf")])
+phases = Array[ExtResource("1_ok5n4")]([SubResource("Resource_ywfc7"), SubResource("Resource_gypxe"), SubResource("Resource_8uu3k"), SubResource("Resource_oqwn3"), SubResource("Resource_mkhq2"), SubResource("Resource_qgopf")])
 transition_in_effects = Array[ExtResource("3_28ljr")]([ExtResource("10_bwjbk")])
 transition_out_effects = Array[ExtResource("3_28ljr")]([])
 animation_key = "heavy/c"

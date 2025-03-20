@@ -12,9 +12,9 @@
 [sub_resource type="Resource" id="Resource_x2lfu"]
 script = ExtResource("3_naj4b")
 x_offset = 48
-y_offset = 42
+y_offset = 32
 width = 32
-height = 16
+height = 64
 
 [sub_resource type="Resource" id="Resource_nt1lg"]
 script = ExtResource("1_3wxhl")
@@ -36,17 +36,17 @@ sound_effect = ExtResource("6_6eu3y")
 
 [sub_resource type="Resource" id="Resource_2v5h7"]
 script = ExtResource("3_naj4b")
-x_offset = 76
+x_offset = 88
 y_offset = 32
-width = 32
+width = 48
 height = 64
 
 [sub_resource type="Resource" id="Resource_kodwj"]
 script = ExtResource("3_naj4b")
-x_offset = 76
-y_offset = 48
-width = 30
-height = 32
+x_offset = 82
+y_offset = 40
+width = 36
+height = 48
 
 [sub_resource type="Resource" id="Resource_35onp"]
 script = ExtResource("1_3wxhl")

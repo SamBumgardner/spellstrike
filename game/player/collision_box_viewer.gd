@@ -13,16 +13,16 @@ const hurtbox_color = Color.GREEN
 const outline_width := 1
 const inner_alpha := .1
 
-@export var viewed_state: FsmState
 @export var displayed_phase: int
+@export var viewed_state: FsmState
 
 func _draw() -> void:
     draw_rect(default_char_rect, default_char_color, false, 1)
     draw_rect(default_char_rect, Color(default_char_color, .1))
 
     if viewed_state != null and displayed_phase < viewed_state.phases.size():
-        _draw_shape_group(viewed_state.phases[displayed_phase].hitboxes, hitbox_color)
         _draw_shape_group(viewed_state.phases[displayed_phase].hurtboxes, hurtbox_color)
+        _draw_shape_group(viewed_state.phases[displayed_phase].hitboxes, hitbox_color)
 
 func _draw_shape_group(shapes: Array[RectangleSpec], draw_color: Color):
     for shape in shapes:
