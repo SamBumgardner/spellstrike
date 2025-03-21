@@ -28,10 +28,10 @@ effects = Array[ExtResource("3_f4vfl")]([])
 
 [sub_resource type="Resource" id="Resource_f43ks"]
 script = ExtResource("5_qsm4p")
-damage = 35
+damage = 30
 hitstun = 25
 hitstop = 15
-pushback = 25
+pushback = 20
 sound_effect = ExtResource("6_6eu3y")
 
 [sub_resource type="Resource" id="Resource_2v5h7"]
@@ -61,7 +61,7 @@ effects = Array[ExtResource("3_f4vfl")]([])
 
 [sub_resource type="Resource" id="Resource_w5xm6"]
 script = ExtResource("1_3wxhl")
-duration = 5
+duration = 20
 endless = false
 player_status = 3
 hitboxes = Array[ExtResource("3_naj4b")]([])

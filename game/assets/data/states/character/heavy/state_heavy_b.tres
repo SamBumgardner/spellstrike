@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://bt41vhu4sen7e"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=21 format=3 uid="uid://bt41vhu4sen7e"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_a3arw"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_pkn1n"]
@@ -37,10 +37,10 @@ effects = Array[ExtResource("3_o3oy6")]([SubResource("Resource_nc871")])
 
 [sub_resource type="Resource" id="Resource_3fuw6"]
 script = ExtResource("6_rku2u")
-damage = 50
+damage = 35
 hitstun = 31
-hitstop = 25
-pushback = 30
+hitstop = 20
+pushback = 25
 sound_effect = ExtResource("7_h472u")
 
 [sub_resource type="Resource" id="Resource_h6wvl"]
@@ -63,9 +63,9 @@ effects = Array[ExtResource("3_o3oy6")]([])
 
 [sub_resource type="Resource" id="Resource_4a388"]
 script = ExtResource("5_nvpq0")
-x_offset = 128
+x_offset = 112
 y_offset = 0
-width = 126
+width = 94
 height = 22
 
 [sub_resource type="Resource" id="Resource_mmt6u"]
@@ -79,9 +79,19 @@ attack_data = SubResource("Resource_3fuw6")
 hurtboxes = Array[ExtResource("5_nvpq0")]([ExtResource("8_iwgs5"), SubResource("Resource_4a388")])
 effects = Array[ExtResource("3_o3oy6")]([])
 
+[sub_resource type="Resource" id="Resource_nkd6h"]
+script = ExtResource("1_a3arw")
+duration = 12
+endless = false
+player_status = 0
+hitboxes = Array[ExtResource("5_nvpq0")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("5_nvpq0")]([ExtResource("8_iwgs5"), SubResource("Resource_4a388")])
+effects = Array[ExtResource("3_o3oy6")]([])
+
 [sub_resource type="Resource" id="Resource_gvxj5"]
 script = ExtResource("1_a3arw")
-duration = 24
+duration = 12
 endless = false
 player_status = 3
 hitboxes = Array[ExtResource("5_nvpq0")]([])
@@ -93,7 +103,7 @@ effects = Array[ExtResource("3_o3oy6")]([])
 script = ExtResource("2_pkn1n")
 stateId = 3
 expirationStateId = 0
-phases = Array[ExtResource("1_a3arw")]([SubResource("Resource_xu165"), SubResource("Resource_2egce"), SubResource("Resource_mmt6u"), SubResource("Resource_gvxj5")])
+phases = Array[ExtResource("1_a3arw")]([SubResource("Resource_xu165"), SubResource("Resource_2egce"), SubResource("Resource_mmt6u"), SubResource("Resource_nkd6h"), SubResource("Resource_gvxj5")])
 transition_in_effects = Array[ExtResource("3_o3oy6")]([ExtResource("10_kg4jq")])
 transition_out_effects = Array[ExtResource("3_o3oy6")]([])
 animation_key = "heavy/b"
