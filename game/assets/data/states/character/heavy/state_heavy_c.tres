@@ -74,7 +74,7 @@ effects = Array[ExtResource("3_28ljr")]([])
 
 [sub_resource type="Resource" id="Resource_2w7dq"]
 script = ExtResource("7_opcto")
-damage = 70
+damage = 60
 hitstun = 30
 hitstop = 25
 pushback = 55

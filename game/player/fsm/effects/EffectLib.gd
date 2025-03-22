@@ -19,6 +19,7 @@ enum Effect {
     EXPIRE_OWNER = 11,
     REQUEST_PROJECTILE = 12,
     MODIFY_SPECIAL_STOCK = 13,
+    FORCE_CHANGE_STATE = 14,
 }
 
 static var methods := {
@@ -35,7 +36,8 @@ static var methods := {
     Effect.MATCH_SCALE_TO_FACING: match_scale_to_facing,
     Effect.EXPIRE_OWNER: expire_owner,
     Effect.REQUEST_PROJECTILE: request_projectile,
-    Effect.MODIFY_SPECIAL_STOCK: modify_special_stock
+    Effect.MODIFY_SPECIAL_STOCK: modify_special_stock,
+    Effect.FORCE_CHANGE_STATE: force_change_state,
 }
 
 
@@ -145,5 +147,11 @@ static func request_projectile(owner: Player, _input_buffer: ActionBuffer, _tick
 
 static func modify_special_stock(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, special_change_amt: int) -> Player.State:
     owner.special_uses += special_change_amt
+
+    return Player.State.NONE
+
+# Warning: probably only use this on transition in or transition out if you need a transitioanl switcheroo.
+static func force_change_state(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, new_state: int) -> Player.State:
+    owner.fsm.force_change_state(new_state)
 
     return Player.State.NONE

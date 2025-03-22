@@ -22,9 +22,9 @@ var ticks_in_state := 0
 # }
 
 static var projectile_states := {
-    Player.State.IDLE: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
-    Player.State.CHARACTER_0: preload("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
-    Player.State.DEFEATED: preload("res://assets/data/states/projectile/ExpiredState.tres")
+    Player.State.IDLE: load("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
+    Player.State.CHARACTER_0: load("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
+    Player.State.DEFEATED: load("res://assets/data/states/projectile/ExpiredState.tres")
 }
 
 func prepare_states(provided_states: Dictionary) -> void:
