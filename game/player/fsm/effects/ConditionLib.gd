@@ -4,11 +4,13 @@ enum Condition {
     NONE = -1,
     HAS_ENOUGH_SPECIAL = 0,
     INPUT_HELD = 1,
+    HAS_ENOUGH_PROJECTILES = 2,
 }
 
 static var methods := {
     Condition.HAS_ENOUGH_SPECIAL: has_enough_special,
     Condition.INPUT_HELD: input_held,
+    Condition.HAS_ENOUGH_PROJECTILES: has_enough_projectiles
 }
 
 # CONDITION METHODS #
@@ -29,3 +31,6 @@ static func input_held(owner: Player, input_buffer: ActionBuffer, _ticks_in_stat
             break
     
     return condition_met
+
+static func has_enough_projectiles(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, number_needed: int = 1) -> bool:
+    return (owner.maximum_projectiles - owner.active_projectiles) >= number_needed

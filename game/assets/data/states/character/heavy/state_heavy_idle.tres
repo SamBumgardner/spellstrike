@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=11 format=3 uid="uid://fe7gccuy0f46"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_s605u"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5xywo"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="3_ptae8"]
+[ext_resource type="Resource" uid="uid://c6o1n1fvgh038" path="res://assets/data/states/character/heavy/effect_heavy_s_neutral_trigger.tres" id="4_cuj0v"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="5_sanat"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="6_5ywga"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="7_a2m8b"]
+
+[sub_resource type="Resource" id="Resource_ngv5r"]
+script = ExtResource("2_5xywo")
+typeId = 2
+once_at_start = false
+conditions = Array[ExtResource("3_ptae8")]([])
+params = []
+
+[sub_resource type="Resource" id="Resource_6568o"]
+script = ExtResource("2_5xywo")
+typeId = 8
+once_at_start = false
+conditions = Array[ExtResource("3_ptae8")]([])
+params = [1]
+
+[sub_resource type="Resource" id="Resource_0dkm6"]
+script = ExtResource("1_s605u")
+duration = 0
+endless = true
+player_status = 0
+hitboxes = Array[ExtResource("5_sanat")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("5_sanat")]([ExtResource("6_5ywga")])
+effects = Array[ExtResource("2_5xywo")]([SubResource("Resource_ngv5r"), SubResource("Resource_6568o"), ExtResource("4_cuj0v")])
+
+[resource]
+script = ExtResource("7_a2m8b")
+stateId = 0
+expirationStateId = -1
+phases = Array[ExtResource("1_s605u")]([SubResource("Resource_0dkm6")])
+transition_in_effects = Array[ExtResource("2_5xywo")]([])
+transition_out_effects = Array[ExtResource("2_5xywo")]([])
+animation_key = "idle"
+button_buffer_lookback = 8
+consumes_button_buffer = true

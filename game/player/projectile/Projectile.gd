@@ -1,5 +1,6 @@
 class_name Projectile extends Player
 
+signal expired(projectile: Projectile)
 signal despawned
 
 const DESPAWN_DELAY := 10
@@ -93,11 +94,6 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     opponent = data['opponent']
     data.erase('opponent')
 
-    # figure out starting position
-    match projectile_spec.spawn_location_x:
-        ProjectileSpec.SpawnLocation.ON_ENEMY:
-            data['x'] = opponent.position.x
-
     # placeholder logic, should be pulled from projectile type or provided by creator.
     const spawn_velocity = 0
 
@@ -118,6 +114,7 @@ func _network_spawn(data: Dictionary) -> void:
     fsm.reset()
 
 func expire() -> void:
+    expired.emit(self)
     hide()
     despawn_timer.start(DESPAWN_DELAY)
 

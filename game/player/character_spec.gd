@@ -16,6 +16,7 @@ class_name CharacterSpec extends Resource
 @export var max_hp: int = 150
 @export var special_uses: int = 5
 @export var states: Dictionary
+@export var maximum_active_projectiles: int = 1
 
 func _init() -> void:
     name = "placeholder_name"

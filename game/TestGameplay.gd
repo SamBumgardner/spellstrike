@@ -237,6 +237,13 @@ func _on_player_requested_projectile(projectile_type: int, requestor: Player) ->
 
     var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': start_x, 'y': start_y, 'projectile_spec': projectile_spec, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x, 'opponent': requestor.opponent})
     interaction_resolver.register_new_projectile(new_projectile)
+    if not new_projectile.expired.is_connected(_on_projectile_expired):
+        new_projectile.expired.connect(_on_projectile_expired)
+
+    players[new_projectile.team].active_projectiles += 1
+
+func _on_projectile_expired(projectile: Projectile) -> void:
+    players[projectile.team].active_projectiles -= 1
 
 func _on_start_new_round_timer_timeout():
     wins_manager.check_game_finished()
