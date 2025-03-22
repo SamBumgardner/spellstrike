@@ -21,11 +21,11 @@ var ticks_in_state := 0
 #     Player.State.CHARACTER_0: preload("res://assets/data/states/character/speed/LightAttackChainState.tres"),
 # }
 
-static var projectile_states := {
-    Player.State.IDLE: load("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
-    Player.State.CHARACTER_0: load("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
-    Player.State.DEFEATED: load("res://assets/data/states/projectile/ExpiredState.tres")
-}
+#static var projectile_states := {
+    #Player.State.IDLE: load("res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres"),
+    #Player.State.CHARACTER_0: load("res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres"),
+    #Player.State.DEFEATED: load("res://assets/data/states/projectile/ExpiredState.tres")
+#}
 
 func prepare_states(provided_states: Dictionary) -> void:
     # need to take character spec as an input, then populate the `states` dict with their state objects

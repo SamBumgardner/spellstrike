@@ -12,7 +12,7 @@ script = ExtResource("3_3iygm")
 typeId = 12
 once_at_start = true
 conditions = Array[ExtResource("3_cyaoy")]([])
-params = [0]
+params = [1]
 
 [sub_resource type="Resource" id="Resource_l1cwm"]
 script = ExtResource("1_74asq")

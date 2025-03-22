@@ -1,0 +1,61 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=12 format=3 uid="uid://corir28e5oydn"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_nbhfy"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="2_1g0xc"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_5csa1"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="3_ej26m"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="4_pkgol"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="5_gqdnu"]
+
+[sub_resource type="Resource" id="Resource_i7m2k"]
+script = ExtResource("2_1g0xc")
+damage = 25
+hitstun = 20
+hitstop = 5
+pushback = 10
+
+[sub_resource type="Resource" id="Resource_t5i57"]
+script = ExtResource("4_pkgol")
+x_offset = 0
+y_offset = 0
+width = 64
+height = 256
+
+[sub_resource type="Resource" id="Resource_ohxyn"]
+script = ExtResource("1_nbhfy")
+duration = 4
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("4_pkgol")]([SubResource("Resource_t5i57")])
+new_attack = true
+attack_data = SubResource("Resource_i7m2k")
+hurtboxes = Array[ExtResource("4_pkgol")]([])
+effects = Array[ExtResource("2_5csa1")]([])
+
+[sub_resource type="Resource" id="Resource_bydew"]
+script = ExtResource("1_nbhfy")
+duration = 4
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("4_pkgol")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_pkgol")]([])
+effects = Array[ExtResource("2_5csa1")]([])
+
+[sub_resource type="Resource" id="Resource_50d60"]
+script = ExtResource("2_5csa1")
+typeId = 11
+once_at_start = false
+conditions = Array[ExtResource("3_ej26m")]([])
+params = []
+
+[resource]
+script = ExtResource("5_gqdnu")
+stateId = 11
+expirationStateId = 9
+phases = Array[ExtResource("1_nbhfy")]([SubResource("Resource_ohxyn"), SubResource("Resource_bydew")])
+transition_in_effects = Array[ExtResource("2_5csa1")]([])
+transition_out_effects = Array[ExtResource("2_5csa1")]([SubResource("Resource_50d60")])
+animation_key = "earth_spike/character_0"
+button_buffer_lookback = 1
+consumes_button_buffer = true

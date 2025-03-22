@@ -49,6 +49,8 @@ var walk_accel: int = 5
 var walk_drag: int = 2
 var width: int = 128
 
+var opponent: Player
+
 # Custom state variables
 var team: Side
 var health: int

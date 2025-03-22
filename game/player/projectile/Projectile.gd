@@ -6,8 +6,6 @@ const DESPAWN_DELAY := 10
 
 @onready var despawn_timer = $DespawnTimer
 
-var projectile_type: ProjectileType
-
 func _ready():
     despawn_timer.timeout.connect(_on_despawn_delay_timeout)
     add_to_group("network_sync")
@@ -35,7 +33,6 @@ func _save_state() -> Dictionary:
         'x': position.x,
         'y': position.y,
         't': team,
-        'pt': projectile_type,
         'fs': fsm.state,
         'ft': fsm.ticks_in_state,
         'v': velocity,
@@ -48,7 +45,6 @@ func _load_state(state: Dictionary) -> void:
     position.x = state['x']
     position.y = state['y']
     team = state['t']
-    projectile_type = state['pt']
     velocity = state['v']
     facing_direction = state['fd']
     scale.x = state['sx']
@@ -81,11 +77,26 @@ func _network_postprocess(_input: Dictionary):
 
 func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     # check required parameters are provided
-    const essential_spawn_params = ['x', 'y', 'pt', 't', 'fd', 'sx']
+    const essential_spawn_params = ['x', 'y', 'projectile_spec', 't', 'fd', 'sx']
     var keys = data.keys()
     for essential_param in essential_spawn_params:
         assert(essential_param in keys, "ERROR: spawn method not called with essential input '%s'. 
             Input data:%s" % [essential_param, data])
+
+    var projectile_spec: ProjectileSpec = data['projectile_spec']
+    fsm.prepare_states(projectile_spec.states)
+    sprite.texture = projectile_spec.animation_sprite
+    sprite.hframes = projectile_spec.sprite_hframes
+    sprite.vframes = projectile_spec.sprite_vframes
+    data.erase('projectile_spec')
+
+    opponent = data['opponent']
+    data.erase('opponent')
+
+    # figure out starting position
+    match projectile_spec.spawn_location_x:
+        ProjectileSpec.SpawnLocation.ON_ENEMY:
+            data['x'] = opponent.position.x
 
     # placeholder logic, should be pulled from projectile type or provided by creator.
     const spawn_velocity = 0
@@ -104,7 +115,6 @@ func _network_spawn(data: Dictionary) -> void:
     # basic setup is identical to any ordinary load state
     _load_state(data)
     # Run initial state transition in
-    fsm.prepare_states(Fsm.projectile_states)
     fsm.reset()
 
 func expire() -> void:
@@ -118,5 +128,6 @@ func _on_despawn_delay_timeout():
 # ENUM #
 
 enum ProjectileType {
-    DELAYED_BLAST_FIREBALL = 0
+    DELAYED_BLAST_FIREBALL = 0,
+    EARTH_SPIKE = 1,
 }

@@ -1,0 +1,18 @@
+[gd_resource type="Resource" script_class="ProjectileSpec" load_steps=6 format=3 uid="uid://djix3t7htandg"]
+
+[ext_resource type="Texture2D" uid="uid://ckn1hsb7bjiop" path="res://assets/art/delay_fireball.png" id="1_18plo"]
+[ext_resource type="Script" path="res://player/projectile/projectile_spec.gd" id="1_c30i3"]
+[ext_resource type="Resource" uid="uid://dicnr7fayislv" path="res://assets/data/states/projectile/delay_fireball/DelayFireballPriming.tres" id="3_b4ju6"]
+[ext_resource type="Resource" uid="uid://coai4cjw4ontv" path="res://assets/data/states/projectile/delay_fireball/DelayFireballExplosion.tres" id="4_q1d7r"]
+[ext_resource type="Resource" uid="uid://clwgkrarhx0hf" path="res://assets/data/states/projectile/ExpiredState.tres" id="5_8afje"]
+
+[resource]
+script = ExtResource("1_c30i3")
+animation_sprite = ExtResource("1_18plo")
+sprite_hframes = 4
+sprite_vframes = 2
+states = {
+0: ExtResource("3_b4ju6"),
+9: ExtResource("5_8afje"),
+11: ExtResource("4_q1d7r")
+}
