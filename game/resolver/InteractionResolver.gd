@@ -159,10 +159,10 @@ func _has_successful_attack(attacker: Player) -> bool:
 
 func decide_timeout_results() -> TimeoutResult:
     var result = TimeoutResult.new()
-    if p1.health > p2.health:
+    if p1.get_health_percent() > p2.get_health_percent():
         result.winning_player = p1
         result.losing_player = p2
-    elif p1.health < p2.health:
+    elif p1.get_health_percent() < p2.get_health_percent():
         result.winning_player = p2
         result.losing_player = p1
     else:

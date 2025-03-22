@@ -44,6 +44,7 @@ var fsm: Fsm
 @onready var action_buffer: ActionBuffer = $ActionBuffer
 
 # TODO: move these to character spec
+var max_health: int
 var walk_speed: int = 5
 var back_walk_speed: int = 3
 var walk_accel: int = 5
@@ -142,6 +143,7 @@ func initialize_character_data(new_character_spec: CharacterSpec) -> void:
     walk_drag = new_character_spec.walk_drag
     width = new_character_spec.width
 
+    max_health = new_character_spec.max_hp
     health = new_character_spec.max_hp
     special_uses = new_character_spec.special_uses
 
@@ -274,6 +276,9 @@ func receive_victory() -> void:
 func receive_defeat() -> void:
     #TODO: add logic here to do timeout loss instead of normal loss.
     fsm.force_change_state(State.DEFEATED)
+
+func get_health_percent() -> int:
+    return (100 * health) / max_health
 
 ##########################
 # ROLLBACK IMPLEMNTATION #
