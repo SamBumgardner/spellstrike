@@ -1,0 +1,44 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=11 format=3 uid="uid://dmvi2epr3fmpy"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_5u5dm"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_nt133"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="3_3yjsv"]
+[ext_resource type="Resource" uid="uid://c6o1n1fvgh038" path="res://assets/data/states/character/heavy/effect_heavy_s_neutral_trigger.tres" id="4_f4ql5"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="5_flbon"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="6_xxv8q"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="7_opiid"]
+
+[sub_resource type="Resource" id="Resource_gqyom"]
+script = ExtResource("2_nt133")
+typeId = 0
+once_at_start = false
+conditions = Array[ExtResource("3_3yjsv")]([])
+params = []
+
+[sub_resource type="Resource" id="Resource_gq22q"]
+script = ExtResource("2_nt133")
+typeId = 1
+once_at_start = false
+conditions = Array[ExtResource("3_3yjsv")]([])
+params = []
+
+[sub_resource type="Resource" id="Resource_1me4s"]
+script = ExtResource("1_5u5dm")
+duration = 0
+endless = true
+player_status = 0
+hitboxes = Array[ExtResource("5_flbon")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("5_flbon")]([ExtResource("6_xxv8q")])
+effects = Array[ExtResource("2_nt133")]([SubResource("Resource_gqyom"), SubResource("Resource_gq22q"), ExtResource("4_f4ql5")])
+
+[resource]
+script = ExtResource("7_opiid")
+stateId = 1
+expirationStateId = -1
+phases = Array[ExtResource("1_5u5dm")]([SubResource("Resource_1me4s")])
+transition_in_effects = Array[ExtResource("2_nt133")]([])
+transition_out_effects = Array[ExtResource("2_nt133")]([])
+animation_key = "walk"
+button_buffer_lookback = 8
+consumes_button_buffer = true
