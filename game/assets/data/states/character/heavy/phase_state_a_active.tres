@@ -1,9 +1,10 @@
-[gd_resource type="Resource" script_class="Phase" load_steps=12 format=3 uid="uid://c0ui3hhc1gt12"]
+[gd_resource type="Resource" script_class="Phase" load_steps=13 format=3 uid="uid://c0ui3hhc1gt12"]
 
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="1_2vk6b"]
 [ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="2_tkxhg"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_7abg1"]
 [ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_mldbh"]
+[ext_resource type="Resource" uid="uid://das4ca7o1cria" path="res://assets/data/states/character/heavy/effect_heavy_s_cancel_trigger.tres" id="5_4rioe"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="5_xxkww"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="6_fg8m6"]
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="7_250p6"]
@@ -12,7 +13,7 @@
 script = ExtResource("1_2vk6b")
 damage = 30
 hitstun = 25
-hitstop = 15
+hitstop = 8
 pushback = 20
 sound_effect = ExtResource("2_tkxhg")
 
@@ -46,4 +47,4 @@ hitboxes = Array[ExtResource("5_xxkww")]([SubResource("Resource_2v5h7")])
 new_attack = true
 attack_data = SubResource("Resource_f43ks")
 hurtboxes = Array[ExtResource("5_xxkww")]([ExtResource("6_fg8m6"), SubResource("Resource_kodwj")])
-effects = Array[ExtResource("3_7abg1")]([SubResource("Resource_si3on")])
+effects = Array[ExtResource("3_7abg1")]([SubResource("Resource_si3on"), ExtResource("5_4rioe")])

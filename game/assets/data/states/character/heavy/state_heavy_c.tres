@@ -76,7 +76,7 @@ effects = Array[ExtResource("3_28ljr")]([])
 script = ExtResource("7_opcto")
 damage = 60
 hitstun = 30
-hitstop = 25
+hitstop = 15
 pushback = 55
 sound_effect = ExtResource("8_fu6y4")
 
