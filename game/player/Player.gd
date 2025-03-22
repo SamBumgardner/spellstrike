@@ -27,6 +27,7 @@ signal defeated
     # ah - attack hit
     # hb - hit by
     # su - special uses available
+    # ap - active projetiles
     # 
 
 @onready var hurtbox_pool: Area2D = $HurtboxPool
@@ -48,6 +49,9 @@ var back_walk_speed: int = 3
 var walk_accel: int = 5
 var walk_drag: int = 2
 var width: int = 128
+
+var opponent: Player
+var maximum_projectiles: int
 
 # Custom state variables
 var team: Side
@@ -71,6 +75,8 @@ var attack_hit: bool
 var hit_by: Dictionary
 
 var special_uses: int
+
+var active_projectiles: int
 
 # Stateless variables: refresh every frame
 var current_attack_data: AttackData
@@ -138,6 +144,8 @@ func initialize_character_data(new_character_spec: CharacterSpec) -> void:
 
     health = new_character_spec.max_hp
     special_uses = new_character_spec.special_uses
+
+    maximum_projectiles = new_character_spec.maximum_active_projectiles
 
     fsm.prepare_states(new_character_spec.states)
 
@@ -292,6 +300,7 @@ func _save_state() -> Dictionary:
         'ah': attack_hit,
         'hb': var_to_bytes(hit_by),
         'su': special_uses,
+        'ap': active_projectiles
     }
 
 func _load_state(state: Dictionary) -> void:
@@ -313,6 +322,7 @@ func _load_state(state: Dictionary) -> void:
     attack_hit = state['ah']
     hit_by = bytes_to_var(state['hb'])
     special_uses = state['su']
+    active_projectiles = state['ap']
 
     var fsm_state = state['fs']
     var fsm_ticks_in_state = state['ft']
@@ -379,6 +389,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     const spawn_combo_size = 0
     const spawn_velocity = 0
     const initial_attack_id = 0
+    const initial_active_projectiles = 0
     data['s'] = Status.NEUTRAL
     data['fs'] = State.IDLE
     data['ft'] = spawn_num_ticks_in_state
@@ -394,6 +405,7 @@ func _network_spawn_preprocess(data: Dictionary) -> Dictionary:
     data['a'] = initial_attack_id
     data['ah'] = false
     data['hb'] = var_to_bytes({})
+    data['ap'] = initial_active_projectiles
     return data
 
 func _network_spawn(data: Dictionary) -> void:

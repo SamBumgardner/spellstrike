@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bqflbbnh7mpr4"]
+[gd_scene load_steps=23 format=3 uid="uid://bqflbbnh7mpr4"]
 
 [ext_resource type="Script" path="res://player/Player.gd" id="1_477q8"]
 [ext_resource type="Script" path="res://player/input/ActionBuffer.gd" id="2_77wru"]
@@ -171,6 +171,97 @@ _data = {
 "walk": SubResource("Animation_btqih")
 }
 
+[sub_resource type="Animation" id="Animation_bvidl"]
+length = 0.600003
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.183333, 0.2, 0.266667, 0.283333, 0.600001),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 5, 5, 6, 6]
+}
+
+[sub_resource type="Animation" id="Animation_wd5os"]
+length = 0.550002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.283333, 0.3, 0.333333, 0.35, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 5, 5, 6, 6]
+}
+
+[sub_resource type="Animation" id="Animation_emdy2"]
+length = 1.13334
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.483333, 0.5, 0.65, 0.666667, 1.11667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 5, 5, 6, 6]
+}
+
+[sub_resource type="Animation" id="Animation_ajo38"]
+resource_name = "s_neutral"
+length = 0.166669
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [6, 6]
+}
+
+[sub_resource type="Animation" id="Animation_gsith"]
+resource_name = "s_cancel"
+length = 0.500002
+step = 0.0166667
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.316667, 0.333333, 0.4, 0.416667, 0.483333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [4, 4, 5, 5, 6, 6]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_58e2l"]
+_data = {
+"a": SubResource("Animation_bvidl"),
+"b": SubResource("Animation_wd5os"),
+"c": SubResource("Animation_emdy2"),
+"s_cancel": SubResource("Animation_gsith"),
+"s_neutral": SubResource("Animation_ajo38")
+}
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_nfot4"]
 size = Vector2(48, 128)
 
@@ -210,7 +301,8 @@ draw_color = Color(1, 0, 0, 1)
 
 [node name="Animation" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_2kyqy")
+"": SubResource("AnimationLibrary_2kyqy"),
+"heavy": SubResource("AnimationLibrary_58e2l")
 }
 autoplay = "idle"
 playback_auto_capture = false

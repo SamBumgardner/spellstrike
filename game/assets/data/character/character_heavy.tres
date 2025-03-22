@@ -1,0 +1,47 @@
+[gd_resource type="Resource" script_class="CharacterSpec" load_steps=17 format=3 uid="uid://cwypxpiy87c4"]
+
+[ext_resource type="Texture2D" uid="uid://cgrgw14ugq182" path="res://assets/art/placeholder_character_sheet_2.png" id="1_a3u5p"]
+[ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_gd4nh"]
+[ext_resource type="Script" path="res://player/character_spec.gd" id="3_us2cm"]
+[ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_ysne1"]
+[ext_resource type="Resource" uid="uid://fe7gccuy0f46" path="res://assets/data/states/character/heavy/state_heavy_idle.tres" id="5_ije0y"]
+[ext_resource type="Resource" uid="uid://dmvi2epr3fmpy" path="res://assets/data/states/character/heavy/state_heavy_walk.tres" id="6_j2abd"]
+[ext_resource type="Resource" uid="uid://cj5an1oo7lwp4" path="res://assets/data/states/character/heavy/state_heavy_a.tres" id="7_73lar"]
+[ext_resource type="Resource" uid="uid://bt41vhu4sen7e" path="res://assets/data/states/character/heavy/state_heavy_b.tres" id="8_airvn"]
+[ext_resource type="Resource" uid="uid://row3ymu67xph" path="res://assets/data/states/character/heavy/state_heavy_c.tres" id="9_76a2q"]
+[ext_resource type="Resource" uid="uid://d3dct0u2ir4s2" path="res://assets/data/states/character/heavy/state_heavy_s_cancel.tres" id="10_neifc"]
+[ext_resource type="Resource" uid="uid://h60vfw16ynlx" path="res://assets/data/states/character/heavy/state_heavy_s_neutral.tres" id="11_x7dsi"]
+[ext_resource type="Resource" uid="uid://dgxhlme3uf7jt" path="res://assets/data/states/character/speed/HurtState.tres" id="12_yj8e6"]
+[ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_8gw7f"]
+[ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="14_k2ck3"]
+[ext_resource type="Resource" uid="uid://btdh4c0kxgpy5" path="res://assets/data/states/character/heavy/state_heavy_a_backstep.tres" id="15_wroa8"]
+[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="16_kydsy"]
+
+[resource]
+script = ExtResource("3_us2cm")
+name = "Heavy"
+victory_portrait = ExtResource("16_kydsy")
+defeat_portrait = ExtResource("2_gd4nh")
+animation_sprite = ExtResource("1_a3u5p")
+special_icon = ExtResource("4_ysne1")
+walk_speed = 3
+back_walk_speed = 2
+walk_accel = 5
+walk_drag = 1
+width = 128
+max_hp = 200
+special_uses = 5
+states = {
+0: ExtResource("5_ije0y"),
+1: ExtResource("6_j2abd"),
+2: ExtResource("7_73lar"),
+3: ExtResource("8_airvn"),
+4: ExtResource("9_76a2q"),
+5: ExtResource("10_neifc"),
+6: ExtResource("11_x7dsi"),
+8: ExtResource("12_yj8e6"),
+9: ExtResource("13_8gw7f"),
+10: ExtResource("14_k2ck3"),
+11: ExtResource("15_wroa8")
+}
+maximum_active_projectiles = 1

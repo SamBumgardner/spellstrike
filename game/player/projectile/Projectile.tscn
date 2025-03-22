@@ -1,10 +1,11 @@
-[gd_scene load_steps=15 format=3 uid="uid://b73ng3k4tabec"]
+[gd_scene load_steps=16 format=3 uid="uid://b73ng3k4tabec"]
 
 [ext_resource type="PackedScene" uid="uid://bqflbbnh7mpr4" path="res://player/Player.tscn" id="1_4w42d"]
 [ext_resource type="Script" path="res://player/projectile/Projectile.gd" id="1_81xvg"]
-[ext_resource type="Texture2D" uid="uid://ckn1hsb7bjiop" path="res://assets/art/delay_fireball.png" id="3_gfr4p"]
+[ext_resource type="Texture2D" uid="uid://bxre6qcxx3qan" path="res://assets/art/earth_spike.png" id="3_mi6qk"]
 [ext_resource type="Script" path="res://addons/godot-rollback-netcode/NetworkTimer.gd" id="4_p6rk1"]
 [ext_resource type="AnimationLibrary" uid="uid://4s5lgurbwrc5" path="res://assets/art/delay_fireball_anim.res" id="4_wpe5w"]
+[ext_resource type="AnimationLibrary" uid="uid://oqjmsx80d6w2" path="res://assets/art/earth_spike_anim.tres" id="5_1gyr7"]
 
 [sub_resource type="Animation" id="Animation_i4rnd"]
 length = 0.001
@@ -143,12 +144,14 @@ size = Vector2(0, 0)
 script = ExtResource("1_81xvg")
 
 [node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("3_gfr4p")
+texture = ExtResource("3_mi6qk")
+vframes = 3
 
 [node name="Animation" parent="." index="3"]
 libraries = {
 "": SubResource("AnimationLibrary_2kyqy"),
-"delay_fireball": ExtResource("4_wpe5w")
+"delay_fireball": ExtResource("4_wpe5w"),
+"earth_spike": ExtResource("5_1gyr7")
 }
 
 [node name="Pushbox" parent="." index="4"]

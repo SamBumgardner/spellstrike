@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="PhaseEffect" load_steps=5 format=3 uid="uid://c6o1n1fvgh038"]
+
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="1_4kues"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_0s2gr"]
+
+[sub_resource type="Resource" id="Resource_2w2q0"]
+script = ExtResource("1_4kues")
+conditionId = 0
+params = [1]
+
+[sub_resource type="Resource" id="Resource_if7w7"]
+script = ExtResource("1_4kues")
+conditionId = 2
+params = []
+
+[resource]
+script = ExtResource("2_0s2gr")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("1_4kues")]([SubResource("Resource_2w2q0"), SubResource("Resource_if7w7")])
+params = [{
+"s": 6
+}, false]

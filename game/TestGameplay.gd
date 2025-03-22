@@ -90,6 +90,8 @@ func _on_sync_started():
 
     var fighterP1: Player = _spawn_fighter(player_informations[Side.P1], Side.P1)
     var fighterP2: Player = _spawn_fighter(player_informations[Side.P2], Side.P2)
+    fighterP1.opponent = fighterP2
+    fighterP2.opponent = fighterP1
 
     players = [fighterP1, fighterP2]
     
@@ -219,10 +221,29 @@ func _on_game_won(winning_side: Player.Side) -> void:
     SceneSwitchUtil.change_scene(get_tree(), rematch_screen)
 
 # MISC.
+static var projectile_specs = {
+    Projectile.ProjectileType.DELAYED_BLAST_FIREBALL: load("res://assets/data/states/projectile/delay_fireball/delay_fireball_projectile_spec.tres"),
+    Projectile.ProjectileType.EARTH_SPIKE: load("res://assets/data/states/projectile/earth_spike/earth_spike_projectile_spec.tres"),
+}
 
-func _on_player_requested_projectile(projectile_type: Projectile.ProjectileType, requestor: Player) -> void:
-    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': requestor.position.x, 'y': requestor.position.y, 'pt': projectile_type, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x})
+func _on_player_requested_projectile(projectile_type: int, requestor: Player) -> void:
+    var projectile_spec: ProjectileSpec = projectile_specs[projectile_type]
+
+    var start_x = requestor.position.x
+    var start_y = requestor.position.y
+    match projectile_spec.spawn_location_x:
+        ProjectileSpec.SpawnLocation.ON_ENEMY:
+            start_x = requestor.opponent.position.x
+
+    var new_projectile = SyncManager.spawn("projectile", self, preload("res://player/projectile/Projectile.tscn"), {'x': start_x, 'y': start_y, 'projectile_spec': projectile_spec, 't': requestor.team, 'fd': requestor.facing_direction, 'sx': requestor.scale.x, 'opponent': requestor.opponent})
     interaction_resolver.register_new_projectile(new_projectile)
+    if not new_projectile.expired.is_connected(_on_projectile_expired):
+        new_projectile.expired.connect(_on_projectile_expired)
+
+    players[new_projectile.team].active_projectiles += 1
+
+func _on_projectile_expired(projectile: Projectile) -> void:
+    players[projectile.team].active_projectiles -= 1
 
 func _on_start_new_round_timer_timeout():
     wins_manager.check_game_finished()

@@ -1,0 +1,19 @@
+[gd_resource type="Resource" script_class="ProjectileSpec" load_steps=6 format=3 uid="uid://clwn3mgxhcbhk"]
+
+[ext_resource type="Texture2D" uid="uid://bxre6qcxx3qan" path="res://assets/art/earth_spike.png" id="1_rxbp4"]
+[ext_resource type="Script" path="res://player/projectile/projectile_spec.gd" id="2_354kl"]
+[ext_resource type="Resource" uid="uid://b5l6ufvghqdj3" path="res://assets/data/states/projectile/earth_spike/state_earth_spike_idle.tres" id="3_tdtb5"]
+[ext_resource type="Resource" uid="uid://clwgkrarhx0hf" path="res://assets/data/states/projectile/ExpiredState.tres" id="5_27xwy"]
+[ext_resource type="Resource" uid="uid://corir28e5oydn" path="res://assets/data/states/projectile/earth_spike/state_earth_spike_character_0.tres" id="5_kfxng"]
+
+[resource]
+script = ExtResource("2_354kl")
+animation_sprite = ExtResource("1_rxbp4")
+sprite_hframes = 4
+sprite_vframes = 3
+states = {
+0: ExtResource("3_tdtb5"),
+9: ExtResource("5_27xwy"),
+11: ExtResource("5_kfxng")
+}
+spawn_location_x = 1

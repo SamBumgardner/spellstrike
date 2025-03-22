@@ -1,0 +1,24 @@
+[gd_resource type="Resource" script_class="Phase" load_steps=7 format=3 uid="uid://c4vd78p6l0e85"]
+
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="1_7g80d"]
+[ext_resource type="Resource" uid="uid://das4ca7o1cria" path="res://assets/data/states/character/heavy/effect_heavy_s_cancel_trigger.tres" id="2_x1wcb"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="2_xbeum"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="3_sqk2o"]
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="4_m50xm"]
+
+[sub_resource type="Resource" id="Resource_kodwj"]
+script = ExtResource("2_xbeum")
+x_offset = 82
+y_offset = 40
+width = 36
+height = 48
+
+[resource]
+script = ExtResource("4_m50xm")
+duration = 20
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("2_xbeum")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("2_xbeum")]([ExtResource("3_sqk2o"), SubResource("Resource_kodwj")])
+effects = Array[ExtResource("1_7g80d")]([ExtResource("2_x1wcb")])
