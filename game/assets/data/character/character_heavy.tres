@@ -10,7 +10,7 @@
 [ext_resource type="Resource" uid="uid://bt41vhu4sen7e" path="res://assets/data/states/character/heavy/state_heavy_b.tres" id="8_airvn"]
 [ext_resource type="Resource" uid="uid://row3ymu67xph" path="res://assets/data/states/character/heavy/state_heavy_c.tres" id="9_76a2q"]
 [ext_resource type="Resource" uid="uid://cm4bgxkcu16vg" path="res://assets/data/states/character/speed/DelayedFireballCast.tres" id="10_0l1a3"]
-[ext_resource type="Resource" uid="uid://ba6nwbud5jl1u" path="res://assets/data/states/character/speed/DefensiveSpecialState.tres" id="11_lscxy"]
+[ext_resource type="Resource" uid="uid://h60vfw16ynlx" path="res://assets/data/states/character/heavy/state_heavy_s_neutral.tres" id="11_x7dsi"]
 [ext_resource type="Resource" uid="uid://dgxhlme3uf7jt" path="res://assets/data/states/character/speed/HurtState.tres" id="12_yj8e6"]
 [ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_8gw7f"]
 [ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="14_k2ck3"]
@@ -38,7 +38,7 @@ states = {
 3: ExtResource("8_airvn"),
 4: ExtResource("9_76a2q"),
 5: ExtResource("10_0l1a3"),
-6: ExtResource("11_lscxy"),
+6: ExtResource("11_x7dsi"),
 8: ExtResource("12_yj8e6"),
 9: ExtResource("13_8gw7f"),
 10: ExtResource("14_k2ck3"),
