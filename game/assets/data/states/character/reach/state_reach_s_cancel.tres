@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=11 format=3 uid="uid://dmgeh4sj58kv6"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_q3tdr"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_gmxin"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_e5xmu"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_t28qy"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="4_o1iib"]
+[ext_resource type="Resource" uid="uid://by7bh3s7xipoc" path="res://assets/data/states/character/SpendCancelSpecialEffect.tres" id="5_frs04"]
+
+[sub_resource type="Resource" id="Resource_0wwwj"]
+script = ExtResource("1_q3tdr")
+duration = 4
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("3_t28qy")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_t28qy")]([])
+effects = Array[ExtResource("3_e5xmu")]([])
+
+[sub_resource type="Resource" id="Resource_n6wsu"]
+script = ExtResource("3_e5xmu")
+typeId = 15
+once_at_start = true
+conditions = Array[ExtResource("4_o1iib")]([])
+params = [25]
+
+[sub_resource type="Resource" id="Resource_51e2v"]
+script = ExtResource("1_q3tdr")
+duration = 1
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_t28qy")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_t28qy")]([])
+effects = Array[ExtResource("3_e5xmu")]([SubResource("Resource_n6wsu")])
+
+[sub_resource type="Resource" id="Resource_10e4t"]
+script = ExtResource("1_q3tdr")
+duration = 2
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("3_t28qy")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_t28qy")]([])
+effects = Array[ExtResource("3_e5xmu")]([])
+
+[resource]
+script = ExtResource("2_gmxin")
+stateId = 5
+expirationStateId = 0
+phases = Array[ExtResource("1_q3tdr")]([SubResource("Resource_0wwwj"), SubResource("Resource_51e2v"), SubResource("Resource_10e4t")])
+transition_in_effects = Array[ExtResource("3_e5xmu")]([ExtResource("5_frs04")])
+transition_out_effects = Array[ExtResource("3_e5xmu")]([])
+animation_key = "reach/s_cancel"
+button_buffer_lookback = 8
+consumes_button_buffer = true

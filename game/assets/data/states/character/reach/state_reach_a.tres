@@ -1,12 +1,14 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://dehg2g8a52b78"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=22 format=3 uid="uid://dehg2g8a52b78"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_l26in"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_0ckf2"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_ns61t"]
+[ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="4_feitu"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_uef3w"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_kr0xm"]
 [ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="6_p05y4"]
 [ext_resource type="Resource" uid="uid://cyrq1qocgvgk2" path="res://assets/data/states/character/reach/effect_reach_a_chain.tres" id="7_nl2xd"]
+[ext_resource type="Resource" uid="uid://bw2ej3ynmjhk3" path="res://assets/data/states/character/reach/effect_reach_s_cancel_trigger.tres" id="8_k6keu"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="10_v1id4"]
 [ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="11_qyx0j"]
 [ext_resource type="AudioStream" uid="uid://b2gcgop30e55s" path="res://assets/sound/startup_light.wav" id="12_w7d7j"]
@@ -26,15 +28,24 @@ player_status = 1
 hitboxes = Array[ExtResource("3_ns61t")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_ns61t")]([ExtResource("4_uef3w"), SubResource("Resource_2y3dd")])
-effects = Array[ExtResource("2_0ckf2")]([])
+effects = Array[ExtResource("2_0ckf2")]([ExtResource("4_feitu")])
 
 [sub_resource type="Resource" id="Resource_qmmfu"]
 script = ExtResource("5_kr0xm")
-damage = 10
+damage = 15
 hitstun = 20
 hitstop = 8
 pushback = 10
 sound_effect = ExtResource("6_p05y4")
+
+[sub_resource type="Resource" id="Resource_ryyrf"]
+script = ExtResource("2_0ckf2")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("11_qyx0j")]([])
+params = [{
+"b": 3
+}, true]
 
 [sub_resource type="Resource" id="Resource_q7lm3"]
 script = ExtResource("3_ns61t")
@@ -59,7 +70,7 @@ hitboxes = Array[ExtResource("3_ns61t")]([SubResource("Resource_q7lm3")])
 new_attack = true
 attack_data = SubResource("Resource_qmmfu")
 hurtboxes = Array[ExtResource("3_ns61t")]([ExtResource("4_uef3w"), SubResource("Resource_clbtv")])
-effects = Array[ExtResource("2_0ckf2")]([ExtResource("7_nl2xd")])
+effects = Array[ExtResource("2_0ckf2")]([ExtResource("7_nl2xd"), SubResource("Resource_ryyrf"), ExtResource("4_feitu")])
 
 [sub_resource type="Resource" id="Resource_a7mce"]
 script = ExtResource("1_l26in")
@@ -69,14 +80,7 @@ player_status = 3
 hitboxes = Array[ExtResource("3_ns61t")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("3_ns61t")]([ExtResource("4_uef3w"), SubResource("Resource_clbtv")])
-effects = Array[ExtResource("2_0ckf2")]([ExtResource("7_nl2xd")])
-
-[sub_resource type="Resource" id="Resource_v8mpq"]
-script = ExtResource("2_0ckf2")
-typeId = 5
-once_at_start = true
-conditions = Array[ExtResource("11_qyx0j")]([])
-params = []
+effects = Array[ExtResource("2_0ckf2")]([ExtResource("8_k6keu"), SubResource("Resource_ryyrf"), ExtResource("7_nl2xd"), ExtResource("4_feitu")])
 
 [sub_resource type="Resource" id="Resource_16ped"]
 script = ExtResource("2_0ckf2")
@@ -90,7 +94,7 @@ script = ExtResource("10_v1id4")
 stateId = 2
 expirationStateId = 0
 phases = Array[ExtResource("1_l26in")]([SubResource("Resource_84otp"), SubResource("Resource_jpwca"), SubResource("Resource_a7mce")])
-transition_in_effects = Array[ExtResource("2_0ckf2")]([SubResource("Resource_v8mpq"), SubResource("Resource_16ped")])
+transition_in_effects = Array[ExtResource("2_0ckf2")]([SubResource("Resource_16ped")])
 transition_out_effects = Array[ExtResource("2_0ckf2")]([])
 animation_key = "reach/a"
 button_buffer_lookback = 8

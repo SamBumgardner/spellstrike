@@ -1,0 +1,96 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=19 format=3 uid="uid://cp8nqlat5dodl"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_qgf48"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_wh0qc"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="4_chpri"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_gx0jp"]
+[ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="6_hltyy"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="8_j6rk6"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="9_sg7m4"]
+[ext_resource type="AudioStream" uid="uid://8kcsq3alq1j" path="res://assets/sound/charge.wav" id="10_utplh"]
+[ext_resource type="Resource" uid="uid://d4i72hdti0ca3" path="res://assets/data/states/character/heavy/stop_velocity_effect.tres" id="11_x5ws1"]
+
+[sub_resource type="Resource" id="Resource_h1l05"]
+script = ExtResource("1_qgf48")
+duration = 10
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("4_chpri")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_chpri")]([])
+effects = Array[ExtResource("2_wh0qc")]([])
+
+[sub_resource type="Resource" id="Resource_ytav6"]
+script = ExtResource("5_gx0jp")
+damage = 20
+hitstun = 24
+hitstop = 20
+pushback = 30
+sound_effect = ExtResource("6_hltyy")
+
+[sub_resource type="Resource" id="Resource_hklub"]
+script = ExtResource("4_chpri")
+x_offset = 64
+y_offset = 16
+width = 64
+height = 96
+
+[sub_resource type="Resource" id="Resource_gtxy1"]
+script = ExtResource("4_chpri")
+x_offset = 96
+y_offset = -64
+width = 64
+height = 96
+
+[sub_resource type="Resource" id="Resource_xcrav"]
+script = ExtResource("1_qgf48")
+duration = 3
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("4_chpri")]([SubResource("Resource_hklub"), SubResource("Resource_gtxy1")])
+new_attack = true
+attack_data = SubResource("Resource_ytav6")
+hurtboxes = Array[ExtResource("4_chpri")]([])
+effects = Array[ExtResource("2_wh0qc")]([])
+
+[sub_resource type="Resource" id="Resource_4qad4"]
+script = ExtResource("4_chpri")
+x_offset = 0
+y_offset = 48
+width = 128
+height = 32
+
+[sub_resource type="Resource" id="Resource_6xk2b"]
+script = ExtResource("1_qgf48")
+duration = 20
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("4_chpri")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_chpri")]([SubResource("Resource_4qad4")])
+effects = Array[ExtResource("2_wh0qc")]([])
+
+[sub_resource type="Resource" id="Resource_ajn8x"]
+script = ExtResource("2_wh0qc")
+typeId = 9
+once_at_start = true
+conditions = Array[ExtResource("9_sg7m4")]([])
+params = [ExtResource("10_utplh")]
+
+[sub_resource type="Resource" id="Resource_whh3p"]
+script = ExtResource("2_wh0qc")
+typeId = 13
+once_at_start = true
+conditions = Array[ExtResource("9_sg7m4")]([])
+params = [-1]
+
+[resource]
+script = ExtResource("8_j6rk6")
+stateId = 6
+expirationStateId = 0
+phases = Array[ExtResource("1_qgf48")]([SubResource("Resource_h1l05"), SubResource("Resource_xcrav"), SubResource("Resource_6xk2b")])
+transition_in_effects = Array[ExtResource("2_wh0qc")]([SubResource("Resource_ajn8x"), SubResource("Resource_whh3p"), ExtResource("11_x5ws1")])
+transition_out_effects = Array[ExtResource("2_wh0qc")]([])
+animation_key = "reach/s_neutral"
+button_buffer_lookback = 8
+consumes_button_buffer = true

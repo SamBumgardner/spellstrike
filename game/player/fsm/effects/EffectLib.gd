@@ -20,6 +20,7 @@ enum Effect {
     REQUEST_PROJECTILE = 12,
     MODIFY_SPECIAL_STOCK = 13,
     FORCE_CHANGE_STATE = 14,
+    CHANGE_HP = 15,
 }
 
 static var methods := {
@@ -38,6 +39,7 @@ static var methods := {
     Effect.REQUEST_PROJECTILE: request_projectile,
     Effect.MODIFY_SPECIAL_STOCK: modify_special_stock,
     Effect.FORCE_CHANGE_STATE: force_change_state,
+    Effect.CHANGE_HP: change_hp,
 }
 
 
@@ -154,4 +156,8 @@ static func modify_special_stock(owner: Player, _input_buffer: ActionBuffer, _ti
 static func force_change_state(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, new_state: int) -> Player.State:
     owner.fsm.force_change_state(new_state)
 
+    return Player.State.NONE
+
+static func change_hp(owner: Player, _input_buffer: ActionBuffer, _ticks_in_state: int, health_change_amt: int) -> Player.State:
+    owner.health = clampi(owner.health + health_change_amt, 1, owner.max_health)
     return Player.State.NONE

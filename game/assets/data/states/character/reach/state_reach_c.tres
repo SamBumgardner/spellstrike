@@ -33,7 +33,7 @@ height = 32
 
 [sub_resource type="Resource" id="Resource_e5pfa"]
 script = ExtResource("1_xqcvv")
-duration = 21
+duration = 24
 endless = false
 player_status = 1
 hitboxes = Array[ExtResource("3_hm6xx")]([])
