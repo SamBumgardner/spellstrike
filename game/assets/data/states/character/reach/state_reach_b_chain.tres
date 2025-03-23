@@ -1,0 +1,111 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=22 format=3 uid="uid://d4f0law1r1n3d"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_pv70o"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_qym68"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_a4yxl"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_ulhu6"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_ddst2"]
+[ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="6_tto0o"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="7_dfms3"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="8_nxw74"]
+[ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="8_sv8qc"]
+[ext_resource type="AudioStream" uid="uid://fexx1vv7iifg" path="res://assets/sound/startup_medium.wav" id="9_4sk83"]
+
+[sub_resource type="Resource" id="Resource_n4q8e"]
+script = ExtResource("3_a4yxl")
+x_offset = 24
+y_offset = 0
+width = 80
+height = 32
+
+[sub_resource type="Resource" id="Resource_mmymt"]
+script = ExtResource("1_pv70o")
+duration = 15
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("3_a4yxl")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_a4yxl")]([ExtResource("4_ulhu6"), SubResource("Resource_n4q8e")])
+effects = Array[ExtResource("2_qym68")]([])
+
+[sub_resource type="Resource" id="Resource_mh7e2"]
+script = ExtResource("5_ddst2")
+damage = 15
+hitstun = 27
+hitstop = 12
+pushback = 15
+sound_effect = ExtResource("6_tto0o")
+
+[sub_resource type="Resource" id="Resource_jfvr8"]
+script = ExtResource("2_qym68")
+typeId = 5
+once_at_start = true
+conditions = Array[ExtResource("7_dfms3")]([])
+params = [10]
+
+[sub_resource type="Resource" id="Resource_7f3qv"]
+script = ExtResource("2_qym68")
+typeId = 8
+once_at_start = false
+conditions = Array[ExtResource("7_dfms3")]([])
+params = [1]
+
+[sub_resource type="Resource" id="Resource_jb5ve"]
+script = ExtResource("3_a4yxl")
+x_offset = 118
+y_offset = 0
+width = 108
+height = 40
+
+[sub_resource type="Resource" id="Resource_yxmhm"]
+script = ExtResource("3_a4yxl")
+x_offset = 106
+y_offset = 0
+width = 84
+height = 38
+
+[sub_resource type="Resource" id="Resource_0q5cg"]
+script = ExtResource("1_pv70o")
+duration = 2
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_a4yxl")]([SubResource("Resource_jb5ve")])
+new_attack = true
+attack_data = SubResource("Resource_mh7e2")
+hurtboxes = Array[ExtResource("3_a4yxl")]([ExtResource("4_ulhu6"), SubResource("Resource_yxmhm")])
+effects = Array[ExtResource("2_qym68")]([SubResource("Resource_jfvr8"), SubResource("Resource_7f3qv")])
+
+[sub_resource type="Resource" id="Resource_21ysp"]
+script = ExtResource("1_pv70o")
+duration = 30
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("3_a4yxl")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_a4yxl")]([ExtResource("4_ulhu6"), SubResource("Resource_yxmhm")])
+effects = Array[ExtResource("2_qym68")]([ExtResource("8_sv8qc")])
+
+[sub_resource type="Resource" id="Resource_jam7s"]
+script = ExtResource("2_qym68")
+typeId = 5
+once_at_start = true
+conditions = Array[ExtResource("7_dfms3")]([])
+params = []
+
+[sub_resource type="Resource" id="Resource_vck4p"]
+script = ExtResource("2_qym68")
+typeId = 9
+once_at_start = true
+conditions = Array[ExtResource("7_dfms3")]([])
+params = [ExtResource("9_4sk83")]
+
+[resource]
+script = ExtResource("8_nxw74")
+stateId = 11
+expirationStateId = 0
+phases = Array[ExtResource("1_pv70o")]([SubResource("Resource_mmymt"), SubResource("Resource_0q5cg"), SubResource("Resource_21ysp")])
+transition_in_effects = Array[ExtResource("2_qym68")]([SubResource("Resource_jam7s"), SubResource("Resource_vck4p")])
+transition_out_effects = Array[ExtResource("2_qym68")]([])
+animation_key = "medium_attack"
+button_buffer_lookback = 8
+consumes_button_buffer = true

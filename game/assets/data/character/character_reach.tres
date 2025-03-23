@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="CharacterSpec" load_steps=17 format=3 uid="uid://r3plnq5yuj2h"]
 
-[ext_resource type="Texture2D" uid="uid://cgrgw14ugq182" path="res://assets/art/placeholder_character_sheet_2.png" id="1_3m0e7"]
+[ext_resource type="Texture2D" uid="uid://5fh8e5mfcf2l" path="res://assets/art/placeholder_character_sheet_3.png" id="1_w1v2a"]
 [ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_ccven"]
 [ext_resource type="Script" path="res://player/character_spec.gd" id="3_o65xs"]
 [ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_bclvp"]
@@ -22,10 +22,10 @@ script = ExtResource("3_o65xs")
 name = "Reach"
 victory_portrait = ExtResource("16_d44ds")
 defeat_portrait = ExtResource("2_ccven")
-animation_sprite = ExtResource("1_3m0e7")
+animation_sprite = ExtResource("1_w1v2a")
 special_icon = ExtResource("4_bclvp")
-walk_speed = 5
-back_walk_speed = 3
+walk_speed = 4
+back_walk_speed = 4
 walk_accel = 5
 walk_drag = 2
 width = 128
@@ -44,3 +44,4 @@ states = {
 10: ExtResource("14_3ck0o"),
 11: ExtResource("15_5j6rf")
 }
+maximum_active_projectiles = 1
