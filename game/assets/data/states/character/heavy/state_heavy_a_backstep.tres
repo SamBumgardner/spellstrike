@@ -65,6 +65,6 @@ expirationStateId = 0
 phases = Array[ExtResource("1_f3srs")]([SubResource("Resource_e5pfa"), SubResource("Resource_u3fs2"), ExtResource("6_qf8ir"), ExtResource("7_am6v8")])
 transition_in_effects = Array[ExtResource("3_besa4")]([ExtResource("8_a6swp")])
 transition_out_effects = Array[ExtResource("3_besa4")]([])
-animation_key = "heavy/a"
+animation_key = "heavy/character_0"
 button_buffer_lookback = 8
 consumes_button_buffer = true

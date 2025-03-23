@@ -107,6 +107,6 @@ expirationStateId = 0
 phases = Array[ExtResource("1_pv70o")]([SubResource("Resource_mmymt"), SubResource("Resource_0q5cg"), SubResource("Resource_21ysp")])
 transition_in_effects = Array[ExtResource("2_qym68")]([SubResource("Resource_jam7s"), SubResource("Resource_vck4p")])
 transition_out_effects = Array[ExtResource("2_qym68")]([])
-animation_key = "medium_attack"
+animation_key = "reach/character_0"
 button_buffer_lookback = 8
 consumes_button_buffer = true
