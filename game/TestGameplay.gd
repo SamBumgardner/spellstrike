@@ -191,6 +191,7 @@ func _on_round_won(winning_side: Player.Side, losing_sides: Array) -> void:
 
     $UI/BattleHUD/MatchOver.visible = true
     $UI/BattleHUD/MatchOver.text = "PLAYER %s WINS!" % (winning_side + 1)
+    player_informations[winning_side].number_of_wins += 1
     #TODO: Trigger more exciting end of round effects
 
 func _on_round_tied() -> void:
