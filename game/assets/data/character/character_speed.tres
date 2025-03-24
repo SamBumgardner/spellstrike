@@ -19,7 +19,7 @@
 
 [resource]
 script = ExtResource("1_ay1rm")
-name = "Zip"
+name = "Speed"
 victory_portrait = ExtResource("17_7kd3u")
 defeat_portrait = ExtResource("2_jpsq6")
 animation_sprite = ExtResource("1_10gw3")
