@@ -44,3 +44,4 @@ states = {
 10: ExtResource("15_n2cck"),
 11: ExtResource("16_3aj0r")
 }
+maximum_active_projectiles = 1

@@ -1,0 +1,107 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=24 format=3 uid="uid://c5hvq7bwhkhnf"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_jo1s7"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_ypqaw"]
+[ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="3_1g7of"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_a51p8"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="4_36p5x"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="5_1jvek"]
+[ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="6_wt0bx"]
+[ext_resource type="Resource" uid="uid://n8gd027y0jog" path="res://assets/data/states/character/reach/effect_reach_b_chain.tres" id="7_bjsrg"]
+[ext_resource type="Resource" uid="uid://bw2ej3ynmjhk3" path="res://assets/data/states/character/reach/effect_reach_s_cancel_trigger.tres" id="7_cnq78"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="8_i4q8j"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="9_yasx1"]
+[ext_resource type="AudioStream" uid="uid://fexx1vv7iifg" path="res://assets/sound/startup_medium.wav" id="10_qghxf"]
+[ext_resource type="Resource" uid="uid://d4i72hdti0ca3" path="res://assets/data/states/character/heavy/stop_velocity_effect.tres" id="13_sf06x"]
+
+[sub_resource type="Resource" id="Resource_fqcjs"]
+script = ExtResource("3_a51p8")
+x_offset = 8
+y_offset = 16
+width = 48
+height = 32
+
+[sub_resource type="Resource" id="Resource_jyijp"]
+script = ExtResource("3_a51p8")
+x_offset = 40
+y_offset = 48
+width = 48
+height = 32
+
+[sub_resource type="Resource" id="Resource_mmymt"]
+script = ExtResource("1_jo1s7")
+duration = 14
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("3_a51p8")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_a51p8")]([ExtResource("4_36p5x"), SubResource("Resource_fqcjs"), SubResource("Resource_jyijp")])
+effects = Array[ExtResource("2_ypqaw")]([ExtResource("3_1g7of")])
+
+[sub_resource type="Resource" id="Resource_mh7e2"]
+script = ExtResource("5_1jvek")
+damage = 20
+hitstun = 20
+hitstop = 12
+pushback = 15
+sound_effect = ExtResource("6_wt0bx")
+
+[sub_resource type="Resource" id="Resource_jb5ve"]
+script = ExtResource("3_a51p8")
+x_offset = 112
+y_offset = 20
+width = 96
+height = 88
+
+[sub_resource type="Resource" id="Resource_yxmhm"]
+script = ExtResource("3_a51p8")
+x_offset = 106
+y_offset = 48
+width = 84
+height = 32
+
+[sub_resource type="Resource" id="Resource_nxuyr"]
+script = ExtResource("3_a51p8")
+x_offset = 85
+y_offset = 16
+width = 42
+height = 32
+
+[sub_resource type="Resource" id="Resource_0q5cg"]
+script = ExtResource("1_jo1s7")
+duration = 2
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_a51p8")]([SubResource("Resource_jb5ve")])
+new_attack = true
+attack_data = SubResource("Resource_mh7e2")
+hurtboxes = Array[ExtResource("3_a51p8")]([ExtResource("4_36p5x"), SubResource("Resource_yxmhm"), SubResource("Resource_nxuyr")])
+effects = Array[ExtResource("2_ypqaw")]([ExtResource("7_cnq78"), ExtResource("3_1g7of")])
+
+[sub_resource type="Resource" id="Resource_21ysp"]
+script = ExtResource("1_jo1s7")
+duration = 20
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("3_a51p8")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_a51p8")]([ExtResource("4_36p5x"), SubResource("Resource_yxmhm")])
+effects = Array[ExtResource("2_ypqaw")]([ExtResource("7_cnq78"), ExtResource("7_bjsrg"), ExtResource("3_1g7of")])
+
+[sub_resource type="Resource" id="Resource_vck4p"]
+script = ExtResource("2_ypqaw")
+typeId = 9
+once_at_start = true
+conditions = Array[ExtResource("9_yasx1")]([])
+params = [ExtResource("10_qghxf")]
+
+[resource]
+script = ExtResource("8_i4q8j")
+stateId = 3
+expirationStateId = 0
+phases = Array[ExtResource("1_jo1s7")]([SubResource("Resource_mmymt"), SubResource("Resource_0q5cg"), SubResource("Resource_21ysp")])
+transition_in_effects = Array[ExtResource("2_ypqaw")]([SubResource("Resource_vck4p"), ExtResource("13_sf06x")])
+transition_out_effects = Array[ExtResource("2_ypqaw")]([])
+animation_key = "reach/b"
+button_buffer_lookback = 8
+consumes_button_buffer = true
