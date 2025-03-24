@@ -113,7 +113,9 @@ static func decaying_pushback(owner: Player, _input_buffer: ActionBuffer, ticks_
         var remainder = owner.pushback % min(owner.hitstun_duration, 10)
         base_decay += min(ticks_in_state, remainder)
 
-        owner.pushback_velocity = owner.scale.x * -1 * max(owner.pushback - base_decay, 0)
+        var clamped_decay = max(owner.pushback - base_decay, 0) if owner.pushback >= 0 else min(owner.pushback - base_decay, 0)
+
+        owner.pushback_velocity = owner.scale.x * -1 * clamped_decay
     #if ticks_in_state % 3 != 0:
         #owner.pushback = max(owner.pushback - 2, 0)
         
