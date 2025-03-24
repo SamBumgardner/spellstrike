@@ -19,6 +19,10 @@ func transition_in(owner: Player, input_buffer: ActionBuffer) -> void:
     var params = [owner, input_buffer, ticks_in_state]
     _execute_effects(params, transition_in_effects)
     
+    # hacky solution to force-change happening during transition in:
+    if owner.fsm.state != stateId:
+        return
+    
     if owner.animation.current_animation != animation_key and not animation_key.is_empty():
         owner.animation.play(animation_key)
     else:
