@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://wpsahyhayn75"]
 
 [ext_resource type="Script" path="res://player/collision_box_viewer.gd" id="1_siycv"]
-[ext_resource type="Resource" uid="uid://dmgeh4sj58kv6" path="res://assets/data/states/character/reach/state_reach_s_cancel.tres" id="2_kfjf3"]
+[ext_resource type="Resource" uid="uid://ddi0k6ux6hb7k" path="res://assets/data/states/character/mix/state_mix_s_cancel.tres" id="2_bqdo7"]
 
 [node name="CollisionBoxViewer" type="Node2D"]
 script = ExtResource("1_siycv")
-displayed_phase = 2
-viewed_state = ExtResource("2_kfjf3")
+displayed_phase = 1
+viewed_state = ExtResource("2_bqdo7")

@@ -17,8 +17,3 @@ class_name CharacterSpec extends Resource
 @export var special_uses: int = 5
 @export var states: Dictionary
 @export var maximum_active_projectiles: int = 1
-
-func _init() -> void:
-    name = "placeholder_name"
-    victory_portrait = load("res://assets/art/placeholder_victory_portrait.tres")
-    defeat_portrait = load("res://assets/art/placeholder_defeat_portrait.tres")

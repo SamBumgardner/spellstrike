@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="PhaseEffect" load_steps=3 format=3 uid="uid://bmc11u2gx310j"]
+
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="1_w7gkv"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_ithj6"]
+
+[resource]
+script = ExtResource("2_ithj6")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("1_w7gkv")]([])
+params = [{
+"c": 4
+}, true]

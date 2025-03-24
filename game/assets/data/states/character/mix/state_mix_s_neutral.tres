@@ -1,0 +1,161 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=27 format=3 uid="uid://b2ftkfqdtwrvh"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_rvrn8"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_olylx"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="3_d45xo"]
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="4_htjfx"]
+[ext_resource type="AudioStream" uid="uid://bsxeprql80qws" path="res://assets/sound/hit_heavy.wav" id="5_u2d3r"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="6_l4kq2"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="7_u4v8s"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="8_ainci"]
+[ext_resource type="Resource" uid="uid://d4i72hdti0ca3" path="res://assets/data/states/character/heavy/stop_velocity_effect.tres" id="9_tktnm"]
+[ext_resource type="AudioStream" uid="uid://8kcsq3alq1j" path="res://assets/sound/charge.wav" id="10_5hwo4"]
+
+[sub_resource type="Resource" id="Resource_bjkpp"]
+script = ExtResource("1_rvrn8")
+duration = 15
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("3_d45xo")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("3_d45xo")]([])
+effects = Array[ExtResource("2_olylx")]([])
+
+[sub_resource type="Resource" id="Resource_ngfw8"]
+script = ExtResource("4_htjfx")
+damage = 15
+hitstun = 11
+hitstop = 15
+pushback = 15
+sound_effect = ExtResource("5_u2d3r")
+
+[sub_resource type="Resource" id="Resource_8b3hj"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = true
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [3]
+
+[sub_resource type="Resource" id="Resource_u7tcp"]
+script = ExtResource("3_d45xo")
+x_offset = 0
+y_offset = 0
+width = 48
+height = 48
+
+[sub_resource type="Resource" id="Resource_dxk1s"]
+script = ExtResource("1_rvrn8")
+duration = 1
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = true
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_8b3hj")])
+
+[sub_resource type="Resource" id="Resource_3whpn"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [3]
+
+[sub_resource type="Resource" id="Resource_iv8r0"]
+script = ExtResource("2_olylx")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [{
+"": 12
+}, true]
+
+[sub_resource type="Resource" id="Resource_kpgy7"]
+script = ExtResource("1_rvrn8")
+duration = 4
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_3whpn"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_i2ifv"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [5]
+
+[sub_resource type="Resource" id="Resource_t1ifr"]
+script = ExtResource("1_rvrn8")
+duration = 2
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_i2ifv"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_gj3r5"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [7]
+
+[sub_resource type="Resource" id="Resource_37hsw"]
+script = ExtResource("1_rvrn8")
+duration = 2
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_gj3r5"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_bfmkk"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [10]
+
+[sub_resource type="Resource" id="Resource_grguw"]
+script = ExtResource("1_rvrn8")
+duration = 0
+endless = true
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_bfmkk"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_e31hb"]
+script = ExtResource("2_olylx")
+typeId = 13
+once_at_start = true
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [-1]
+
+[sub_resource type="Resource" id="Resource_k05xu"]
+script = ExtResource("2_olylx")
+typeId = 9
+once_at_start = true
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [ExtResource("10_5hwo4")]
+
+[resource]
+script = ExtResource("8_ainci")
+stateId = 5
+expirationStateId = 0
+phases = Array[ExtResource("1_rvrn8")]([SubResource("Resource_bjkpp"), SubResource("Resource_dxk1s"), SubResource("Resource_kpgy7"), SubResource("Resource_t1ifr"), SubResource("Resource_37hsw"), SubResource("Resource_grguw")])
+transition_in_effects = Array[ExtResource("2_olylx")]([SubResource("Resource_e31hb"), ExtResource("9_tktnm"), SubResource("Resource_k05xu")])
+transition_out_effects = Array[ExtResource("2_olylx")]([])
+animation_key = "mix/s_neutral"
+button_buffer_lookback = 8
+consumes_button_buffer = true

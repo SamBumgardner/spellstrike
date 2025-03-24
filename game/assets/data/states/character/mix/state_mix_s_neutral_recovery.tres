@@ -1,0 +1,57 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=12 format=3 uid="uid://stu785nlluo5"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_o2qsx"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_rbffr"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="3_63g8i"]
+[ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="3_j0axt"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="4_fpm6h"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="5_6r5sf"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="7_xlv3n"]
+
+[sub_resource type="Resource" id="Resource_pe5lw"]
+script = ExtResource("3_63g8i")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("7_xlv3n")]([])
+params = [{
+"c": 4
+}, false]
+
+[sub_resource type="Resource" id="Resource_65400"]
+script = ExtResource("3_63g8i")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("7_xlv3n")]([])
+params = [{
+"b": 3
+}, false]
+
+[sub_resource type="Resource" id="Resource_3347d"]
+script = ExtResource("3_63g8i")
+typeId = 3
+once_at_start = false
+conditions = Array[ExtResource("7_xlv3n")]([])
+params = [{
+"a": 2
+}, false]
+
+[sub_resource type="Resource" id="Resource_r0fqu"]
+script = ExtResource("1_o2qsx")
+duration = 10
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("4_fpm6h")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_fpm6h")]([ExtResource("5_6r5sf")])
+effects = Array[ExtResource("3_63g8i")]([SubResource("Resource_pe5lw"), SubResource("Resource_65400"), SubResource("Resource_3347d"), ExtResource("3_j0axt")])
+
+[resource]
+script = ExtResource("2_rbffr")
+stateId = 12
+expirationStateId = 0
+phases = Array[ExtResource("1_o2qsx")]([SubResource("Resource_r0fqu")])
+transition_in_effects = Array[ExtResource("3_63g8i")]([])
+transition_out_effects = Array[ExtResource("3_63g8i")]([])
+animation_key = "mix/character_1"
+button_buffer_lookback = 8
+consumes_button_buffer = true

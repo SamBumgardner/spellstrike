@@ -51,6 +51,7 @@ layout_mode = 2
 
 [node name="PlayerSelection2" parent="UI/PlayerSelections" instance=ExtResource("3_yel6j")]
 layout_mode = 2
+flip_character_sprite = true
 
 [node name="Notification" parent="UI" instance=ExtResource("6_4sdsu")]
 visible = false

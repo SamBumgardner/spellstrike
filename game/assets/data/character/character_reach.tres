@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CharacterSpec" load_steps=17 format=3 uid="uid://r3plnq5yuj2h"]
 
 [ext_resource type="Texture2D" uid="uid://5fh8e5mfcf2l" path="res://assets/art/placeholder_character_sheet_3.png" id="1_w1v2a"]
-[ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_ccven"]
+[ext_resource type="Texture2D" uid="uid://dapudc1k62h2b" path="res://assets/art/defeat_portrait_reach.tres" id="2_64h6x"]
 [ext_resource type="Script" path="res://player/character_spec.gd" id="3_o65xs"]
 [ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_bclvp"]
 [ext_resource type="Resource" uid="uid://co8nnxi0rj0m5" path="res://assets/data/states/character/speed/IdleState.tres" id="5_rj71r"]
@@ -15,13 +15,13 @@
 [ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_nf5jv"]
 [ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="14_3ck0o"]
 [ext_resource type="Resource" uid="uid://d4f0law1r1n3d" path="res://assets/data/states/character/reach/state_reach_b_chain.tres" id="15_guexm"]
-[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="16_d44ds"]
+[ext_resource type="Texture2D" uid="uid://nca4ui2p241r" path="res://assets/art/victory_portrait_reach.tres" id="16_nthc0"]
 
 [resource]
 script = ExtResource("3_o65xs")
 name = "Reach"
-victory_portrait = ExtResource("16_d44ds")
-defeat_portrait = ExtResource("2_ccven")
+victory_portrait = ExtResource("16_nthc0")
+defeat_portrait = ExtResource("2_64h6x")
 animation_sprite = ExtResource("1_w1v2a")
 special_icon = ExtResource("4_bclvp")
 walk_speed = 4
