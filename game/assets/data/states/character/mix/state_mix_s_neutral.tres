@@ -108,7 +108,7 @@ params = [7]
 
 [sub_resource type="Resource" id="Resource_37hsw"]
 script = ExtResource("1_rvrn8")
-duration = 5
+duration = 2
 endless = false
 player_status = 2
 hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
