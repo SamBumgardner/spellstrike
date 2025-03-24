@@ -1,0 +1,90 @@
+[gd_resource type="Resource" script_class="FsmState" load_steps=17 format=3 uid="uid://ba11lgq4g27a"]
+
+[ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_yer5d"]
+[ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_m7nev"]
+[ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="3_p0eev"]
+[ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="4_dbiak"]
+[ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="5_krwpo"]
+[ext_resource type="Resource" uid="uid://6sy1c83pfytn" path="res://assets/data/states/character/mix/attack_mix_a.tres" id="6_14ew2"]
+[ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="7_r8n7y"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="8_tien5"]
+
+[sub_resource type="Resource" id="Resource_7nbes"]
+script = ExtResource("4_dbiak")
+x_offset = -64
+y_offset = -24
+width = 48
+height = 60
+
+[sub_resource type="Resource" id="Resource_nt1lg"]
+script = ExtResource("1_yer5d")
+duration = 6
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("4_dbiak")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_dbiak")]([ExtResource("5_krwpo"), SubResource("Resource_7nbes")])
+effects = Array[ExtResource("2_m7nev")]([ExtResource("3_p0eev")])
+
+[sub_resource type="Resource" id="Resource_muqf1"]
+script = ExtResource("2_m7nev")
+typeId = 5
+once_at_start = true
+conditions = Array[ExtResource("8_tien5")]([])
+params = [12]
+
+[sub_resource type="Resource" id="Resource_xg6lr"]
+script = ExtResource("1_yer5d")
+duration = 6
+endless = false
+player_status = 1
+hitboxes = Array[ExtResource("4_dbiak")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_dbiak")]([ExtResource("5_krwpo"), SubResource("Resource_7nbes")])
+effects = Array[ExtResource("2_m7nev")]([SubResource("Resource_muqf1"), ExtResource("3_p0eev")])
+
+[sub_resource type="Resource" id="Resource_iq72p"]
+script = ExtResource("4_dbiak")
+x_offset = 88
+y_offset = -24
+width = 48
+height = 60
+
+[sub_resource type="Resource" id="Resource_ftvr8"]
+script = ExtResource("4_dbiak")
+x_offset = 88
+y_offset = -24
+width = 46
+height = 58
+
+[sub_resource type="Resource" id="Resource_djy5m"]
+script = ExtResource("1_yer5d")
+duration = 6
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("4_dbiak")]([SubResource("Resource_iq72p")])
+new_attack = true
+attack_data = ExtResource("6_14ew2")
+hurtboxes = Array[ExtResource("4_dbiak")]([ExtResource("5_krwpo"), SubResource("Resource_ftvr8")])
+effects = Array[ExtResource("2_m7nev")]([ExtResource("3_p0eev")])
+
+[sub_resource type="Resource" id="Resource_ng7r0"]
+script = ExtResource("1_yer5d")
+duration = 6
+endless = false
+player_status = 3
+hitboxes = Array[ExtResource("4_dbiak")]([])
+new_attack = false
+hurtboxes = Array[ExtResource("4_dbiak")]([ExtResource("5_krwpo")])
+effects = Array[ExtResource("2_m7nev")]([ExtResource("3_p0eev")])
+
+[resource]
+script = ExtResource("7_r8n7y")
+stateId = 11
+expirationStateId = 0
+phases = Array[ExtResource("1_yer5d")]([SubResource("Resource_nt1lg"), SubResource("Resource_xg6lr"), SubResource("Resource_djy5m"), SubResource("Resource_ng7r0")])
+transition_in_effects = Array[ExtResource("2_m7nev")]([])
+transition_out_effects = Array[ExtResource("2_m7nev")]([])
+animation_key = "mix/character_0"
+button_buffer_lookback = 8
+consumes_button_buffer = true

@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="AttackData" load_steps=3 format=3 uid="uid://6sy1c83pfytn"]
+
+[ext_resource type="Script" path="res://player/attack/AttackData.gd" id="1_vsmbj"]
+[ext_resource type="AudioStream" uid="uid://bvcnlmpbmhnwx" path="res://assets/sound/hit_light.wav" id="2_30o8d"]
+
+[resource]
+script = ExtResource("1_vsmbj")
+damage = 10
+hitstun = 11
+hitstop = 8
+pushback = 5
+sound_effect = ExtResource("2_30o8d")
