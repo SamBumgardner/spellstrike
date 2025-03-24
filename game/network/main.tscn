@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://bjtha7dq81a0"]
+[gd_scene load_steps=7 format=3 uid="uid://bjtha7dq81a0"]
 
 [ext_resource type="Script" path="res://network/main.gd" id="1_mcj1k"]
 [ext_resource type="PackedScene" uid="uid://cy3ysu07toal8" path="res://ui/menu/character_select/character_select.tscn" id="2_e7tu4"]
 [ext_resource type="Script" path="res://options/InputRemapperLogic.gd" id="3_tjof3"]
 [ext_resource type="PackedScene" uid="uid://ca1rtsmwjcvlc" path="res://options/InputRemapperDisplay.tscn" id="4_b3cy8"]
 [ext_resource type="PackedScene" uid="uid://dd0s2v25q8xtj" path="res://options/match/MatchOptionsMenu.tscn" id="5_4f10j"]
+[ext_resource type="Theme" uid="uid://6reybym5jb8p" path="res://ui/themes/menu_option_theme.tres" id="6_qj6gl"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_mcj1k")
@@ -18,16 +19,14 @@ unique_name_in_owner = true
 
 [node name="Controller Tip" type="Label" parent="."]
 clip_contents = true
-offset_left = 10.0
-offset_top = 129.0
-offset_right = 310.0
-offset_bottom = 334.0
-text = "Quick Tip:
-Inputs bound for gameplay don't affect this menu yet. Sorry!
+offset_left = 242.0
+offset_top = 469.0
+offset_right = 567.0
+offset_bottom = 674.0
+text = "Navigate this menu with KB + Mouse or standard PS / Xbox controls.
 
-Default controller directional inputs & confirm button should work here. Keyboard users will probably need to use mouse to pick buttons.
-
-Input mappings will be saved locally, so you shouldn't have to re-make them every time you boot the game."
+Character Select & Gameplay will use inputs set by the \"Remap\" menu option."
+horizontal_alignment = 1
 autowrap_mode = 2
 
 [node name="Menu" type="PanelContainer" parent="."]
@@ -38,13 +37,12 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -75.0
-offset_top = -69.0
-offset_right = 75.0
-offset_bottom = 69.0
+offset_top = -194.5
+offset_right = 70.0
+offset_bottom = 164.5
 grow_horizontal = 2
 grow_vertical = 2
 metadata/_edit_group_ = true
-metadata/_edit_lock_ = true
 
 [node name="MarginContainer" type="MarginContainer" parent="Menu"]
 layout_mode = 2
@@ -123,6 +121,19 @@ offset_bottom = 110.0
 
 [node name="MatchOptionsMenu" parent="." instance=ExtResource("5_4f10j")]
 visible = false
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -85.0
+offset_top = 33.0
+offset_right = 85.0
+offset_bottom = 72.0
+grow_horizontal = 2
+theme = ExtResource("6_qj6gl")
+theme_type_variation = &"HeaderLarge"
+text = "SPELLSTRIKE"
 
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/LocalButton" to="." method="_on_local_button_pressed"]
 [connection signal="pressed" from="Menu/MarginContainer/VBoxContainer/HostButton" to="." method="_on_host_button_pressed"]
