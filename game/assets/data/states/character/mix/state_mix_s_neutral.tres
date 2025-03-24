@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=21 format=3 uid="uid://b2ftkfqdtwrvh"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=27 format=3 uid="uid://b2ftkfqdtwrvh"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_rvrn8"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_olylx"]
@@ -34,7 +34,7 @@ script = ExtResource("2_olylx")
 typeId = 5
 once_at_start = true
 conditions = Array[ExtResource("6_l4kq2")]([])
-params = [10]
+params = [3]
 
 [sub_resource type="Resource" id="Resource_u7tcp"]
 script = ExtResource("3_d45xo")
@@ -54,12 +54,12 @@ attack_data = SubResource("Resource_ngfw8")
 hurtboxes = Array[ExtResource("3_d45xo")]([])
 effects = Array[ExtResource("2_olylx")]([SubResource("Resource_8b3hj")])
 
-[sub_resource type="Resource" id="Resource_bfmkk"]
+[sub_resource type="Resource" id="Resource_3whpn"]
 script = ExtResource("2_olylx")
 typeId = 5
 once_at_start = false
 conditions = Array[ExtResource("6_l4kq2")]([])
-params = [10]
+params = [3]
 
 [sub_resource type="Resource" id="Resource_iv8r0"]
 script = ExtResource("2_olylx")
@@ -69,6 +69,60 @@ conditions = Array[ExtResource("6_l4kq2")]([])
 params = [{
 "": 12
 }, true]
+
+[sub_resource type="Resource" id="Resource_kpgy7"]
+script = ExtResource("1_rvrn8")
+duration = 4
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_3whpn"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_i2ifv"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [5]
+
+[sub_resource type="Resource" id="Resource_t1ifr"]
+script = ExtResource("1_rvrn8")
+duration = 2
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_i2ifv"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_gj3r5"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [7]
+
+[sub_resource type="Resource" id="Resource_37hsw"]
+script = ExtResource("1_rvrn8")
+duration = 5
+endless = false
+player_status = 2
+hitboxes = Array[ExtResource("3_d45xo")]([SubResource("Resource_u7tcp")])
+new_attack = false
+attack_data = SubResource("Resource_ngfw8")
+hurtboxes = Array[ExtResource("3_d45xo")]([ExtResource("7_u4v8s")])
+effects = Array[ExtResource("2_olylx")]([SubResource("Resource_gj3r5"), SubResource("Resource_iv8r0")])
+
+[sub_resource type="Resource" id="Resource_bfmkk"]
+script = ExtResource("2_olylx")
+typeId = 5
+once_at_start = false
+conditions = Array[ExtResource("6_l4kq2")]([])
+params = [10]
 
 [sub_resource type="Resource" id="Resource_grguw"]
 script = ExtResource("1_rvrn8")
@@ -99,7 +153,7 @@ params = [ExtResource("10_5hwo4")]
 script = ExtResource("8_ainci")
 stateId = 5
 expirationStateId = 0
-phases = Array[ExtResource("1_rvrn8")]([SubResource("Resource_bjkpp"), SubResource("Resource_dxk1s"), SubResource("Resource_grguw")])
+phases = Array[ExtResource("1_rvrn8")]([SubResource("Resource_bjkpp"), SubResource("Resource_dxk1s"), SubResource("Resource_kpgy7"), SubResource("Resource_t1ifr"), SubResource("Resource_37hsw"), SubResource("Resource_grguw")])
 transition_in_effects = Array[ExtResource("2_olylx")]([SubResource("Resource_e31hb"), ExtResource("9_tktnm"), SubResource("Resource_k05xu")])
 transition_out_effects = Array[ExtResource("2_olylx")]([])
 animation_key = "mix/s_neutral"
