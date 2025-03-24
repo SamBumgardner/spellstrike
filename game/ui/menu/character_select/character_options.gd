@@ -7,10 +7,10 @@ signal selection_canceled(acting_side: Player.Side)
 @onready var targetable_ui: Array = $MC/GC.get_children()
 
 var character_specifications: Array[CharacterSpec] = [
+    load("res://assets/data/character/character_mix.tres"),
     load("res://assets/data/character/character_speed.tres"),
     load("res://assets/data/character/character_reach.tres"),
     load("res://assets/data/character/character_heavy.tres"),
-    load("res://assets/data/character/character_reach.tres"),
 ]
 
 func _get_initial_index(cursor_side: Player.Side, player_information: PlayerInformation) -> int:
