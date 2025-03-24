@@ -25,7 +25,7 @@ effects = Array[ExtResource("2_kx1au")]([ExtResource("3_8ghdc")])
 
 [sub_resource type="Resource" id="Resource_3fuw6"]
 script = ExtResource("6_n7qqx")
-damage = 15
+damage = 12
 hitstun = 11
 hitstop = 12
 pushback = 5
@@ -33,16 +33,16 @@ sound_effect = ExtResource("7_ljpoc")
 
 [sub_resource type="Resource" id="Resource_h6wvl"]
 script = ExtResource("5_58s0p")
-x_offset = 112
+x_offset = 107
 y_offset = 24
-width = 96
+width = 86
 height = 50
 
 [sub_resource type="Resource" id="Resource_ec8mp"]
 script = ExtResource("5_58s0p")
-x_offset = 112
+x_offset = 107
 y_offset = 24
-width = 94
+width = 84
 height = 48
 
 [sub_resource type="Resource" id="Resource_2egce"]
@@ -69,7 +69,7 @@ effects = Array[ExtResource("2_kx1au")]([ExtResource("8_5iqbi"), ExtResource("9_
 
 [sub_resource type="Resource" id="Resource_tfop5"]
 script = ExtResource("6_n7qqx")
-damage = 20
+damage = 12
 hitstun = 15
 hitstop = 12
 pushback = -20
