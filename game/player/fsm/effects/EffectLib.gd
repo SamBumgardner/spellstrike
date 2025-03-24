@@ -86,7 +86,7 @@ static func start_action(owner: Player, input_buffer: ActionBuffer, _ticks_in_st
     if attack_hit_required and not owner.attack_hit:
         return Player.State.NONE
     for key in input_to_state_mapping.keys():
-        if input_buffer.consume_just_pressed(key):
+        if key == "" or input_buffer.consume_just_pressed(key):
             return input_to_state_mapping[key]
     
     return Player.State.NONE

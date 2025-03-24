@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="CharacterSpec" load_steps=17 format=3 uid="uid://cqsx3i7qb080q"]
+[gd_resource type="Resource" script_class="CharacterSpec" load_steps=18 format=3 uid="uid://cqsx3i7qb080q"]
 
 [ext_resource type="Texture2D" uid="uid://dqkmjkufqaohn" path="res://assets/art/placeholder_character_sheet_4.png" id="1_cqw70"]
 [ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_wwrrx"]
@@ -10,12 +10,13 @@
 [ext_resource type="Resource" uid="uid://ct2hmi77y1dqe" path="res://assets/data/states/character/mix/state_mix_b.tres" id="8_dd8y4"]
 [ext_resource type="Resource" uid="uid://clph44pse6wkh" path="res://assets/data/states/character/mix/state_mix_c.tres" id="9_r0fwd"]
 [ext_resource type="Resource" uid="uid://dmgeh4sj58kv6" path="res://assets/data/states/character/reach/state_reach_s_cancel.tres" id="10_10eq8"]
-[ext_resource type="Resource" uid="uid://cp8nqlat5dodl" path="res://assets/data/states/character/reach/state_reach_s_neutral.tres" id="11_tu6ng"]
+[ext_resource type="Resource" uid="uid://b2ftkfqdtwrvh" path="res://assets/data/states/character/mix/state_mix_s_neutral.tres" id="11_hyfq3"]
 [ext_resource type="Resource" uid="uid://dgxhlme3uf7jt" path="res://assets/data/states/character/speed/HurtState.tres" id="12_regm5"]
 [ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_8i1ef"]
 [ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="14_oyqml"]
 [ext_resource type="Resource" uid="uid://ba11lgq4g27a" path="res://assets/data/states/character/mix/state_mix_a_forward.tres" id="15_7b644"]
 [ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="16_puq1x"]
+[ext_resource type="Resource" uid="uid://stu785nlluo5" path="res://assets/data/states/character/mix/state_mix_s_neutral_recovery.tres" id="16_tbxk2"]
 
 [resource]
 script = ExtResource("3_uhk7e")
@@ -38,10 +39,11 @@ states = {
 3: ExtResource("8_dd8y4"),
 4: ExtResource("9_r0fwd"),
 5: ExtResource("10_10eq8"),
-6: ExtResource("11_tu6ng"),
+6: ExtResource("11_hyfq3"),
 8: ExtResource("12_regm5"),
 9: ExtResource("13_8i1ef"),
 10: ExtResource("14_oyqml"),
-11: ExtResource("15_7b644")
+11: ExtResource("15_7b644"),
+12: ExtResource("16_tbxk2")
 }
 maximum_active_projectiles = 1
