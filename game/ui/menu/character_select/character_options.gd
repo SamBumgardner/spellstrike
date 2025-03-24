@@ -13,6 +13,11 @@ var character_specifications: Array[CharacterSpec] = [
     load("res://assets/data/character/character_heavy.tres"),
 ]
 
+func _ready() -> void:
+    super()
+    for i in targetable_ui.size():
+        targetable_ui[i].set_texture(character_specifications[i].victory_portrait)
+
 func _get_initial_index(cursor_side: Player.Side, player_information: PlayerInformation) -> int:
     var initial_index = -1
     if player_information.character_spec != null:

@@ -1,11 +1,16 @@
 class_name PlayerSelection extends Control
 
+@export var flip_character_sprite: bool = false
+
 @onready var player_name_label: Label = $"%PlayerName"
 @onready var character_name_label: Label = $"%CharacterName"
 @onready var character_sprite: Sprite2D = $"%CharacterSprite"
 
 func init(player_information: PlayerInformation) -> void:
     player_name_label.text = player_information.player_name
+
+func _ready() -> void:
+    character_sprite.flip_h = flip_character_sprite
 
 func preview_character(new_character_spec: CharacterSpec) -> void:
     character_name_label.text = new_character_spec.name

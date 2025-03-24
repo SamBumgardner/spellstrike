@@ -1,15 +1,15 @@
 [gd_scene load_steps=5 format=3 uid="uid://bru2qmscncwic"]
 
 [ext_resource type="Theme" uid="uid://6reybym5jb8p" path="res://ui/themes/menu_option_theme.tres" id="1_qvxc1"]
-[ext_resource type="Script" path="res://ui/menu/menu_option.gd" id="2_efllc"]
-[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="3_t22qd"]
+[ext_resource type="Script" path="res://ui/menu/picture_menu_option.gd" id="2_rlq3y"]
+[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/victory_portrait_speed.tres" id="3_t22qd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1xjbl"]
 
 [node name="PictureMenuOption" type="PanelContainer"]
 theme = ExtResource("1_qvxc1")
 theme_override_styles/panel = SubResource("StyleBoxFlat_1xjbl")
-script = ExtResource("2_efllc")
+script = ExtResource("2_rlq3y")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2

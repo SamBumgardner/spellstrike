@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="CharacterSpec" load_steps=18 format=3 uid="uid://cqsx3i7qb080q"]
 
 [ext_resource type="Texture2D" uid="uid://dqkmjkufqaohn" path="res://assets/art/placeholder_character_sheet_4.png" id="1_cqw70"]
-[ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_wwrrx"]
+[ext_resource type="Texture2D" uid="uid://mtusp0opl68k" path="res://assets/art/defeat_portrait_mix.tres" id="2_b76qj"]
 [ext_resource type="Script" path="res://player/character_spec.gd" id="3_uhk7e"]
 [ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_jjpcw"]
 [ext_resource type="Resource" uid="uid://co8nnxi0rj0m5" path="res://assets/data/states/character/speed/IdleState.tres" id="5_f7rba"]
@@ -15,14 +15,14 @@
 [ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_8i1ef"]
 [ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="14_oyqml"]
 [ext_resource type="Resource" uid="uid://ba11lgq4g27a" path="res://assets/data/states/character/mix/state_mix_a_forward.tres" id="15_7b644"]
-[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="16_puq1x"]
 [ext_resource type="Resource" uid="uid://stu785nlluo5" path="res://assets/data/states/character/mix/state_mix_s_neutral_recovery.tres" id="16_tbxk2"]
+[ext_resource type="Texture2D" uid="uid://bdsjxeso6e62y" path="res://assets/art/victory_portrait_mix.tres" id="17_b6pnf"]
 
 [resource]
 script = ExtResource("3_uhk7e")
 name = "Mix"
-victory_portrait = ExtResource("16_puq1x")
-defeat_portrait = ExtResource("2_wwrrx")
+victory_portrait = ExtResource("17_b6pnf")
+defeat_portrait = ExtResource("2_b76qj")
 animation_sprite = ExtResource("1_cqw70")
 special_icon = ExtResource("4_jjpcw")
 walk_speed = 4

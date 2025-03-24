@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://bl34rh555skbp" path="res://assets/art/placeholder_character_sheet.png" id="1_10gw3"]
 [ext_resource type="Script" path="res://player/character_spec.gd" id="1_ay1rm"]
-[ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/placeholder_defeat_portrait.tres" id="2_jpsq6"]
+[ext_resource type="Texture2D" uid="uid://cdy88alpe2xwf" path="res://assets/art/defeat_portrait_speed.tres" id="2_jpsq6"]
 [ext_resource type="Texture2D" uid="uid://co1nmfg8ck3by" path="res://assets/art/special_icon.png" id="4_4ax38"]
 [ext_resource type="Resource" uid="uid://co8nnxi0rj0m5" path="res://assets/data/states/character/speed/IdleState.tres" id="6_pfqtc"]
 [ext_resource type="Resource" uid="uid://71tfhe4l4xal" path="res://assets/data/states/character/speed/WalkState.tres" id="7_ffkam"]
@@ -15,7 +15,7 @@
 [ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="14_t3g0u"]
 [ext_resource type="Resource" uid="uid://brc0an4nux82m" path="res://assets/data/states/character/speed/VictoryState.tres" id="15_n2cck"]
 [ext_resource type="Resource" uid="uid://4va3vpwoielf" path="res://assets/data/states/character/speed/LightAttackChainState.tres" id="16_3aj0r"]
-[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/placeholder_victory_portrait.tres" id="17_7kd3u"]
+[ext_resource type="Texture2D" uid="uid://bu6wsaejco7uh" path="res://assets/art/victory_portrait_speed.tres" id="17_7kd3u"]
 
 [resource]
 script = ExtResource("1_ay1rm")
