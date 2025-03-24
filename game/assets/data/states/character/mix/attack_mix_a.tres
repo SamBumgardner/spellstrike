@@ -8,5 +8,5 @@ script = ExtResource("1_vsmbj")
 damage = 10
 hitstun = 11
 hitstop = 8
-pushback = 5
+pushback = 10
 sound_effect = ExtResource("2_30o8d")
