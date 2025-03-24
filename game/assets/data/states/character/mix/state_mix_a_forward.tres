@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=20 format=3 uid="uid://ba11lgq4g27a"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=21 format=3 uid="uid://ba11lgq4g27a"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_yer5d"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_m7nev"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="7_r8n7y"]
 [ext_resource type="Resource" uid="uid://bmc11u2gx310j" path="res://assets/data/states/character/mix/effect_mix_c_cancel.tres" id="8_ji8n4"]
 [ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="8_tien5"]
+[ext_resource type="Resource" uid="uid://7o0vlbqkh3t1" path="res://assets/data/states/character/mix/effect_mix_s_cancel_trigger.tres" id="8_x3nox"]
 [ext_resource type="Resource" uid="uid://bhevd7cy4yr8c" path="res://assets/data/states/character/mix/effect_mix_b_cancel.tres" id="9_3bgp5"]
 [ext_resource type="Resource" uid="uid://dpm2n0kk8aakc" path="res://assets/data/states/character/mix/effect_mix_a_cancel.tres" id="10_6em8m"]
 
@@ -69,7 +70,7 @@ hitboxes = Array[ExtResource("4_dbiak")]([SubResource("Resource_iq72p")])
 new_attack = true
 attack_data = ExtResource("6_14ew2")
 hurtboxes = Array[ExtResource("4_dbiak")]([ExtResource("5_krwpo"), SubResource("Resource_ftvr8")])
-effects = Array[ExtResource("2_m7nev")]([ExtResource("8_ji8n4"), ExtResource("9_3bgp5"), ExtResource("10_6em8m"), ExtResource("3_p0eev")])
+effects = Array[ExtResource("2_m7nev")]([ExtResource("8_x3nox"), ExtResource("8_ji8n4"), ExtResource("9_3bgp5"), ExtResource("10_6em8m"), ExtResource("3_p0eev")])
 
 [sub_resource type="Resource" id="Resource_ng7r0"]
 script = ExtResource("1_yer5d")
@@ -79,7 +80,7 @@ player_status = 3
 hitboxes = Array[ExtResource("4_dbiak")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("4_dbiak")]([ExtResource("5_krwpo")])
-effects = Array[ExtResource("2_m7nev")]([ExtResource("8_ji8n4"), ExtResource("9_3bgp5"), ExtResource("10_6em8m"), ExtResource("3_p0eev")])
+effects = Array[ExtResource("2_m7nev")]([ExtResource("8_x3nox"), ExtResource("8_ji8n4"), ExtResource("9_3bgp5"), ExtResource("10_6em8m"), ExtResource("3_p0eev")])
 
 [resource]
 script = ExtResource("7_r8n7y")

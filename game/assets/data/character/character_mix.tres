@@ -9,7 +9,7 @@
 [ext_resource type="Resource" uid="uid://chf10hwq6l6cv" path="res://assets/data/states/character/mix/state_mix_a.tres" id="7_xsjj6"]
 [ext_resource type="Resource" uid="uid://ct2hmi77y1dqe" path="res://assets/data/states/character/mix/state_mix_b.tres" id="8_dd8y4"]
 [ext_resource type="Resource" uid="uid://clph44pse6wkh" path="res://assets/data/states/character/mix/state_mix_c.tres" id="9_r0fwd"]
-[ext_resource type="Resource" uid="uid://dmgeh4sj58kv6" path="res://assets/data/states/character/reach/state_reach_s_cancel.tres" id="10_10eq8"]
+[ext_resource type="Resource" uid="uid://ddi0k6ux6hb7k" path="res://assets/data/states/character/mix/state_mix_s_cancel.tres" id="10_pd0j8"]
 [ext_resource type="Resource" uid="uid://b2ftkfqdtwrvh" path="res://assets/data/states/character/mix/state_mix_s_neutral.tres" id="11_hyfq3"]
 [ext_resource type="Resource" uid="uid://dgxhlme3uf7jt" path="res://assets/data/states/character/speed/HurtState.tres" id="12_regm5"]
 [ext_resource type="Resource" uid="uid://ndjspav4naaj" path="res://assets/data/states/character/speed/DefeatedState.tres" id="13_8i1ef"]
@@ -38,7 +38,7 @@ states = {
 2: ExtResource("7_xsjj6"),
 3: ExtResource("8_dd8y4"),
 4: ExtResource("9_r0fwd"),
-5: ExtResource("10_10eq8"),
+5: ExtResource("10_pd0j8"),
 6: ExtResource("11_hyfq3"),
 8: ExtResource("12_regm5"),
 9: ExtResource("13_8i1ef"),
