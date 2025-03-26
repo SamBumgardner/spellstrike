@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=19 format=3 uid="uid://ddi0k6ux6hb7k"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=22 format=3 uid="uid://ddi0k6ux6hb7k"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_35820"]
 [ext_resource type="Script" path="res://player/fsm/effects/PhaseEffect.gd" id="2_geeab"]
@@ -12,6 +12,8 @@
 [ext_resource type="Resource" uid="uid://by7bh3s7xipoc" path="res://assets/data/states/character/SpendCancelSpecialEffect.tres" id="9_jdm37"]
 [ext_resource type="Resource" uid="uid://bhevd7cy4yr8c" path="res://assets/data/states/character/mix/effect_mix_b_cancel.tres" id="9_s40x3"]
 [ext_resource type="Resource" uid="uid://dpm2n0kk8aakc" path="res://assets/data/states/character/mix/effect_mix_a_cancel.tres" id="10_7l3he"]
+[ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="13_syihn"]
+[ext_resource type="AudioStream" uid="uid://fexx1vv7iifg" path="res://assets/sound/startup_medium.wav" id="14_ovqdj"]
 
 [sub_resource type="Resource" id="Resource_bjkpp"]
 script = ExtResource("1_35820")
@@ -66,12 +68,19 @@ new_attack = false
 hurtboxes = Array[ExtResource("4_4vput")]([ExtResource("5_l1aly")])
 effects = Array[ExtResource("2_geeab")]([ExtResource("8_rhvkd"), ExtResource("9_s40x3"), ExtResource("10_7l3he")])
 
+[sub_resource type="Resource" id="Resource_crlwl"]
+script = ExtResource("2_geeab")
+typeId = 9
+once_at_start = false
+conditions = Array[ExtResource("13_syihn")]([])
+params = [ExtResource("14_ovqdj")]
+
 [resource]
 script = ExtResource("8_xo3t4")
 stateId = 5
 expirationStateId = 0
 phases = Array[ExtResource("1_35820")]([SubResource("Resource_bjkpp"), SubResource("Resource_grguw"), SubResource("Resource_iueol")])
-transition_in_effects = Array[ExtResource("2_geeab")]([ExtResource("9_jdm37")])
+transition_in_effects = Array[ExtResource("2_geeab")]([ExtResource("9_jdm37"), SubResource("Resource_crlwl")])
 transition_out_effects = Array[ExtResource("2_geeab")]([])
 animation_key = "mix/s_cancel"
 button_buffer_lookback = 8

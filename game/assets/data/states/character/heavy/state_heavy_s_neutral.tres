@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=11 format=3 uid="uid://h60vfw16ynlx"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=13 format=3 uid="uid://h60vfw16ynlx"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_74asq"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_omfpo"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://player/fsm/effects/EffectCondition.gd" id="3_cyaoy"]
 [ext_resource type="Script" path="res://player/attack/RectangleSpec.gd" id="4_u13ks"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="5_3rlge"]
+[ext_resource type="AudioStream" uid="uid://8kcsq3alq1j" path="res://assets/sound/charge.wav" id="7_k56or"]
 
 [sub_resource type="Resource" id="Resource_6tpkn"]
 script = ExtResource("3_3iygm")
@@ -23,6 +24,13 @@ hitboxes = Array[ExtResource("4_u13ks")]([])
 new_attack = false
 hurtboxes = Array[ExtResource("4_u13ks")]([ExtResource("5_3rlge")])
 effects = Array[ExtResource("3_3iygm")]([SubResource("Resource_6tpkn")])
+
+[sub_resource type="Resource" id="Resource_8hnx0"]
+script = ExtResource("3_3iygm")
+typeId = 9
+once_at_start = false
+conditions = Array[ExtResource("3_cyaoy")]([])
+params = [ExtResource("7_k56or")]
 
 [sub_resource type="Resource" id="Resource_wsc1w"]
 script = ExtResource("3_3iygm")
@@ -43,7 +51,7 @@ script = ExtResource("2_omfpo")
 stateId = 6
 expirationStateId = 0
 phases = Array[ExtResource("1_74asq")]([SubResource("Resource_l1cwm")])
-transition_in_effects = Array[ExtResource("3_3iygm")]([SubResource("Resource_wsc1w"), SubResource("Resource_nj8iv")])
+transition_in_effects = Array[ExtResource("3_3iygm")]([SubResource("Resource_8hnx0"), SubResource("Resource_wsc1w"), SubResource("Resource_nj8iv")])
 transition_out_effects = Array[ExtResource("3_3iygm")]([])
 animation_key = "heavy/s_neutral"
 button_buffer_lookback = 8

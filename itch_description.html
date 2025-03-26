@@ -1,0 +1,75 @@
+<h1>Spellstrike!</h1>
+<p>Spellstrike is a features-light fighting game mostly focused on striking.</p>
+<p>It may also have a few spells here and there - my questionable artistic skills leave plenty up to the imagination.</p>
+<h2>Features</h2>
+<ul>
+    <li>Wield both sword and sorcery (some imagination required) to overcome your opponent in fast-paced battles</li>
+    <li>Choose 1 of 4 characters, each with a slightly-different silhouette and more-different playstyle</li>
+    <li>Play with controller, keyboard, or some unsightly combination of the two</li>
+    <li>(Desktop Only) If you're willing to put up with port forwarding, play online with friends far away with rollback netcode!</li>
+</ul>
+<p>If you like reading extended descriptions, check out the stuff further down the page. Otherwise, enjoy!</p>
+
+<h2>Attribution</h2>
+<p>This project relied on good stuff made by cool people (or groups of people, as the case may be). Check them out below!</p>
+<ul>
+    <li><a href=https://godotengine.org>Godot game engine</a></li>
+    <li><a href=https://gitlab.com/snopek-games/godot-rollback-netcode>godot-rollback-netcode</a> by Snopek games, used to implement rollback online play</li>
+    <li><a href=https://www.piskelapp.com>Piskel</a>, a handy tool for quick-and-simple spritework</li>
+    <li><a href=https://www.bfxr.net>Bfxr</a> for creating crunchy sound effects</li>
+    <li><a href=https://www.beepbox.co>Beepbox</a>, a great, easy-to-use music-writing tool</li>
+</ul>
+<p>All of the content of the project was made by me (which may have been easy to guess)</p>
+
+<h1>Extended Description for Rambling</h1>
+<h2>Summary for Fighting Game Players</h3>
+<p>For folks familiar with fighting games, here's a more detailed rundown:</p>
+<p>
+    This is a 4-button game (Light, Medium, Heavy, and Special). 
+    Every character has, at a minimum, one attack for each Normal button and 2 Special attacks: 
+    one when used in neutral (usually defensive), and another when used to cancel after a 
+    successful attack (usually offensive). 
+</p>
+<p> 
+    Characters have unique rules for canceling and chaining 
+    attacks, with a few common principles:
+</p>
+<ol>
+    <li>Normals can only be canceled into other moves after a successful hit.</li>
+    <li>Heavy normals cannot be canceled.</li>
+    <li>Special moves cannot be canceled, though some recover very quickly.</li>
+</ol>
+<p>
+    Specials are limited use: players get 5 "charges" at the start of each round. Specials in neutral 
+    cost 1 charge, special cancels cost 2 charges. There's no way to replenish charges (in this 
+    version of the game, anyway) - once they're gone, characters lose an important defensive tool.
+</p>
+<p>
+    Also very important to note: there's no blocking or jumping. Should be fine, though. Just don't get hit.
+</p>
+<h2>Design Notes</h2>
+<p>
+    Spellstrike was built in the style of traditional 2D fighting games, but with drastically 
+    (perhaps commically) large cuts to "standard" features. There's no jumping, no throwing, 
+    no crouching, and - most importantly - no blocking. There were two main motiviations: I figured
+    it'd be an interesting design challenge, and I figured that every feature I could cut would
+    reduce the odds I'd accidentally introduce some terrible mistakes while working on a tight
+    schedule.
+</p>
+<p>
+    Overall, I think the project worked out okay. The characters definitely have different strengths
+    and weaknesses, but I think it'd take more playing to really dig into how different their play
+    patterns are. 
+</p>
+<p>
+    One of the biggest challenges I faced was related to no blocking & no knockdowns. I think that
+    those states of temporary disadvantage are where a lot of gameplay nuance is concentrated. It's
+    also important how those states give players a different mode of thinking to switch to, a 
+    different style of mental puzzle to play with. That variety is important for making the gameplay
+    feel more substantial (and make grinding out long sets easier) and that's something I think this
+    version of the game will have trouble with. We'll see how it shakes out in practice.
+</p>
+<p>
+    There were several interesting technical results of this work. I'm not going to write it up
+    now, but I probably should do a postmortem on how things went for my future reference.
+</p>

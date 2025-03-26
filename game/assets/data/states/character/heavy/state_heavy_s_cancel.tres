@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="FsmState" load_steps=18 format=3 uid="uid://d3dct0u2ir4s2"]
+[gd_resource type="Resource" script_class="FsmState" load_steps=21 format=3 uid="uid://d3dct0u2ir4s2"]
 
 [ext_resource type="Script" path="res://player/fsm/Phase.gd" id="1_ual2j"]
 [ext_resource type="Script" path="res://player/fsm/FsmState.gd" id="2_h3iw6"]
@@ -8,7 +8,9 @@
 [ext_resource type="Resource" uid="uid://dp1kvpbqniylt" path="res://assets/data/states/character/speed/decay_velocity_effect.tres" id="5_60g5t"]
 [ext_resource type="Resource" uid="uid://djibdifs88cfy" path="res://assets/data/collision/hurtbox/StandardHurtbox.tres" id="5_xu6pu"]
 [ext_resource type="Script" path="res://player/attack/AttackData.gd" id="6_t2ex1"]
+[ext_resource type="AudioStream" uid="uid://fmfl345l8re5" path="res://assets/sound/hit_medium.wav" id="8_xjf8r"]
 [ext_resource type="Resource" uid="uid://by7bh3s7xipoc" path="res://assets/data/states/character/SpendCancelSpecialEffect.tres" id="9_htrll"]
+[ext_resource type="AudioStream" uid="uid://8kcsq3alq1j" path="res://assets/sound/charge.wav" id="10_u85ir"]
 
 [sub_resource type="Resource" id="Resource_k3mww"]
 script = ExtResource("3_d541n")
@@ -50,6 +52,7 @@ damage = 10
 hitstun = 24
 hitstop = 12
 pushback = 5
+sound_effect = ExtResource("8_xjf8r")
 
 [sub_resource type="Resource" id="Resource_fqbi4"]
 script = ExtResource("4_e4wnl")
@@ -79,12 +82,19 @@ new_attack = false
 hurtboxes = Array[ExtResource("4_e4wnl")]([ExtResource("5_xu6pu")])
 effects = Array[ExtResource("3_d541n")]([])
 
+[sub_resource type="Resource" id="Resource_22kq7"]
+script = ExtResource("3_d541n")
+typeId = 9
+once_at_start = true
+conditions = Array[ExtResource("3_to20v")]([])
+params = [ExtResource("10_u85ir")]
+
 [resource]
 script = ExtResource("2_h3iw6")
 stateId = 5
 expirationStateId = 0
 phases = Array[ExtResource("1_ual2j")]([SubResource("Resource_bjkpp"), SubResource("Resource_dxk1s"), SubResource("Resource_grguw"), SubResource("Resource_iueol")])
-transition_in_effects = Array[ExtResource("3_d541n")]([ExtResource("9_htrll")])
+transition_in_effects = Array[ExtResource("3_d541n")]([ExtResource("9_htrll"), SubResource("Resource_22kq7")])
 transition_out_effects = Array[ExtResource("3_d541n")]([])
 animation_key = "heavy/s_cancel"
 button_buffer_lookback = 8
