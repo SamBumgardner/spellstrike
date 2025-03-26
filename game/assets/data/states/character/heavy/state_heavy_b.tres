@@ -92,7 +92,7 @@ effects = Array[ExtResource("3_o3oy6")]([ExtResource("8_kl3ip")])
 
 [sub_resource type="Resource" id="Resource_gvxj5"]
 script = ExtResource("1_a3arw")
-duration = 12
+duration = 17
 endless = false
 player_status = 3
 hitboxes = Array[ExtResource("5_nvpq0")]([])
